@@ -28,7 +28,7 @@ public class Wall_Rectangle extends Wall
 	 * @param HitPlayer whether wall interacts with the player
 	 * @param Tall whether or not the wall is tall enough to stop projectiles
 	 */
-	public Wall_Rectangle(Controller creator, int ORX, int ORY, int wallWidth, int wallHeight, boolean HitPlayer, boolean Tall)
+	public Wall_Rectangle(View creator, int ORX, int ORY, int wallWidth, int wallHeight, boolean HitPlayer, boolean Tall)
 	{
 		tall = Tall;
 		oRX1 = ORX;
@@ -60,50 +60,7 @@ public class Wall_Rectangle extends Wall
 	 */
         @ Override
         protected void frameCall()
-	{
-        	if(hitPlayer)
-        	{
-				if(control.player.x > oRX1Player && control.player.x < oRX2Player && control.player.y > oRY1Player && control.player.y < oRY2Player)
-				{
-						double holdX;
-						double holdY;
-						if(control.player.x > x)
-						{
-							holdX = Math.abs(control.player.x - oRX2Player);
-						} else
-						{
-							holdX = Math.abs(control.player.x - oRX1Player);
-						}
-						if(control.player.y > y)
-						{
-							holdY = Math.abs(control.player.y - oRY2Player);
-						} else
-						{
-							holdY = Math.abs(control.player.y - oRY1Player);
-						}
-						if((holdX) < (holdY))
-						{
-							if(control.player.x > x)
-							{
-								control.player.x = oRX2Player;
-							}
-							else
-							{
-								control.player.x = oRX1Player;
-							}
-						} else
-						{
-							if(control.player.y > y)
-							{
-								control.player.y = oRY2Player;
-							}
-							else
-							{
-								control.player.y = oRY1Player;
-							}
-						}
-				}
-        	}
+        {
         	ArrayList<Enemy> enemies = control.spriteController.enemies;
 		for(int i = 0; i < enemies.size(); i++)
 		{
@@ -111,7 +68,6 @@ public class Wall_Rectangle extends Wall
 			{
 				if(enemies.get(i).x > oRX1Player && enemies.get(i).x < oRX2Player && enemies.get(i).y > oRY1Player && enemies.get(i).y < oRY2Player)
 				{
-					enemies.get(i).hitWall();
 						double holdX;
 						double holdY;
 						if(enemies.get(i).x > x)

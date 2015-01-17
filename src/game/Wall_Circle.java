@@ -24,7 +24,7 @@ public class Wall_Circle extends Wall
 	 * @param OCRatio ratio between x and y
 	 * @param Tall whether or not the wall is tall enough to stop projectiles
 	 */
-	public Wall_Circle(Controller creator, int OCX, int OCY, int OCR, double OCRatio, boolean Tall)
+	public Wall_Circle(View creator, int OCX, int OCY, int OCR, double OCRatio, boolean Tall)
 	{
 		tall = Tall;
 		oCX = OCX;
@@ -43,15 +43,7 @@ public class Wall_Circle extends Wall
 	@ Override
 	protected void frameCall()
 	{
-			xdif = oCX - control.player.x;
-			ydif = oCY - control.player.y;
-			rads = Math.atan2(ydif, xdif);
-			if(Math.pow(xdif, 2) + Math.pow(ydif/oCRatio, 2) < oCRS)
-			{
-					control.player.x = oCX - (Math.cos(rads) * oCR);
-					control.player.y = oCY - (Math.sin(rads) * oCR);
-			}
-			ArrayList<Enemy> enemies = control.spriteController.enemies;
+		ArrayList<Enemy> enemies = control.spriteController.enemies;
 		for(int i = 0; i < enemies.size(); i++)
 		{
 			if(enemies.get(i) != null)

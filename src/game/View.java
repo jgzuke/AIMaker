@@ -6,6 +6,9 @@ public final class View extends JPanel implements ActionListener
 {
 	Timer timer;
 	WallController wallController;
+	SpriteController spriteController;
+	double levelWidth = 500;
+	double levelHeight = 500;
 	public View()
 	{
 		setFocusable(true);

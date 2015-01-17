@@ -33,17 +33,12 @@
  * @param frameCaller Calls objects and controllers frameCalls
  */
 package game;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.util.Log;
+
 import java.util.ArrayList;
-import com.spritelib.SpriteDrawer;
+
 public final class WallController
 {
-	private Controller control;
+	private View control;
 	private ArrayList<Wall_Rectangle> wallRects = new ArrayList<Wall_Rectangle>();
 	private ArrayList<Wall_Ring> wallRings = new ArrayList<Wall_Ring>();
 	private ArrayList<Wall_Circle> wallCircles = new ArrayList<Wall_Circle>();
@@ -55,7 +50,7 @@ public final class WallController
 	/**
 	 * Initializes all undecided variables, loads level, creates player and enemy objects, and starts frameCaller
 	 */
-	public WallController(Context contextSet, Controller controlSet)
+	public WallController(View controlSet)
 	{
 		control = controlSet;
 	}
@@ -74,7 +69,6 @@ public final class WallController
 		wallRects.clear();
 		wallRings.clear();
 		wallCircles.clear();
-		//TODO
 	}
 	/**
 	 * creates a rectangle wall object
@@ -143,11 +137,11 @@ public final class WallController
 		float circB;
 		float tempX;
 		float tempY;
-		if(x1 < 0 || x1 > control.levelController.levelWidth || y1 < 0 || y1 > control.levelController.levelHeight)
+		if(x1 < 0 || x1 > control.levelWidth || y1 < 0 || y1 > control.levelHeight)
 		{
 			hitBack = true;
 		}
-		if(x2 < 0 || x2 > control.levelController.levelWidth || y2 < 0 || y2 > control.levelController.levelHeight)
+		if(x2 < 0 || x2 > control.levelWidth || y2 < 0 || y2 > control.levelHeight)
 		{
 			hitBack = true;
 		}
@@ -295,7 +289,7 @@ public final class WallController
 	protected boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{
 		boolean hitBack = false;
-		if(X < 0 || X > control.levelController.levelWidth || Y < 0 || Y > control.levelController.levelHeight)
+		if(X < 0 || X > control.levelWidth || Y < 0 || Y > control.levelHeight)
 		{
 			hitBack = true;
 		}
