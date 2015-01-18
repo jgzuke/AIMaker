@@ -7,141 +7,32 @@ public abstract class Enemy extends Sprite
 {
 	protected int hp;
 	protected int hpMax;
-	protected int hadLOSLastTime;
 	protected double speed;
 	protected View control;
-	protected int runTimer = 0;
-	protected int rollTimer = 0;
 	protected int inDanger = 0;
 	protected double[] closestDanger = new double[2];
-	protected boolean HasLocation = false;
-	protected boolean LOS = false;
 	protected int radius = 20;
-	protected double pXVelocity=0;
-	protected double pYVelocity=0;
-	protected double pXSpot=0;
-	protected double pYSpot=0;
 	protected double xMove = 0;
 	protected double yMove = 0;
 	protected double speedCur = 0;
 	protected int [][] frames;
+	protected int runTimer;
 	protected String action = "Nothing"; //"Nothing", "Move", "Alert", "Shoot", "Melee", "Roll", "Hide", "Sheild", "Stun"
 
-	public Enemy(View creator, double X, double Y, double R, int HP, BufferedImage [] Images)
+	public Enemy(View creator, double X, double Y, double R, int HP, BufferedImage [] Images, byte Team)
 	{
-		super(X, Y, R, Images);
+		super(X, Y, R, Images, Team);
 		control = creator;
 	}
 	protected void frameCall()
 	{
-		otherActions();
-		if(action.equals("Nothing"))
-		{
-			checkDanger();
-			frame();
-		}
 		image = images[frame];
-		rollTimer --;
-		hadLOSLastTime--;
 		pushOtherPeople();
+		actions();
 		if(hp > hpMax) hp = hpMax;
 	}
-	protected void otherActions()
-	{
-		/* int [][] frames[action][start/finish or 1/2/3]
-		 * actions	move=0;
-		 * 			roll=1;		0:start, 1:end
-		 * 			stun=2;
-		 * 			melee=3;
-		 * 			sheild=4;
-		 * 			hide=5;
-		 * 			shoot=6;
-		 */
-		if(action.equals("Roll"))
-		{
-			x += xMove;
-			y += yMove;
-			frame++;
-			if(frame==frames[1][1])
-			{
-				action = "Nothing";	//roll done
-				frame = 0;
-			}
-		} else if(action.equals("Melee"))
-		{
-			frame++;
-			attacking();
-			if(frame==frames[3][1])
-			{
-				action = "Nothing";	//attack over
-				frame = 0;
-			}
-		} else if(action.equals("Sheild"))
-		{
-			frame++;
-			blocking();
-			if(frame==frames[4][1])
-			{
-				action = "Nothing";	//block done
-				frame = 0;
-			}
-		} else if(action.equals("Hide"))
-		{
-			hiding();
-			if(frame < frames[5][1]-1)
-			{
-				frame++;
-			}
-		} else if(action.equals("Shoot"))
-		{
-			frame++;
-			shooting();
-			if(frame==frames[6][1])
-			{
-				action = "Nothing"; // attack done
-				frame = 0;
-			}
-		} else if(action.equals("Run"))
-		{
-			frame++;
-			if(frame == frames[0][1]) frame = 0; // restart walking motion
-			x += xMove*1.2;
-			y += yMove*1.2;
-			runTimer--;
-			if(runTimer<1)
-			{
-				action = "Nothing"; // stroll done
-			}
-		} else if(action.equals("Move")||action.equals("Wander"))
-		{
-			checkLOS();
-			checkDanger();
-			if(inDanger > 0 || LOS)
-			{
-				 action = "Nothing";
-				 frame = 0;
-			} else
-			{
-				frame++;
-				if(frame == frames[0][1]) frame = 0; // restart walking motion
-				x += xMove;
-				y += yMove;
-				runTimer--;
-				if(runTimer<1) //stroll over
-				{
-					if(action.equals("Move"))
-					{
-						action = "Nothing";
-						frameNoLOS();
-					} else
-					{
-						action = "Nothing";
-						finishWandering();
-					}
-				}
-			}
-		}
-	}
+	abstract protected void actions();
+	abstract protected void playerCode();
 	/**
 	 * checks who else this guy is getting in the way of and pushes em
 	 */
@@ -190,19 +81,11 @@ public abstract class Enemy extends Sprite
 	/**
 	 * Checks whether object can 'see' player
 	 */
-	protected void checkLOS(Sprite s)
+	protected boolean checkLOS(Sprite s)
 	{
 		int px = (int)s.x;
 		int py = (int)s.y;
-		if(!control.wallController.checkObstructionsPoint((float)x, (float)y, (float)px, (float)py, false, 5))
-		{
-			LOS = true;
-			hadLOSLastTime = 25;
-		} else
-		{
-			LOS = false;
-		}
-		HasLocation = hadLOSLastTime>0;
+		return !control.wallController.checkObstructionsPoint((float)x, (float)y, (float)px, (float)py, false, 5);
 	}
 	/**
 	 * Checks whether any Proj_Trackers are headed for object
@@ -212,19 +95,19 @@ public abstract class Enemy extends Sprite
 		inDanger = 0;
 		closestDanger[0] = 0;
 		closestDanger[1] = 0;
-		for(int i = 0; i < control.spriteController.proj_TrackerP_AOEs.size(); i++)
+		for(int i = 0; i < control.spriteController.AOEs.size(); i++)
 		{
-			Proj_Tracker_AOE_Player AOE = control.spriteController.proj_TrackerP_AOEs.get(i);
-			if(AOE.timeToDeath>7 && Math.pow(x-AOE.x, 2)+Math.pow(y-AOE.y, 2)<Math.pow(AOE.widthDone+25, 2))
+			AOE aoe = control.spriteController.AOEs.get(i);
+			if(Math.pow(x-aoe.x, 2)+Math.pow(y-aoe.y, 2)<Math.pow(aoe.radius+20, 2))
 			{
-				closestDanger[0]+=AOE.x;
-				closestDanger[1]+=AOE.y;
+				closestDanger[0]+=aoe.x;
+				closestDanger[1]+=aoe.y;
 				inDanger++;
 			}
 		}
-		for(int i = 0; i < control.spriteController.proj_TrackerPs.size(); i++)
+		for(int i = 0; i < control.spriteController.shots.size(); i++)
 		{
-			Proj_Tracker_Player shot = control.spriteController.proj_TrackerPs.get(i);
+			Shot shot = control.spriteController.shots.get(i);
 			if(shot.goodTarget(this, 110))
 			{
 				closestDanger[0]+=shot.x*2;
@@ -252,11 +135,4 @@ public abstract class Enemy extends Sprite
 		return Math.sqrt((Math.pow(fromX - toX, 2)) + (Math.pow(fromY - toY, 2)));
 	}
 	abstract protected void frame();
-	abstract protected void attacking();
-	abstract protected void hiding();
-	abstract protected void shooting();
-	abstract protected void blocking();
-	abstract protected void finishWandering();
-	abstract protected void frameLOS();
-	abstract protected void frameNoLOS();
 }

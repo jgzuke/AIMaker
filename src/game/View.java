@@ -20,6 +20,10 @@ public final class View extends JPanel implements ActionListener
 		timer = new Timer(50, this);
 		timer.start();
 	}
+	public void playEffect(String effect)
+	{
+		//TODO
+	}
 	@Override
 	public void paintComponent(Graphics g)
 	{

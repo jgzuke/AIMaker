@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public abstract class EnemyActions extends Enemy
 {
-	public EnemyActions(View creator, double X, double Y, double R, int HP, BufferedImage [] Images)
+	public EnemyActions(View creator, double X, double Y, double R, int HP, BufferedImage [] Images, byte Team)
 	{
-		super(creator, X, Y, R, HP, Images);
+		super(creator, X, Y, R, HP, Images, Team);
 	}
 	/**
 	 * Rotates to run away from player 
@@ -41,28 +41,14 @@ public abstract class EnemyActions extends Enemy
 				}
 			}
 		}
-		run(4);
-	}        
-	/**
-	 * Aims towards player
-	 */
-	protected void aimAheadOfPlayer(Sprite s)
-	{
-			double timeToHit = (checkDistance(x, y, s.x, s.y))/10;
-			timeToHit *= (control.getRandomDouble()*0.7)+0.6;
-			double newPX = s.x+(pXVelocity*timeToHit);
-			double newPY = s.y+(pYVelocity*timeToHit);
-			double xDif = newPX-x;
-			double yDif = newPY-y;
-			rads = Math.atan2(yDif, xDif); // ROTATES TOWARDS PLAYER
-			rotation = rads * r2d;
+		run();
 	}
 	/**
 	 * Runs in direction object is rotated for 10 frames
 	 */
-	protected void run(int time)
+	protected void run()
 	{
-		runTimer = time;
+		runTimer = 4;
 		action = "Run";
 		xMove = Math.cos(rads) * speedCur;
 		yMove = Math.sin(rads) * speedCur;
@@ -73,19 +59,15 @@ public abstract class EnemyActions extends Enemy
 	 */
 	protected void roll()
 	{
-		if(rollTimer<0)
-		{
-			rollTimer = 20;
-			frame = frames[1][0];
-			action = "Roll";
-			rotation = rads * r2d;
-			xMove = Math.cos(rads) * 8;
-			yMove = Math.sin(rads) * 8;
-		}
+		frame = frames[1][0];
+		action = "Roll";
+		rotation = rads * r2d;
+		xMove = Math.cos(rads) * 8;
+		yMove = Math.sin(rads) * 8;
 	}
-	protected void turnToward(double px, double py)
+	protected void turnToward(Sprite s)
 	{
-		rads = Math.atan2((py - y), (px - x));
+		rads = Math.atan2((s.y - y), (s.x - x));
 		rotation = rads * r2d;
 	}
 	/**
@@ -124,19 +106,19 @@ public abstract class EnemyActions extends Enemy
 				if(distance>radius+10) rotation += maxTurn; // turn away
 			}
 			rads = rotation / r2d;
-			run(2);
+			run();
 		} else
 		{
 			turnAround();
-			run(5);
+			run();
 		}
 	}
 	/**
 	 * rolls sideways for 11 frames
 	 */
-	protected void rollSideways(double oX, double oY)
+	protected void rollSideways(Sprite s)
 	{
-		turnToward(oX, oY);
+		turnToward(s);
 		turnAround();
 		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 42, true, 5);
 		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 42, true, 5);
@@ -156,9 +138,9 @@ public abstract class EnemyActions extends Enemy
 	/**
 	 * rolls sideways for 11 frames
 	 */
-	protected void runSideways(double oX, double oY)
+	protected void runSideways(Sprite s)
 	{
-		turnToward(oX, oY);
+		turnToward(s);
 		turnAround();
 		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 30, true, 5);
 		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 30, true, 5);
@@ -173,7 +155,7 @@ public abstract class EnemyActions extends Enemy
 			}
 			rads = rotation / r2d;
 		}
-		run(4);
+		run();
 	}
 	protected void turnAround()
 	{
@@ -183,11 +165,11 @@ public abstract class EnemyActions extends Enemy
 	/**
 	 * Rolls away from player
 	 */
-	protected void rollAway(double oX, double oY)
+	protected void rollAway(Sprite s)
 	{
-		turnToward(oX, oY);
+		turnToward(s);
 		turnAround();
-		rads = Math.atan2(-(oY - y), -(oX - x));
+		rads = Math.atan2(-(s.y - y), -(s.x - x));
 		rotation = rads * r2d;
 		if(!checkObstructions(x, y, rads, 42, true, 5))
 		{
@@ -222,9 +204,9 @@ public abstract class EnemyActions extends Enemy
 	/**
 	 * rolls towards player for 11 frames
 	 */
-	protected void rollTowards(double oX, double oY)
+	protected void rollTowards(Sprite s)
 	{
-		turnToward(oX, oY);
+		turnToward(s);
 		roll();
 	}
 	/**
@@ -263,7 +245,7 @@ public abstract class EnemyActions extends Enemy
 			rads = Math.atan2(fy - y, fx - x);
 		}
 		rotation = rads * r2d;
-		run(2);
+		run();
 	}
 	private int iterateSearch(ArrayList<int[]> points, boolean[][] checked, int eX, int eY)
 	{
@@ -374,14 +356,7 @@ public abstract class EnemyActions extends Enemy
 				}
 			}
 		}
-		if(canMove)
-		{
-			run(4);
-		} else
-		{
-			run(2);
-		}
-		action = "Wander";
+		run();
 	}
 	private boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{
