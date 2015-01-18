@@ -7,6 +7,7 @@ public final class View extends JPanel implements ActionListener
 	Timer timer;
 	WallController wallController;
 	SpriteController spriteController;
+	ImageLibrary imageLibrary;
 	double levelWidth = 500;
 	double levelHeight = 500;
 	public View()
@@ -32,6 +33,7 @@ public final class View extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		
 		repaint();
 	}
 	protected double getRandomDouble()

@@ -3,14 +3,14 @@ package game;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class Shot extends Sprite
+public final class Shot extends Sprite
 {
 	protected View control;
 	private Sprite target;
 	private double rotChange = 3;
-	public Shot(View Control, double X, double Y, double Rotation, BufferedImage[] Images, byte Team)
+	public Shot(View Control, double X, double Y, double Rotation, byte Team)
 	{
-		super(X, Y, Rotation, Images, Team);
+		super(X, Y, Rotation, Control.imageLibrary.shot, Team);
 		control = Control;
 	}
 	protected void frameCall()
@@ -31,14 +31,14 @@ public abstract class Shot extends Sprite
 					yDif = y - control.spriteController.enemies.get(i).y;
 					if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < 600)
 					{
-						control.spriteController.createAOE((int)x, (int)y, 60);
+						control.spriteController.createAOE(x, y, team);
 						deleted = true;
 					}
 				}
 			}
 			if(control.wallController.checkHitBack(x, y, false) && !deleted)
 			{
-				control.spriteController.createSafeAOE((int)x, (int)y);
+				control.spriteController.createSafeAOE(x, y, team);
 				deleted = true;
 			}
 		}

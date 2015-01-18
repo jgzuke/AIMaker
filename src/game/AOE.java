@@ -3,15 +3,15 @@ package game;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public abstract class AOE extends Sprite
+public final class AOE extends Sprite
 {
 	protected int frame = 0;
 	protected int radius = 10;
 	protected byte alpha = 120;
 	protected View control;
-	public AOE(View Control, double X, double Y, double Rotation, BufferedImage[] Images, byte Team)
+	public AOE(View Control, double X, double Y, byte Team)
 	{
-		super(X, Y, Rotation, Images, Team);
+		super(X, Y, Control.getRandomInt(360), Control.imageLibrary.aoe, Team);
 		control = Control;
 	}
 	protected void frameCall()
