@@ -24,7 +24,7 @@ public abstract class Enemy extends Sprite
 		super(X, Y, R, Images, Team);
 		control = creator;
 	}
-	protected void frameCall()
+	protected void enemyFrame()
 	{
 		image = images[frame];
 		pushOtherPeople();
@@ -134,5 +134,6 @@ public abstract class Enemy extends Sprite
 	{
 		return Math.sqrt((Math.pow(fromX - toX, 2)) + (Math.pow(fromY - toY, 2)));
 	}
-	abstract protected void frame();
+	abstract protected void frameCall();
+	abstract protected void myActions();
 }

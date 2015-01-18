@@ -8,15 +8,6 @@ public abstract class Swordsman extends EnemyActions {
 		super(creator, X, Y, R, HP, Images, Team);
 		// TODO Auto-generated constructor stub
 	}
-	
-	protected void attacking()
-	{
-		
-	}
-	protected void blocking()
-	{
-		
-	}
 	/**
 	 * when enemy swings at player, check whether it hits
 	 */
@@ -43,12 +34,13 @@ public abstract class Swordsman extends EnemyActions {
 	}
 	
 
-	protected void actions()
+	protected void frameCall()
 	{
 		if(action.equals("Melee"))
 		{
 			frame++;
 			attacking();
+			if(frame==27 || frame==37) meleeAttack(200, 20, 10);
 			if(frame==frames[3][1])
 			{
 				action = "Nothing";	//attack over
@@ -66,14 +58,27 @@ public abstract class Swordsman extends EnemyActions {
 		} else if(action.equals("Run"))
 		{
 			frame++;
+			running();
 			if(frame == frames[0][1]) frame = 0; // restart walking motion
-			x += xMove*1.2;
-			y += yMove*1.2;
+			x += xMove;
+			y += yMove;
 			runTimer--;
 			if(runTimer<1)
 			{
 				action = "Nothing"; // stroll done
 			}
+		} else
+		{
+			myActions();
 		}
 	}
+	@Override
+	protected void getHit(double damage)
+	{
+		if(frame>47&&frame<53) damage /= 8;
+		super.getHit(damage);
+	}
+	abstract protected void attacking();
+	abstract protected void blocking();
+	abstract protected void running();
 }
