@@ -17,7 +17,7 @@ public abstract class EnemyActions extends Enemy
 		rads = Math.atan2(-(py - y), -(px - x));
 		rotation = rads * r2d;
 		int distance = (int)checkDistance(x, y, px,  py);
-		if(checkObstructions(x, y, rads, distance, true, fromWall))
+		if(checkObstructions(x, y, rads, distance, true, 5))
 		{
 			int runPathChooseCounter = 0;
 			double runPathChooseRotationStore = rotation;
@@ -26,7 +26,7 @@ public abstract class EnemyActions extends Enemy
 				runPathChooseCounter += 10;
 				rotation = runPathChooseRotationStore + runPathChooseCounter;
 				rads = rotation / r2d;
-				if(!checkObstructions(x, y, rads, 40, true, fromWall))
+				if(!checkObstructions(x, y, rads, 40, true, 5))
 				{
 					runPathChooseCounter = 300;
 				}
@@ -34,7 +34,7 @@ public abstract class EnemyActions extends Enemy
 				{
 					rotation = runPathChooseRotationStore - runPathChooseCounter;
 					rads = rotation / r2d;
-					if(!checkObstructions(x, y,  rads, 40, true, fromWall))
+					if(!checkObstructions(x, y,  rads, 40, true, 5))
 					{
 						runPathChooseCounter = 300;
 					}
@@ -83,10 +83,6 @@ public abstract class EnemyActions extends Enemy
 			yMove = Math.sin(rads) * 8;
 		}
 	}
-	protected void turnToward()
-	{
-		turnToward(control.player.x, control.player.y);
-	}
 	protected void turnToward(double px, double py)
 	{
 		rads = Math.atan2((py - y), (px - x));
@@ -95,13 +91,13 @@ public abstract class EnemyActions extends Enemy
 	/**
 	 * rolls sideways for 11 frames
 	 */
-	protected void runAround(int radius, int distance)
+	protected void runAround(int radius, int distance, Sprite s)
 	{
 		double oldRads = rads;
-		rads = Math.atan2((control.player.y - y), (control.player.x - x));
+		rads = Math.atan2((s.y - y), (s.x - x));
 		rotation = rads * r2d;
-		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 42, true, fromWall);
-		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 42, true, fromWall);
+		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 42, true, 5);
+		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 42, true, 5);
 		if(left||right)
 		{
 			if(left && right) 		// if left and right pick one
@@ -131,12 +127,9 @@ public abstract class EnemyActions extends Enemy
 			run(2);
 		} else
 		{
-			runAway();
+			turnAround();
+			run(5);
 		}
-	}
-	protected void rollSideways()
-	{
-		rollSideways(control.player.x, control.player.y);
 	}
 	/**
 	 * rolls sideways for 11 frames
@@ -145,8 +138,8 @@ public abstract class EnemyActions extends Enemy
 	{
 		turnToward(oX, oY);
 		turnAround();
-		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 42, true, fromWall);
-		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 42, true, fromWall);
+		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 42, true, 5);
+		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 42, true, 5);
 		if(left||right)
 		{
 			if(left) rotation -= 90;
@@ -160,10 +153,6 @@ public abstract class EnemyActions extends Enemy
 		}
 		roll();
 	}
-	protected void runSideways()
-	{
-		runSideways(control.player.x, control.player.y);
-	}
 	/**
 	 * rolls sideways for 11 frames
 	 */
@@ -171,8 +160,8 @@ public abstract class EnemyActions extends Enemy
 	{
 		turnToward(oX, oY);
 		turnAround();
-		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 30, true, fromWall);
-		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 30, true, fromWall);
+		boolean right = !checkObstructions(x, y, (rotation + 90) / r2d, 30, true, 5);
+		boolean left = !checkObstructions(x, y, (rotation - 90) / r2d, 30, true, 5);
 		if(left||right)
 		{
 			if(left) rotation -= 90;
@@ -200,7 +189,7 @@ public abstract class EnemyActions extends Enemy
 		turnAround();
 		rads = Math.atan2(-(oY - y), -(oX - x));
 		rotation = rads * r2d;
-		if(!checkObstructions(x, y, rads, 42, true, fromWall))
+		if(!checkObstructions(x, y, rads, 42, true, 5))
 		{
 			roll();
 		} else
@@ -212,7 +201,7 @@ public abstract class EnemyActions extends Enemy
 				rollPathChooseCounter += 10;
 				rotation = rollPathChooseRotationStore + rollPathChooseCounter;
 				rads = rotation / r2d;
-				if(!checkObstructions(x, y, rads, 42, true, fromWall))
+				if(!checkObstructions(x, y, rads, 42, true, 5))
 				{
 					roll();
 					rollPathChooseCounter = 180;
@@ -221,7 +210,7 @@ public abstract class EnemyActions extends Enemy
 				{
 					rotation = rollPathChooseRotationStore - rollPathChooseCounter;
 					rads = rotation / r2d;
-					if(!checkObstructions(x, y, rads, 42, true, fromWall))
+					if(!checkObstructions(x, y, rads, 42, true, 5))
 					{
 						roll();
 						rollPathChooseCounter = 180;
@@ -239,35 +228,11 @@ public abstract class EnemyActions extends Enemy
 		roll();
 	}
 	/**
-	 * when enemy swings at player, check whether it hits
-	 */
-	protected void meleeAttack(int damage, int range, int ahead)
-	{
-		double distanceFound = checkDistance(x + Math.cos(rads) * ahead, y + Math.sin(rads) * ahead, control.player.x, control.player.y);
-		if(distanceFound < range)
-		{
-			control.player.getHit((int)(damage));
-			control.soundController.playEffect("sword2");
-			if(control.getRandomInt(3) == 0)
-			{
-				control.player.rads = Math.atan2(control.player.y-y, control.player.x-x);
-				control.player.stun();
-			}
-		} else
-		{
-			control.soundController.playEffect("swordmiss");
-		}
-	}
-	protected void runTowards()
-	{
-		runTowards(control.player.x, control.player.y);
-	}
-	/**
 	 * Runs towards player, if you cant, run randomly
 	 */
 	protected void runTowards(double fx, double fy)
 	{
-		if(checkObstructionsPoint((int)fx, (int)fy, (int)x, (int)y, true, fromWall))
+		if(checkObstructionsPoint((int)fx, (int)fy, (int)x, (int)y, true, 5))
 		{
 			int foundPlayer = -1;			//try to find enemy
 			int sX = (int)(fx/20);		//start at player
@@ -275,7 +240,7 @@ public abstract class EnemyActions extends Enemy
 			int eX = (int)x;
 			int eY = (int)y;
 			int[] p1 = {sX, sY, sX, sY};
-			boolean[][] checked=new boolean[(control.levelController.levelWidth/20)][(control.levelController.levelHeight/20)];
+			boolean[][] checked=new boolean[(int) (control.levelWidth/20)][(int) (control.levelHeight/20)];
 			ArrayList<int[]> points = new ArrayList<int[]>();
 			points.add(p1);
 			checked[sX][sY]=true;
@@ -307,7 +272,7 @@ public abstract class EnemyActions extends Enemy
 		{
 			int x = points.get(i)[0];
 			int y = points.get(i)[1];
-			if(!checkObstructionsPoint(x*20, y*20, eX, eY, true, fromWall)) return i;
+			if(!checkObstructionsPoint(x*20, y*20, eX, eY, true, 5)) return i;
 			if(x>0)
 			{	//if were not on the edge, we havent checked it, and its free
 				if(!checked[x-1][y]&&!checkHitBack((x-1)*20, y*20, true))
@@ -359,7 +324,7 @@ public abstract class EnemyActions extends Enemy
 		boolean canMove = false;
 		rotation += control.getRandomInt(10)-5;
 		rads = rotation / r2d;
-		if(checkObstructions(x, y,rads, (int)(speedCur*20), true, fromWall))
+		if(checkObstructions(x, y,rads, (int)(speedCur*20), true, 5))
 		{
 			int runPathChooseCounter = 0;
 			double runPathChooseRotationStore = rotation;
@@ -368,7 +333,7 @@ public abstract class EnemyActions extends Enemy
 				runPathChooseCounter += 10;
 				rotation = runPathChooseRotationStore + runPathChooseCounter;
 				rads = rotation / r2d;
-				if(!checkObstructions(x, y,rads, (int)(speedCur*20), true, fromWall))
+				if(!checkObstructions(x, y,rads, (int)(speedCur*20), true, 5))
 				{
 					runPathChooseCounter = 180;
 					canMove = true;
@@ -377,7 +342,7 @@ public abstract class EnemyActions extends Enemy
 				{
 					rotation = runPathChooseRotationStore - runPathChooseCounter;
 					rads = rotation / r2d;
-					if(!checkObstructions(x, y,rads, (int)(speedCur*20), true, fromWall))
+					if(!checkObstructions(x, y,rads, (int)(speedCur*20), true, 5))
 					{
 						runPathChooseCounter = 180;
 						canMove = true;
@@ -385,7 +350,7 @@ public abstract class EnemyActions extends Enemy
 				}
 			}
 		}
-		if(checkObstructions(x, y,rads, (int)(speedCur*10), true, fromWall))
+		if(checkObstructions(x, y,rads, (int)(speedCur*10), true, 5))
 		{
 			int runPathChooseCounter = 0;
 			double runPathChooseRotationStore = rotation;
@@ -394,7 +359,7 @@ public abstract class EnemyActions extends Enemy
 				runPathChooseCounter += 10;
 				rotation = runPathChooseRotationStore + runPathChooseCounter;
 				rads = rotation / r2d;
-				if(!checkObstructions(x, y,rads, (int)(speedCur*10), true, fromWall))
+				if(!checkObstructions(x, y,rads, (int)(speedCur*10), true, 5))
 				{
 					runPathChooseCounter = 180;
 				}
@@ -402,7 +367,7 @@ public abstract class EnemyActions extends Enemy
 				{
 					rotation = runPathChooseRotationStore - runPathChooseCounter;
 					rads = rotation / r2d;
-					if(!checkObstructions(x, y,rads, (int)(speedCur*10), true, fromWall))
+					if(!checkObstructions(x, y,rads, (int)(speedCur*10), true, 5))
 					{
 						runPathChooseCounter = 180;
 					}
@@ -417,30 +382,6 @@ public abstract class EnemyActions extends Enemy
 			run(2);
 		}
 		action = "Wander";
-	}
-	protected void searchOrWander()
-	{
-		distanceFound = checkDistance(x, y, lastPlayerX, lastPlayerY); // lastPlayerX and Y are the last seen coordinates
-		if(checkedPlayerLast || distanceFound < 20)
-		{
-			frame=0;
-			action = "Nothing";
-			if(control.getRandomInt(20) == 0) // around ten frames of pause between random wandering
-			{
-				runRandom();
-			}
-			checkedPlayerLast = true; // has checked where player was last seen
-		} else
-		{
-			if(checkLOS((int)lastPlayerX, (int)lastPlayerY))
-			{
-				runTowards(lastPlayerX, lastPlayerY);
-				action = "Move";
-			} else
-			{
-				checkedPlayerLast = true;
-			}
-		}
 	}
 	private boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{

@@ -10,12 +10,8 @@ public abstract class Enemy extends Sprite
 	protected int hadLOSLastTime;
 	protected double speed;
 	protected View control;
-	protected int fromWall = 5;
 	protected int runTimer = 0;
 	protected int rollTimer = 0;
-	protected double lastPlayerX;
-	protected double lastPlayerY;
-	protected boolean checkedPlayerLast = true;
 	protected int inDanger = 0;
 	protected double[] closestDanger = new double[2];
 	protected boolean HasLocation = false;
@@ -23,52 +19,32 @@ public abstract class Enemy extends Sprite
 	protected int radius = 20;
 	protected double pXVelocity=0;
 	protected double pYVelocity=0;
-	private double pXSpot=0;
-	private double pYSpot=0;
+	protected double pXSpot=0;
+	protected double pYSpot=0;
+	protected double xMove = 0;
+	protected double yMove = 0;
+	protected double speedCur = 0;
+	protected int [][] frames;
 	protected String action = "Nothing"; //"Nothing", "Move", "Alert", "Shoot", "Melee", "Roll", "Hide", "Sheild", "Stun"
 
 	public Enemy(View creator, double X, double Y, double R, int HP, BufferedImage [] Images)
 	{
 		super(X, Y, R, Images);
 		control = creator;
-		lastPlayerX = x;
-		lastPlayerY = y;
 	}
 	protected void frameCall()
 	{
 		otherActions();
 		if(action.equals("Nothing"))
 		{
-			checkLOS();
 			checkDanger();
-			if(LOS)
-			{
-				frameLOS();
-			} else
-			{
-				frameNoLOS();
-			}
+			frame();
 		}
-		image = myImage[frame];
+		image = images[frame];
 		rollTimer --;
 		hadLOSLastTime--;
-		if(sick)
-		{
-			hp -= 20;
-			getHit(0);
-		}
-		pXVelocity = control.player.x-pXSpot;
-		pYVelocity = control.player.y-pYSpot;
-		pXSpot = control.player.x;
-		pYSpot = control.player.y;
-		hp += 4;
-		super.frameCall();
-		sizeImage();
 		pushOtherPeople();
-		if(hp > hpMax)
-		{
-			hp = hpMax;
-		}
+		if(hp > hpMax) hp = hpMax;
 	}
 	protected void otherActions()
 	{
@@ -218,13 +194,10 @@ public abstract class Enemy extends Sprite
 	{
 		int px = (int)s.x;
 		int py = (int)s.y;
-		if(!control.wallController.checkObstructionsPoint((float)x, (float)y, (float)px, (float)py, false, fromWall))
+		if(!control.wallController.checkObstructionsPoint((float)x, (float)y, (float)px, (float)py, false, 5))
 		{
 			LOS = true;
 			hadLOSLastTime = 25;
-			lastPlayerX = px;
-			lastPlayerY = py;
-			checkedPlayerLast = false;
 		} else
 		{
 			LOS = false;
@@ -278,11 +251,7 @@ public abstract class Enemy extends Sprite
 	{
 		return Math.sqrt((Math.pow(fromX - toX, 2)) + (Math.pow(fromY - toY, 2)));
 	}
-	protected void baseHp(int setHP)
-	{
-		hp = setHP;
-		hpMax = hp;
-	}
+	abstract protected void frame();
 	abstract protected void attacking();
 	abstract protected void hiding();
 	abstract protected void shooting();

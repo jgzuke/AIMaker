@@ -30,4 +30,12 @@ public final class View extends JPanel implements ActionListener
 	{
 		repaint();
 	}
+	protected double getRandomDouble()
+	{
+		return 0.5; //TODO
+	}
+	protected int getRandomInt(int i)
+	{
+		return i; //TODO
+	}
 }
