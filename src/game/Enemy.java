@@ -15,7 +15,6 @@ public abstract class Enemy extends Sprite
 	protected double xMove = 0;
 	protected double yMove = 0;
 	protected double speedCur = 0;
-	protected int [][] frames;
 	protected int runTimer;
 	protected String action = "Nothing"; //"Nothing", "Move", "Alert", "Shoot", "Melee", "Roll", "Hide", "Sheild", "Stun"
 
@@ -28,11 +27,16 @@ public abstract class Enemy extends Sprite
 	{
 		image = images[frame];
 		pushOtherPeople();
-		actions();
+		if(action.equals("Run"))
+		{
+			baseRunning();
+			running();
+		} else
+		{
+			frameCall();
+		}
 		if(hp > hpMax) hp = hpMax;
 	}
-	abstract protected void actions();
-	abstract protected void playerCode();
 	/**
 	 * checks who else this guy is getting in the way of and pushes em
 	 */
@@ -134,6 +138,21 @@ public abstract class Enemy extends Sprite
 	{
 		return Math.sqrt((Math.pow(fromX - toX, 2)) + (Math.pow(fromY - toY, 2)));
 	}
+	protected void baseRunning()
+	{
+		frame++;
+		if(frame == 19) frame = 0; // restart walking motion
+		x += xMove;
+		y += yMove;
+		runTimer--;
+		if(runTimer<1)
+		{
+			action = "Nothing"; // stroll done
+			endRun();
+		}
+	}
 	abstract protected void frameCall();
-	abstract protected void myActions();
+	abstract protected void chooseAction();
+	abstract protected void endRun();
+	abstract protected void running();
 }

@@ -10,78 +10,37 @@ public abstract class Archer extends EnemyActions {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	/**
-	 * when enemy swings at player, check whether it hits
-	 */
-	protected void meleeAttack(int damage, int range, int ahead)
-	{
-		boolean hitEnemy = false;
-		for(int i = 0; i < control.spriteController.enemies.size(); i++)
-		{
-			Enemy enemy = control.spriteController.enemies.get(i);
-			double distanceFound = checkDistance(x + Math.cos(rads) * ahead, y + Math.sin(rads) * ahead, enemy.x, enemy.y);
-			if(distanceFound < range)
-			{
-				enemy.getHit((int)(damage));
-				hitEnemy = true;
-			}
-		}
-		if(hitEnemy)
-		{
-			control.playEffect("sword2");
-		} else
-		{
-			control.playEffect("swordmiss");
-		}
-	}
-	
-
+	@Override
 	protected void frameCall()
 	{
-		if(action.equals("Melee"))
+		if(action.equals("Shoot"))
 		{
-			frame++;
-			attacking();
-			if(frame==27 || frame==37) meleeAttack(200, 20, 10);
-			if(frame==frames[3][1])
-			{
-				action = "Nothing";	//attack over
-				frame = 0;
-			}
-		} else if(action.equals("Sheild"))
-		{
-			frame++;
-			blocking();
-			if(frame==frames[4][1])
-			{
-				action = "Nothing";	//block done
-				frame = 0;
-			}
-		} else if(action.equals("Run"))
-		{
-			frame++;
-			running();
-			if(frame == frames[0][1]) frame = 0; // restart walking motion
-			x += xMove;
-			y += yMove;
-			runTimer--;
-			if(runTimer<1)
-			{
-				action = "Nothing"; // stroll done
-			}
+			baseShooting();
+			shooting();
 		} else
 		{
-			myActions();
+			chooseAction();
 		}
 	}
-	@Override
-	protected void getHit(double damage)
+	abstract protected void shooting();
+	abstract protected void endShot();
+	abstract protected void justShot();
+	
+	protected void baseShooting()
 	{
-		if(frame>47&&frame<53) damage /= 8;
-		super.getHit(damage);
+		frame++;
+		if(frame==49)
+		{
+			action = "Nothing";	//attack over
+			frame = 0;
+			endShot();
+		}
+		int v = 10; //projectile velocity
+		if(frame==36) // shoots
+		{
+			control.spriteController.createProj_TrackerEnemy(rotation, Math.cos(rads) * v, Math.sin(rads) * v, 130, x, y);
+			control.playEffect("arrowrelease");
+			justShot();
+		}
 	}
-	abstract protected void attacking();
-	abstract protected void blocking();
-	abstract protected void running();
 }

@@ -18,6 +18,47 @@ public final class SpriteController
 	public SpriteController(View Control)
 	{
 		control = Control;
+		
+	}
+	protected void makeEnemy(int type, int x, int y, int r, byte team)
+	{
+		switch(type)
+		{
+		case 0:
+			switch(type)
+			{
+			case 0:
+				enemies.add(new Archer1(control, x, y, r, 3000, control.imageLibrary.archer, team)); //x, y, hp, sick, type is ImageIndex
+				break;
+			case 1:
+				enemies.add(new Cleric1(control, x, y, r, 1700, control.imageLibrary.cleric, team));
+				break;
+			case 2:
+				enemies.add(new Mage1(control, x, y, r, 700, control.imageLibrary.mage, team));
+				break;
+			case 3:
+				enemies.add(new Swordsman1(control, x, y, r, 1700, control.imageLibrary.swordsman, team));
+				break;
+			}
+			break;
+		case 1:
+			switch(type)
+			{
+			case 0:
+				enemies.add(new Archer2(control, x, y, r, 3000, control.imageLibrary.archer, team)); //x, y, hp, sick, type is ImageIndex
+				break;
+			case 1:
+				enemies.add(new Cleric2(control, x, y, r, 1700, control.imageLibrary.cleric, team));
+				break;
+			case 2:
+				enemies.add(new Mage2(control, x, y, r, 700, control.imageLibrary.mage, team));
+				break;
+			case 3:
+				enemies.add(new Swordsman2(control, x, y, r, 1700, control.imageLibrary.swordsman, team));
+				break;
+			}
+			break;
+		}
 	}
 	/**
 	 * creates a player power ball

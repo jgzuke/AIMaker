@@ -36,7 +36,7 @@ public abstract class Mage extends EnemyActions {
 		}
 	}
 	
-
+	@Override
 	protected void frameCall()
 	{
 		if(action.equals("Melee"))
