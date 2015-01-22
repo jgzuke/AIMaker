@@ -23,6 +23,14 @@ public abstract class Sprite
 		image = Images[0];
 		team = Team;
 	}
+	public Sprite(double X, double Y, double Rotation, BufferedImage Image, byte Team)
+	{
+		x=X;
+		y=Y;
+		rads=rads(Rotation);
+		image = Image;
+		team = Team;
+	}
 	protected double rads(double rotation)
 	{
 		return rotation/r2d;

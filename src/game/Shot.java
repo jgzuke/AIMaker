@@ -10,7 +10,7 @@ public final class Shot extends Sprite
 	private double rotChange = 3;
 	public Shot(View Control, double X, double Y, double Rotation, byte Team)
 	{
-		super(X, Y, Rotation, Control.imageLibrary.shot, Team);
+		super(X, Y, Rotation, Control.imageLibrary.shot[Team], Team);
 		control = Control;
 	}
 	protected void frameCall()

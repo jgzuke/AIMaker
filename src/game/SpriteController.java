@@ -1,5 +1,9 @@
 package game;
 
+import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public final class SpriteController
@@ -27,6 +31,36 @@ public final class SpriteController
 	protected void createShot(double rotation, double Vel, int power, double x, double y, byte Team)
 	{
 		shots.add(new Shot(control, x, y, rotation, Team));
+	}
+	protected void drawSprites(Graphics g, ImageObserver im)
+	{
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			drawRotated(enemies.get(i), g, im);
+		}
+		for(int i = 0; i < AOEs.size(); i++)
+		{
+			drawRotated(AOEs.get(i), g, im);
+		}
+		for(int i = 0; i < shots.size(); i++)
+		{
+			drawRotated(shots.get(i), g, im);
+		}
+	}
+	private void drawRotated(Sprite s, Graphics g, ImageObserver i)
+	{
+		double rotationRequired = Math.toRadians(45);
+		double locationX = s.image.getWidth() / 2;
+		double locationY = s.image.getHeight() / 2;
+		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		g.drawImage(op.filter(s.image, null), (int)s.x, (int)s.y, i);
+	}
+	protected void frameCall()
+	{
+		for(int i = 0; i < enemies.size(); i++) enemies.get(i).frameCall();
+		for(int i = 0; i < AOEs.size(); i++) AOEs.get(i).frameCall();
+		for(int i = 0; i < shots.size(); i++) shots.get(i).frameCall();
 	}
 	/**
 	 * creates an emeny AOE explosion

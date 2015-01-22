@@ -10,11 +10,21 @@ import java.io.IOException;
 public final class ImageLibrary
 {
 	BufferedImage [] aoe;
-	BufferedImage [] shot;
+	BufferedImage [][] shot;
+	BufferedImage [] archer;
+	BufferedImage [] cleric;
+	BufferedImage [] mage;
+	BufferedImage [] swordsman;
 	public ImageLibrary()
 	{
-		aoe = loadSet("aoe", 4);
-		shot = loadSet("shot", 4);
+		BufferedImage [] Aoe = {loadImage("shootplayeraoe"), loadImage("shootenemyaoe")};
+		aoe = Aoe;
+		BufferedImage [][] Shot = {loadSet("shootplayer", 5), loadSet("shootenemy", 5)};
+		shot = Shot;
+		archer = loadSet("goblin_archer", 49);
+		cleric = loadSet("goblin_cleric", 32);
+		mage = loadSet("goblin_mage", 31);
+		swordsman = loadSet("goblin_swordsman", 55);
 	}
 	public BufferedImage [] loadSet(String s, int length)
 	{
@@ -43,7 +53,7 @@ public final class ImageLibrary
 	{
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File(s+".png"));
+			img = ImageIO.read(new File("/resources/"+s+".png"));
 		} catch (IOException e) {
 		}
 		return img;
