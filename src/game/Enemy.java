@@ -95,9 +95,9 @@ public abstract class Enemy extends Sprite
 		inDanger = 0;
 		closestDanger[0] = 0;
 		closestDanger[1] = 0;
-		for(int i = 0; i < control.spriteController.AOEs.size(); i++)
+		for(int i = 0; i < control.spriteController.aoes.size(); i++)
 		{
-			AOE aoe = control.spriteController.AOEs.get(i);
+			AOE aoe = control.spriteController.aoes.get(i);
 			if(Math.pow(x-aoe.x, 2)+Math.pow(y-aoe.y, 2)<Math.pow(aoe.radius+20, 2))
 			{
 				closestDanger[0]+=aoe.x;

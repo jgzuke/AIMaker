@@ -14,7 +14,7 @@ public final class View extends JPanel implements ActionListener
 	double levelHeight = 800;
 	private BufferedImage backBot;
 	private BufferedImage backTop;
-	private ImageObserver imageObserver;
+	private BufferedImage backTile;
 	public View()
 	{
 		setFocusable(true);
@@ -28,6 +28,7 @@ public final class View extends JPanel implements ActionListener
 		imageLibrary = new ImageLibrary();
 		backBot = imageLibrary.loadImage("level1");
 		backTop = imageLibrary.loadImage("leveltop1");
+		backTile = imageLibrary.loadImage("leveltile1");
 		timer = new Timer(50, this);
 		timer.start();
 	}
@@ -39,9 +40,17 @@ public final class View extends JPanel implements ActionListener
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		/*g.drawImage(backBot, 0, 0, imageObserver);
-		spriteController.drawSprites(g, imageObserver);
-		g.drawImage(backTop, 0, 0, imageObserver);*/
+		backBot = imageLibrary.loadImage("level1");
+		for(int i = 0; i<8; i++)
+		{
+			for(int j = 0; j<8; j++)
+			{
+				g.drawImage(backTile, i*100, j*100, null);
+			}
+		}
+		g.drawImage(backBot, 0, 0, null);
+		spriteController.drawSprites(g);
+		g.drawImage(backTop, 0, 0, null);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)

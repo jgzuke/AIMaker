@@ -53,7 +53,7 @@ public final class ImageLibrary
 	{
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("/resources/"+s+".png"));
+			img = ImageIO.read(new File("resources/"+s+".png"));
 		} catch (IOException e) {
 		}
 		return img;

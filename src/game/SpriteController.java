@@ -11,9 +11,9 @@ public final class SpriteController
 	/**
 	 * Initializes all undecided variables, loads level, creates player and enemy objects, and starts frameCaller
 	 */
-	ArrayList<Enemy> enemies;
-	ArrayList<AOE> AOEs;
-	ArrayList<Shot> shots;
+	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	ArrayList<AOE> aoes = new ArrayList<AOE>();
+	ArrayList<Shot> shots = new ArrayList<Shot>();
 	View control;
 	public SpriteController(View Control)
 	{
@@ -32,19 +32,19 @@ public final class SpriteController
 	{
 		shots.add(new Shot(control, x, y, rotation, Team));
 	}
-	protected void drawSprites(Graphics g, ImageObserver im)
+	protected void drawSprites(Graphics g)
 	{
 		for(int i = 0; i < enemies.size(); i++)
 		{
-			drawRotated(enemies.get(i), g, im);
+			//drawRotated(enemies.get(i), g, null);
 		}
-		for(int i = 0; i < AOEs.size(); i++)
+		for(int i = 0; i < aoes.size(); i++)
 		{
-			drawRotated(AOEs.get(i), g, im);
+			//drawRotated(AOEs.get(i), g, null);
 		}
 		for(int i = 0; i < shots.size(); i++)
 		{
-			drawRotated(shots.get(i), g, im);
+			//drawRotated(shots.get(i), g, null);
 		}
 	}
 	private void drawRotated(Sprite s, Graphics g, ImageObserver i)
@@ -59,7 +59,7 @@ public final class SpriteController
 	protected void frameCall()
 	{
 		for(int i = 0; i < enemies.size(); i++) enemies.get(i).frameCall();
-		for(int i = 0; i < AOEs.size(); i++) AOEs.get(i).frameCall();
+		for(int i = 0; i < aoes.size(); i++) aoes.get(i).frameCall();
 		for(int i = 0; i < shots.size(); i++) shots.get(i).frameCall();
 	}
 	/**
@@ -71,10 +71,10 @@ public final class SpriteController
 	 */
 	protected void createAOE(double x, double y, byte Team)
 	{
-		AOEs.add(new AOE(control, x, y, Team));
+		aoes.add(new AOE(control, x, y, Team));
 	}
 	protected void createSafeAOE(double x, double y, byte Team)
 	{
-		AOEs.add(new AOE(control, x, y, Team));
+		aoes.add(new AOE(control, x, y, Team));
 	}
 }
