@@ -35,10 +35,9 @@ public abstract class Archer extends EnemyActions {
 			frame = 0;
 			endShot();
 		}
-		int v = 10; //projectile velocity
 		if(frame==36) // shoots
 		{
-			control.spriteController.createProj_TrackerEnemy(rotation, Math.cos(rads) * v, Math.sin(rads) * v, 130, x, y);
+			control.spriteController.createShot(rotation, x, y, team);
 			control.playEffect("arrowrelease");
 			justShot();
 		}

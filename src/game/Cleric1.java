@@ -10,13 +10,13 @@ public final class Cleric1 extends Cleric {
 	}
 
 	@Override
-	protected void attacking() {
+	protected void chooseAction() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void blocking() {
+	protected void endRun() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -28,9 +28,8 @@ public final class Cleric1 extends Cleric {
 	}
 
 	@Override
-	protected void myActions() {
+	protected void endRoll() {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

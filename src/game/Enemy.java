@@ -31,7 +31,7 @@ public abstract class Enemy extends Sprite
 		{
 			baseRunning();
 			running();
-		} else
+		} else 
 		{
 			frameCall();
 		}

@@ -59,7 +59,7 @@ public abstract class EnemyActions extends Enemy
 	 */
 	protected void roll()
 	{
-		frame = frames[1][0];
+		frame = 20;
 		action = "Roll";
 		rotation = rads * r2d;
 		xMove = Math.cos(rads) * 8;

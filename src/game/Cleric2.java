@@ -2,7 +2,7 @@ package game;
 
 import java.awt.image.BufferedImage;
 
-public final class Cleric2 extends Archer {
+public final class Cleric2 extends Cleric {
 
 	public Cleric2(View creator, double X, double Y, double R, int HP,
 			BufferedImage[] Images, byte Team) {
@@ -10,13 +10,13 @@ public final class Cleric2 extends Archer {
 	}
 
 	@Override
-	protected void attacking() {
+	protected void chooseAction() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void blocking() {
+	protected void endRun() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -28,9 +28,8 @@ public final class Cleric2 extends Archer {
 	}
 
 	@Override
-	protected void myActions() {
+	protected void endRoll() {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

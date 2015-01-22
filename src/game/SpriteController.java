@@ -69,7 +69,7 @@ public final class SpriteController
 	 * @param x x position
 	 * @param y y position
 	 */
-	protected void createShot(double rotation, double Vel, int power, double x, double y, byte Team)
+	protected void createShot(double rotation, double x, double y, byte Team)
 	{
 		shots.add(new Shot(control, x, y, rotation, Team));
 	}

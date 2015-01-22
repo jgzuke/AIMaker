@@ -10,13 +10,31 @@ public final class Archer2 extends Archer {
 	}
 
 	@Override
-	protected void attacking() {
+	protected void shooting() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void blocking() {
+	protected void endShot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void justShot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void chooseAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void endRun() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,9 +44,5 @@ public final class Archer2 extends Archer {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	protected void myActions() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }
