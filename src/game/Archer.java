@@ -35,8 +35,8 @@ public abstract class Archer extends Enemy {
 		}
 		if(frame==36) // shoots
 		{
-			control.spriteController.createShot(getRotation(), getX(), getY(), getTeam());
-			control.soundController.playEffect("arrowrelease");
+			control.createShot(getRotation(), getX(), getY(), getTeam());
+			control.playEffect("arrowrelease");
 			justShot();
 		}
 	}

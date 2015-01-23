@@ -12,6 +12,7 @@ public final class View extends JPanel implements ActionListener
 	WallController wallController;
 	SpriteController spriteController;
 	SoundController soundController;
+	ControlAccess controlAccess;
 	ImageLibrary imageLibrary;
 	int levelWidth = 600;
 	int levelHeight = 600;
@@ -27,6 +28,7 @@ public final class View extends JPanel implements ActionListener
 		wallController = new WallController(this);
 		spriteController = new SpriteController(this);
 		soundController = new SoundController(this);
+		controlAccess = new ControlAccess(this);
 		timer = new Timer(50, this);
 		timer.start();
 	}

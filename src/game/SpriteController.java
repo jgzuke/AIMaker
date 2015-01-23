@@ -23,7 +23,7 @@ public final class SpriteController
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
-		Packet p = new Packet(x, y, r, (byte)t, (byte)type, enemies, aoes, shots);
+		Packet p = new Packet(x, y, r, (byte)t, (byte)type, control.controlAccess);
 		switch(t)
 		{
 		case 0:

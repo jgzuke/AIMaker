@@ -90,18 +90,18 @@ public abstract class Enemy
 		double moveRads;
 		double xdif;
 		double ydif;
-		for(int i = 0; i < enemies.size(); i++)
+		for(int i = 0; i < control.enemies.size(); i++)
 		{
-			if(enemies.get(i) != null&& enemies.get(i).getX() != x)
+			if(control.enemies.get(i) != null&& control.enemies.get(i).getX() != x)
 			{
-				xdif = x - enemies.get(i).getX();
-				ydif = y - enemies.get(i).getY();
+				xdif = x - control.enemies.get(i).getX();
+				ydif = y - control.enemies.get(i).getY();
 				if(Math.pow(xdif, 2) + Math.pow(ydif, 2) < Math.pow(radius, 2))
 				{
 					moveRads = Math.atan2(ydif, xdif);
-					movementX = (x - (Math.cos(moveRads) * radius) - enemies.get(i).getX())/2;
-					movementY = (y - (Math.sin(moveRads) * radius) - enemies.get(i).getY())/2;
-					enemies.get(i).getPushed(enemies.get(i).getX() + movementX, enemies.get(i).getY() + movementY);
+					movementX = (x - (Math.cos(moveRads) * radius) - control.enemies.get(i).getX())/2;
+					movementY = (y - (Math.sin(moveRads) * radius) - control.enemies.get(i).getY())/2;
+					control.enemies.get(i).getPushed(control.enemies.get(i).getX() + movementX, control.enemies.get(i).getY() + movementY);
 					x -= movementX;
 					y -= movementY;
 				}
@@ -148,9 +148,9 @@ public abstract class Enemy
 		inDanger = 0;
 		closestDanger[0] = 0;
 		closestDanger[1] = 0;
-		for(int i = 0; i < aoes.size(); i++)
+		for(int i = 0; i < control.aoes.size(); i++)
 		{
-			AOE aoe = aoes.get(i);
+			AOE aoe = control.aoes.get(i);
 			if(Math.pow(x-aoe.getX(), 2)+Math.pow(y-aoe.getY(), 2)<Math.pow(aoe.getRadius()+20, 2))
 			{
 				closestDanger[0]+=aoe.getX();
@@ -158,9 +158,9 @@ public abstract class Enemy
 				inDanger++;
 			}
 		}
-		for(int i = 0; i < shots.size(); i++)
+		for(int i = 0; i < control.shots.size(); i++)
 		{
-			Shot shot = shots.get(i);
+			Shot shot = control.shots.get(i);
 			if(shot.goodTarget(this, 110))
 			{
 				closestDanger[0]+=shot.getX()*2;
@@ -237,15 +237,15 @@ public abstract class Enemy
 	}
 	protected boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{
-		return wallController.checkHitBack(X, Y, objectOnGround);
+		return control.checkHitBack(X, Y, objectOnGround);
 	}
 	protected boolean checkObstructionsPoint(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
-		return wallController.checkObstructionsPoint(x1, y1, x2, y2, objectOnGround, expand);
+		return control.checkObstructionsPoint(x1, y1, x2, y2, objectOnGround, expand);
 	}
 	protected boolean checkObstructions(double x1, double y1, double rads, int distance, boolean objectOnGround, int offset)
 	{
-		return wallController.checkObstructions(x1, y1, rads, distance, objectOnGround, offset);
+		return control.checkObstructions(x1, y1, rads, distance, objectOnGround, offset);
 	}
 	/**
 	 * Checks distance between two points
