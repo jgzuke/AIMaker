@@ -67,9 +67,9 @@ public abstract class Swordsman extends Enemy {
 	protected void meleeAttack(int damage, int range, int ahead)
 	{
 		boolean hitEnemy = false;
-		for(int i = 0; i < control.spriteController.enemies.size(); i++)
+		for(int i = 0; i < enemies.size(); i++)
 		{
-			Enemy enemy = control.spriteController.enemies.get(i);
+			Enemy enemy = enemies.get(i);
 			double distanceFound = checkDistance(getX() + Math.cos(getRads()) * ahead, getY() + Math.sin(getRads()) * ahead, enemy.getX(), enemy.getY());
 			if(distanceFound < range)
 			{
@@ -79,10 +79,10 @@ public abstract class Swordsman extends Enemy {
 		}
 		if(hitEnemy)
 		{
-			control.playEffect("sword2");
+			control.soundController.playEffect("sword2");
 		} else
 		{
-			control.playEffect("swordmiss");
+			control.soundController.playEffect("swordmiss");
 		}
 	}
 	

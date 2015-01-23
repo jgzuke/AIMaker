@@ -4,6 +4,7 @@
 package game;
 abstract public class Wall
 {
+	protected View control;
 	protected int playerRollWidth = 5;
 	protected int humanWidth = 10;
 	protected boolean tall;

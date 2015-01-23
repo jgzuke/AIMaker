@@ -39,6 +39,7 @@ import java.util.ArrayList;
 
 public final class WallController
 {
+	private View control;
 	protected boolean [][][] pathing; //x, y, isFree, left, right, up, down
 	private ArrayList<Wall_Rectangle> wallRects = new ArrayList<Wall_Rectangle>();
 	private ArrayList<Wall_Ring> wallRings = new ArrayList<Wall_Ring>();

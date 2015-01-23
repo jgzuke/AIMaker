@@ -12,17 +12,17 @@ public final class Shot
 	private double rotation;
 	private boolean deleted = false;
 	private byte team;
-	private ArrayList<Enemy> enemies;
 	private Enemy target;
 	private double rotChange = 3;
-	public Shot(double X, double Y, double Rotation, byte Team, ArrayList<Enemy> Enemies)
+	private View control;
+	public Shot(double X, double Y, double Rotation, byte Team, View c)
 	{
 		x=X;
 		y=Y;
 		rotation = Rotation;
 		rads=rads(Rotation);
 		team = Team;
-		enemies = Enemies;
+		control = c;
 	}
 	private double rads(double rotation)
 	{
@@ -45,22 +45,22 @@ public final class Shot
 		{
 			x += xForward/3;
 			y += yForward/3;
-			for(int j = 0; j < enemies.size(); j++)
+			for(int j = 0; j < control.spriteController.enemies.size(); j++)
 			{
-				if(enemies.get(j) != null)
+				if(control.spriteController.enemies.get(j) != null)
 				{
-					xDif = x - enemies.get(i).getX();
-					yDif = y - enemies.get(i).getY();
+					xDif = x - control.spriteController.enemies.get(i).getX();
+					yDif = y - control.spriteController.enemies.get(i).getY();
 					if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < 600)
 					{
-						spriteController.createAOE(x, y, team);
+						control.spriteController.createAOE(x, y, team);
 						deleted = true;
 					}
 				}
 			}
-			if(wallController.checkHitBack(x, y, false) && !deleted)
+			if(control.wallController.checkHitBack(x, y, false) && !deleted)
 			{
-				spriteController.createSafeAOE(x, y, team);
+				control.spriteController.createSafeAOE(x, y, team);
 				deleted = true;
 			}
 		}
@@ -87,11 +87,11 @@ public final class Shot
 			if(needToTurn>20||target.getDeleted()) target = null;
 		} else
 		{
-			for(int i = 0; i < enemies.size(); i++)
+			for(int i = 0; i < control.spriteController.enemies.size(); i++)
 			{
-				if(enemies.get(i) != null && !deleted)
+				if(control.spriteController.enemies.get(i) != null && !deleted)
 				{
-					if(goodTarget(enemies.get(i), 200)) target = enemies.get(i);
+					if(goodTarget(control.spriteController.enemies.get(i), 200)) target = control.spriteController.enemies.get(i);
 				}
 			}
 		}

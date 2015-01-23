@@ -15,6 +15,8 @@ public abstract class Enemy
 	private boolean deleted = false;
 	private byte team;
 	protected byte type;
+	protected ControlAccess control;
+	
 	
 	//ENEMY STUFF
 	
@@ -27,9 +29,6 @@ public abstract class Enemy
 	private double yMove = 0;
 	private double speedCur = 3;
 	private int runTimer;
-	private ArrayList<Enemy> enemies;
-	private ArrayList<AOE> aoes;
-	private ArrayList<Shot> shots;
 	protected String action = "Nothing"; //"Nothing", "Move", "Alert", "Shoot", "Melee", "Roll", "Hide", "Sheild", "Stun"
 
 	public Enemy(Packet p)
@@ -39,10 +38,8 @@ public abstract class Enemy
 		rotation = p.r;
 		rads=rads(p.r);
 		team = p.t;
-		enemies = p.e;
-		aoes = p.a;
-		shots = p.s;
 		type = p.ty;
+		control = p.c;
 	}
 	//SPRITE ACTIONS
 	

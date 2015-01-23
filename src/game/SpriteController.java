@@ -14,10 +14,12 @@ public final class SpriteController
 	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	ArrayList<AOE> aoes = new ArrayList<AOE>();
 	ArrayList<Shot> shots = new ArrayList<Shot>();
+	private View control;
 	public SpriteController(View Control)
 	{
 		makeEnemy(0, 100, 300, 0, 0);
 		makeEnemy(0, 500, 300, 180, 1);
+		control = Control;
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
@@ -71,7 +73,7 @@ public final class SpriteController
 	 */
 	protected void createShot(double rotation, double x, double y, byte Team)
 	{
-		shots.add(new Shot(x, y, rotation, Team, enemies));
+		shots.add(new Shot(x, y, rotation, Team, control));
 	}
 	protected void frameCall()
 	{

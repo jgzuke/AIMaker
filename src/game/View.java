@@ -11,6 +11,7 @@ public final class View extends JPanel implements ActionListener
 	Timer timer;
 	WallController wallController;
 	SpriteController spriteController;
+	SoundController soundController;
 	ImageLibrary imageLibrary;
 	int levelWidth = 600;
 	int levelHeight = 600;
@@ -25,12 +26,9 @@ public final class View extends JPanel implements ActionListener
 		imageLibrary = new ImageLibrary();
 		wallController = new WallController(this);
 		spriteController = new SpriteController(this);
+		soundController = new SoundController(this);
 		timer = new Timer(50, this);
 		timer.start();
-	}
-	public void playEffect(String effect)
-	{
-		//TODO
 	}
 	@Override
 	public void paintComponent(Graphics g)

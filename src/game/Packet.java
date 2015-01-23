@@ -1,24 +1,18 @@
 package game;
 
-import java.util.ArrayList;
-
 public final class Packet {
 	protected double x, y, r;
 	protected int h;
 	protected byte t;
 	protected byte ty;
-	protected ArrayList<Enemy> e;
-	protected ArrayList<AOE> a;
-	protected ArrayList<Shot> s;
-	public Packet(double X, double Y, double R, byte T, byte type, ArrayList<Enemy> E, ArrayList<AOE> A, ArrayList<Shot> S)
+	protected ControlAccess c;
+	public Packet(double X, double Y, double R, byte T, byte type, ControlAccess C)
 	{
 		x=X;
 		y=Y;
 		r=R;
 		t=T;
-		e=E;
-		a=A;
-		s=S;
+		c=C;
 		ty = type;
 		switch(type)
 		{
