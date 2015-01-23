@@ -1,9 +1,5 @@
 package game;
-import java.awt.*;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +11,9 @@ public final class ImageLibrary
 	BufferedImage [] cleric;
 	BufferedImage [] mage;
 	BufferedImage [] swordsman;
+	BufferedImage backBot;
+	BufferedImage backTop;
+	BufferedImage backTile;
 	public ImageLibrary()
 	{
 		BufferedImage [] Aoe = {loadImage("shootplayeraoe"), loadImage("shootenemyaoe")};
@@ -25,13 +24,16 @@ public final class ImageLibrary
 		cleric = loadSet("goblin_cleric", 32);
 		mage = loadSet("goblin_mage", 31);
 		swordsman = loadSet("goblin_swordsman", 55);
+		backBot = loadImage("level1");
+		backTop = loadImage("leveltop1");
+		backTile = loadImage("leveltile1");
 	}
 	public BufferedImage [] loadSet(String s, int length)
 	{
 		BufferedImage [] set = new BufferedImage[length];
 		for(int i = 0; i < length; i++)
 		{
-			set[i] = loadImage(s+correctDigits(i));
+			set[i] = loadImage(s+correctDigits(i+1));
 		}
 		return set;
 	}
@@ -42,7 +44,7 @@ public final class ImageLibrary
 	 */
 	protected String correctDigits(int start)
 	{
-		String end = Integer.toString(start);
+		String end = ""+start;
 		while(end.length() < 4)
 		{
 			end = "0" + end;

@@ -18,11 +18,13 @@ public final class SpriteController
 	public SpriteController(View Control)
 	{
 		control = Control;
-		
+		makeEnemy(0, 100, 300, 0, 0);
+		makeEnemy(0, 500, 300, 180, 1);
 	}
-	protected void makeEnemy(int type, int x, int y, int r, byte team)
+	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
-		switch(type)
+		byte team = (byte)t;
+		switch(team)
 		{
 		case 0:
 			switch(type)
@@ -73,29 +75,14 @@ public final class SpriteController
 	{
 		shots.add(new Shot(control, x, y, rotation, Team));
 	}
-	protected void drawSprites(Graphics g)
-	{
-		for(int i = 0; i < enemies.size(); i++)
-		{
-			//drawRotated(enemies.get(i), g, null);
-		}
-		for(int i = 0; i < aoes.size(); i++)
-		{
-			//drawRotated(AOEs.get(i), g, null);
-		}
-		for(int i = 0; i < shots.size(); i++)
-		{
-			//drawRotated(shots.get(i), g, null);
-		}
-	}
-	private void drawRotated(Sprite s, Graphics g, ImageObserver i)
+	private void drawRotated(Sprite s, Graphics g)
 	{
 		double rotationRequired = Math.toRadians(45);
 		double locationX = s.image.getWidth() / 2;
 		double locationY = s.image.getHeight() / 2;
 		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		g.drawImage(op.filter(s.image, null), (int)s.x, (int)s.y, i);
+		g.drawImage(op.filter(s.image, null), (int)s.x, (int)s.y, null);
 	}
 	protected void frameCall()
 	{

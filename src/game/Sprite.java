@@ -18,6 +18,7 @@ public abstract class Sprite
 	{
 		x=X;
 		y=Y;
+		rotation = Rotation;
 		rads=rads(Rotation);
 		images = Images;
 		image = Images[0];
