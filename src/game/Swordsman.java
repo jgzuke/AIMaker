@@ -1,13 +1,6 @@
 package game;
-
-import java.awt.image.BufferedImage;
-
-public abstract class Swordsman extends EnemyActions {
-	public Swordsman(View creator, double X, double Y, double R, int HP,
-			BufferedImage[] Images, byte Team) {
-		super(creator, X, Y, R, HP, Images, Team);
-		// TODO Auto-generated constructor stub
-	}
+public abstract class Swordsman extends Enemy {
+	public Swordsman(Packet p){super(p);}
 	@Override
 	protected void frameCall()
 	{
@@ -77,7 +70,7 @@ public abstract class Swordsman extends EnemyActions {
 		for(int i = 0; i < control.spriteController.enemies.size(); i++)
 		{
 			Enemy enemy = control.spriteController.enemies.get(i);
-			double distanceFound = checkDistance(x + Math.cos(rads) * ahead, y + Math.sin(rads) * ahead, enemy.x, enemy.y);
+			double distanceFound = checkDistance(getX() + Math.cos(getRads()) * ahead, getY() + Math.sin(getRads()) * ahead, enemy.getX(), enemy.getY());
 			if(distanceFound < range)
 			{
 				enemy.getHit((int)(damage));

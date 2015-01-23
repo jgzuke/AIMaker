@@ -14,32 +14,30 @@ public final class SpriteController
 	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	ArrayList<AOE> aoes = new ArrayList<AOE>();
 	ArrayList<Shot> shots = new ArrayList<Shot>();
-	View control;
 	public SpriteController(View Control)
 	{
-		control = Control;
 		makeEnemy(0, 100, 300, 0, 0);
 		makeEnemy(0, 500, 300, 180, 1);
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
-		byte team = (byte)t;
-		switch(team)
+		Packet p = new Packet(x, y, r, (byte)t, (byte)type, enemies, aoes, shots);
+		switch(t)
 		{
 		case 0:
 			switch(type)
 			{
 			case 0:
-				enemies.add(new Archer1(control, x, y, r, 3000, control.imageLibrary.archer, team)); //x, y, hp, sick, type is ImageIndex
+				enemies.add(new Archer1(p)); //x, y, hp, sick, type is ImageIndex
 				break;
 			case 1:
-				enemies.add(new Cleric1(control, x, y, r, 1700, control.imageLibrary.cleric, team));
+				enemies.add(new Cleric1(p));
 				break;
 			case 2:
-				enemies.add(new Mage1(control, x, y, r, 700, control.imageLibrary.mage, team));
+				enemies.add(new Mage1(p));
 				break;
 			case 3:
-				enemies.add(new Swordsman1(control, x, y, r, 1700, control.imageLibrary.swordsman, team));
+				enemies.add(new Swordsman1(p));
 				break;
 			}
 			break;
@@ -47,16 +45,16 @@ public final class SpriteController
 			switch(type)
 			{
 			case 0:
-				enemies.add(new Archer2(control, x, y, r, 3000, control.imageLibrary.archer, team)); //x, y, hp, sick, type is ImageIndex
+				enemies.add(new Archer2(p)); //x, y, hp, sick, type is ImageIndex
 				break;
 			case 1:
-				enemies.add(new Cleric2(control, x, y, r, 1700, control.imageLibrary.cleric, team));
+				enemies.add(new Cleric2(p));
 				break;
 			case 2:
-				enemies.add(new Mage2(control, x, y, r, 700, control.imageLibrary.mage, team));
+				enemies.add(new Mage2(p));
 				break;
 			case 3:
-				enemies.add(new Swordsman2(control, x, y, r, 1700, control.imageLibrary.swordsman, team));
+				enemies.add(new Swordsman2(p));
 				break;
 			}
 			break;
@@ -73,13 +71,25 @@ public final class SpriteController
 	 */
 	protected void createShot(double rotation, double x, double y, byte Team)
 	{
-		shots.add(new Shot(control, x, y, rotation, Team));
+		shots.add(new Shot(x, y, rotation, Team, enemies));
 	}
 	protected void frameCall()
 	{
-		for(int i = 0; i < enemies.size(); i++) enemies.get(i).enemyFrame();
-		for(int i = 0; i < aoes.size(); i++) aoes.get(i).frameCall();
-		for(int i = 0; i < shots.size(); i++) shots.get(i).frameCall();
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			if(enemies.get(i).getDeleted()) enemies.remove(i);
+			else enemies.get(i).enemyFrame();
+		}
+		for(int i = 0; i < aoes.size(); i++)
+		{
+			if(aoes.get(i).getDeleted()) aoes.remove(i);
+			else aoes.get(i).frameCall();
+		}
+		for(int i = 0; i < shots.size(); i++)
+		{
+			if(shots.get(i).getDeleted()) shots.remove(i);
+			else shots.get(i).frameCall();
+		}
 	}
 	/**
 	 * creates an emeny AOE explosion
@@ -90,10 +100,10 @@ public final class SpriteController
 	 */
 	protected void createAOE(double x, double y, byte Team)
 	{
-		aoes.add(new AOE(control, x, y, Team));
+		aoes.add(new AOE(x, y, Team, enemies));
 	}
 	protected void createSafeAOE(double x, double y, byte Team)
 	{
-		aoes.add(new AOE(control, x, y, Team));
+		aoes.add(new AOE(x, y, Team));
 	}
 }

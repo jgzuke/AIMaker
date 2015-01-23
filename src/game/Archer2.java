@@ -1,13 +1,9 @@
 package game;
 
-import java.awt.image.BufferedImage;
 
 public final class Archer2 extends Archer {
 
-	public Archer2(View creator, double X, double Y, double R, int HP,
-			BufferedImage[] Images, byte Team) {
-		super(creator, X, Y, R, HP, Images, Team);
-	}
+	public Archer2(Packet p){super(p);}
 
 	@Override
 	protected void shooting() {

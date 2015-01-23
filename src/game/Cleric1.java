@@ -1,14 +1,9 @@
 package game;
 
-import java.awt.image.BufferedImage;
 
 public final class Cleric1 extends Cleric {
 
-	public Cleric1(View creator, double X, double Y, double R, int HP,
-			BufferedImage[] Images, byte Team) {
-		super(creator, X, Y, R, HP, Images, Team);
-	}
-
+	public Cleric1(Packet p){super(p);}
 	@Override
 	protected void chooseAction() {
 		// TODO Auto-generated method stub
@@ -23,12 +18,6 @@ public final class Cleric1 extends Cleric {
 
 	@Override
 	protected void running() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void endRoll() {
 		// TODO Auto-generated method stub
 		
 	}

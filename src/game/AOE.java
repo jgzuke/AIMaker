@@ -1,34 +1,56 @@
 package game;
 
-public final class AOE extends Sprite
+import java.util.ArrayList;
+
+public final class AOE
 {
-	protected int frame = 0;
-	protected int radius = 10;
-	protected byte alpha = 120;
-	protected View control;
-	public AOE(View Control, double X, double Y, byte Team)
+	private int x;
+	private int y;
+	private boolean deleted = false;
+	private byte team;
+	private int radius = 10;
+	private byte alpha = 120;
+	private int timer = 0;
+	private ArrayList<Enemy> enemies;
+	public AOE(double X, double Y, byte Team, ArrayList<Enemy> Enemies)
 	{
-		super(X, Y, Control.getRandomInt(360), Control.imageLibrary.aoe[Team], Team);
-		control = Control;
+		x=(int)X;
+		y=(int)Y;
+		team = Team;
+		enemies = Enemies;
+	}
+	public AOE(double X, double Y, byte Team)
+	{
+		x=(int)X;
+		y=(int)Y;
+		team = Team;
+		enemies = new ArrayList<Enemy>();
 	}
 	protected void frameCall()
 	{
 		radius += 10;
-		alpha = (byte)(255 - (frame*20));
+		alpha = (byte)(255 - (timer*20));
 		double xDif;
 		double yDif;
-		if(frame==11) deleted = true;
-		for(int i = 0; i < control.spriteController.enemies.size(); i++)
+		if(timer==11) deleted = true;
+		for(int i = 0; i < enemies.size(); i++)
 		{
-			if(control.spriteController.enemies.get(i) != null)
+			if(enemies.get(i) != null)
 			{
-				xDif = x - control.spriteController.enemies.get(i).x;
-				yDif = y - control.spriteController.enemies.get(i).y;
+				xDif = getX() - enemies.get(i).getX();
+				yDif = getY() - enemies.get(i).getY();
 				if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < radius)
 				{
-					control.spriteController.enemies.get(i).getHit(60);
+					enemies.get(i).getHit(60);
 				}
 			}
 		}
+		timer++;
 	}
+	protected byte getTeam(){return team;}
+	protected int getX() { return x; }
+	protected int getY() { return y; }
+	protected int getRadius() { return radius; }
+	protected byte getAlpha() { return alpha; }
+	protected boolean getDeleted() { return deleted; }
 }

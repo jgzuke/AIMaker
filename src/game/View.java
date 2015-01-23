@@ -46,26 +46,56 @@ public final class View extends JPanel implements ActionListener
 		g.drawImage(imageLibrary.backBot, 0, 0, null);
 		for(int i = 0; i < spriteController.enemies.size(); i++)
 		{
-			drawRotated(spriteController.enemies.get(i), g);
+			drawEnemy(spriteController.enemies.get(i), g);
 		}
 		for(int i = 0; i < spriteController.aoes.size(); i++)
 		{
-			drawRotated(spriteController.aoes.get(i), g);
+			drawAOE(spriteController.aoes.get(i), g);
 		}
 		for(int i = 0; i < spriteController.shots.size(); i++)
 		{
-			drawRotated(spriteController.shots.get(i), g);
+			drawShot(spriteController.shots.get(i), g);
 		}
 		g.drawImage(imageLibrary.backTop, 0, 0, null);
 	}
-	private void drawRotated(Sprite s, Graphics g)
+	private void drawEnemy(Enemy s, Graphics g)
+	{
+		BufferedImage image = null;
+		switch(s.getType())
+		{
+		case 0:
+			image = imageLibrary.archer[s.frame];
+			break;
+		case 1:
+			image = imageLibrary.cleric[s.frame];
+			break;
+		case 2:
+			image = imageLibrary.mage[s.frame];
+			break;
+		case 3:
+			image = imageLibrary.swordsman[s.frame];
+			break;
+		}
+		drawRotated(s.getX(), s.getY(), s.getRotation(), image, g);
+	}
+	private void drawShot(Shot s, Graphics g)
+	{
+		BufferedImage image = imageLibrary.shot[s.getTeam()][(int)(Math.random()*5)];
+		drawRotated(s.getX(), s.getY(), s.getRotation(), image, g);
+	}
+	private void drawRotated(int x, int y, int r, BufferedImage image, Graphics g)
 	{
 		AffineTransform at = new AffineTransform();
-        at.translate(s.x, s.y);
-        at.rotate(Math.toRadians(s.rotation));
-        at.translate(-s.image.getWidth()/2, -s.image.getHeight()/2);
+        at.translate(x, y);
+        at.rotate(Math.toRadians(r));
+        at.translate(-image.getWidth()/2, -image.getHeight()/2);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(s.image, at, null);
+        g2d.drawImage(image, at, null);
+	}
+	private void drawAOE(AOE s, Graphics g)
+	{
+		int r = s.getRadius();
+		g.drawImage(imageLibrary.aoe[s.getTeam()], s.getX()-(r/2), s.getY()-(r/2), r, r, null);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)

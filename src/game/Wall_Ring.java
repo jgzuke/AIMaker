@@ -49,8 +49,8 @@ public class Wall_Ring extends Wall
 		{
 			if(enemies.get(i) != null)
 			{
-				double curX = enemies.get(i).x;
-				double curY = enemies.get(i).y;
+				double curX = enemies.get(i).getX();
+				double curY = enemies.get(i).getY();
 				xdif = oCX - curX;
 				ydif = oCY - curY;
 				rads = Math.atan2(ydif, xdif);
@@ -61,12 +61,10 @@ public class Wall_Ring extends Wall
 					{
 						if(dist<oCRSAve)
 						{
-							enemies.get(i).x = oCX - (Math.cos(rads) * oCRIn);
-							enemies.get(i).y = oCY - (Math.sin(rads) * oCRIn);
+							enemies.get(i).getPushed(oCX - (Math.cos(rads) * oCRIn), oCY - (Math.sin(rads) * oCRIn));
 						} else
 						{
-							enemies.get(i).x = oCX - (Math.cos(rads) * oCROut);
-							enemies.get(i).y = oCY - (Math.sin(rads) * oCROut);
+							enemies.get(i).getPushed(oCX - (Math.cos(rads) * oCROut), oCY - (Math.sin(rads) * oCROut));
 						}
 					}
 				}

@@ -3,16 +3,38 @@ package game;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public final class Shot extends Sprite
+public final class Shot
 {
-	protected View control;
-	private Sprite target;
+	private double x;
+	private double y;
+	private final double r2d = 180 / Math.PI;
+	private double rads;
+	private double rotation;
+	private boolean deleted = false;
+	private byte team;
+	private ArrayList<Enemy> enemies;
+	private Enemy target;
 	private double rotChange = 3;
-	public Shot(View Control, double X, double Y, double Rotation, byte Team)
+	public Shot(double X, double Y, double Rotation, byte Team, ArrayList<Enemy> Enemies)
 	{
-		super(X, Y, Rotation, Control.imageLibrary.shot[Team], Team);
-		control = Control;
+		x=X;
+		y=Y;
+		rotation = Rotation;
+		rads=rads(Rotation);
+		team = Team;
+		enemies = Enemies;
 	}
+	private double rads(double rotation)
+	{
+		return rotation/r2d;
+	}
+	protected int getX() { return (int)x; }
+	protected int getY() { return (int)y; }
+	protected int getRotation() { return (int)rotation; }
+	protected byte getTeam() { return team; }
+	protected boolean getDeleted() { return deleted; }
+	
+	
 	protected void frameCall()
 	{
 		double xForward = Math.cos(rads)*10;
@@ -23,29 +45,29 @@ public final class Shot extends Sprite
 		{
 			x += xForward/3;
 			y += yForward/3;
-			for(int j = 0; j < control.spriteController.enemies.size(); j++)
+			for(int j = 0; j < enemies.size(); j++)
 			{
-				if(control.spriteController.enemies.get(j) != null)
+				if(enemies.get(j) != null)
 				{
-					xDif = x - control.spriteController.enemies.get(i).x;
-					yDif = y - control.spriteController.enemies.get(i).y;
+					xDif = x - enemies.get(i).getX();
+					yDif = y - enemies.get(i).getY();
 					if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < 600)
 					{
-						control.spriteController.createAOE(x, y, team);
+						spriteController.createAOE(x, y, team);
 						deleted = true;
 					}
 				}
 			}
-			if(control.wallController.checkHitBack(x, y, false) && !deleted)
+			if(wallController.checkHitBack(x, y, false) && !deleted)
 			{
-				control.spriteController.createSafeAOE(x, y, team);
+				spriteController.createSafeAOE(x, y, team);
 				deleted = true;
 			}
 		}
 		if(target != null)
 		{
-			xDif = target.x-x;
-			yDif = target.y-y;
+			xDif = target.getX()-x;
+			yDif = target.getY()-y;
 			double newRotation = Math.atan2(yDif, xDif) * r2d;
 			double fix = compareRot(newRotation/r2d);
 			if(fix>rotChange/2)
@@ -62,29 +84,29 @@ public final class Shot extends Sprite
 			yForward = Math.sin(rotation/r2d) * 10;
 			double needToTurn = Math.abs(rotation-newRotation);
 			if(needToTurn>180) needToTurn = Math.abs(needToTurn-360);
-			if(needToTurn>20||target.deleted) target = null;
+			if(needToTurn>20||target.getDeleted()) target = null;
 		} else
 		{
-			for(int i = 0; i < control.spriteController.enemies.size(); i++)
+			for(int i = 0; i < enemies.size(); i++)
 			{
-				if(control.spriteController.enemies.get(i) != null && !deleted)
+				if(enemies.get(i) != null && !deleted)
 				{
-					if(goodTarget(control.spriteController.enemies.get(i), 200)) target = control.spriteController.enemies.get(i);
+					if(goodTarget(enemies.get(i), 200)) target = enemies.get(i);
 				}
 			}
 		}
 	}
-	protected boolean goodTarget(Sprite s, int d)
+	protected boolean goodTarget(Enemy enemy, int d)
 	{
-		double xDif = s.x-x;
-		double yDif = s.y-y;
+		double xDif = enemy.getX()-x;
+		double yDif = enemy.getY()-y;
 		double distance = Math.sqrt(Math.pow(xDif, 2)+Math.pow(yDif, 2));
 		double newRotation = Math.atan2(yDif, xDif) * r2d;
 		double needToTurn = Math.abs(rotation-newRotation);
 		if(needToTurn>180) needToTurn = 360-needToTurn;
 		return needToTurn<20&&distance<d;
 	}
-	public double compareRot(double newRotation)
+	private double compareRot(double newRotation)
 	{
 		newRotation*=r2d;
 		double fix = 400;

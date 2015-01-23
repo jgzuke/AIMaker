@@ -1,14 +1,6 @@
 package game;
-
-import java.awt.image.BufferedImage;
-
 public final class Swordsman2 extends Swordsman {
-
-	public Swordsman2(View creator, double X, double Y, double R, int HP,
-			BufferedImage[] Images, byte Team) {
-		super(creator, X, Y, R, HP, Images, Team);
-	}
-
+	public Swordsman2(Packet p){super(p);}
 	@Override
 	protected void endAttack() {
 		// TODO Auto-generated method stub

@@ -2,12 +2,10 @@ package game;
 
 import java.awt.image.BufferedImage;
 
-public abstract class Archer extends EnemyActions {
+public abstract class Archer extends Enemy {
 
-	public Archer(View creator, double X, double Y, double R, int HP,
-			BufferedImage[] Images, byte Team) {
-		super(creator, X, Y, R, HP, Images, Team);
-		// TODO Auto-generated constructor stub
+	public Archer(Packet p){
+		super(p);
 	}
 	
 	@Override
@@ -37,7 +35,7 @@ public abstract class Archer extends EnemyActions {
 		}
 		if(frame==36) // shoots
 		{
-			control.spriteController.createShot(rotation, x, y, team);
+			control.spriteController.createShot(getRotation(), getX(), getY(), getTeam());
 			control.playEffect("arrowrelease");
 			justShot();
 		}

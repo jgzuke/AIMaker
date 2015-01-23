@@ -49,71 +49,71 @@ public class Wall_Rectangle extends Wall
 		{
 			if(enemies.get(i) != null)
 			{
-				if(enemies.get(i).x > oRX1 && enemies.get(i).x < oRX2 && enemies.get(i).y > oRY1 && enemies.get(i).y < oRY2)
+				if(enemies.get(i).getX() > oRX1 && enemies.get(i).getX() < oRX2 && enemies.get(i).getY() > oRY1 && enemies.get(i).getY() < oRY2)
 				{
 						double holdX;
 						double holdY;
-						if(enemies.get(i).x > x)
+						if(enemies.get(i).getX() > x)
 						{
-							holdX = Math.abs(enemies.get(i).x - oRX2);
+							holdX = Math.abs(enemies.get(i).getX() - oRX2);
 						} else
 						{
-							holdX = Math.abs(enemies.get(i).x - oRX1);
+							holdX = Math.abs(enemies.get(i).getX() - oRX1);
 						}
-						if(enemies.get(i).y > y)
+						if(enemies.get(i).getY() > y)
 						{
-							holdY = Math.abs(enemies.get(i).y - oRY2);
+							holdY = Math.abs(enemies.get(i).getY() - oRY2);
 						} else
 						{
-							holdY = Math.abs(enemies.get(i).y - oRY1);
+							holdY = Math.abs(enemies.get(i).getY() - oRY1);
 						}
-						while(enemies.get(i).rotation<0) enemies.get(i).rotation+=360;
+						while(enemies.get(i).getRotation()<0) enemies.get(i).getPushedRot(360);
 						if((holdX) < (holdY))
 						{
-							if(enemies.get(i).x > x)
+							if(enemies.get(i).getX() > x)
 							{
-								enemies.get(i).x = oRX2;
-								if(enemies.get(i).rotation>90&&enemies.get(i).rotation<180)
+								enemies.get(i).getPushedX(oRX2);
+								if(enemies.get(i).getRotation()>90&&enemies.get(i).getRotation()<180)
 								{
-									enemies.get(i).rotation -=2;
+									enemies.get(i).getPushedRot(-2);
 								} else
 								{
-									enemies.get(i).rotation +=2;
+									enemies.get(i).getPushedRot(2);
 								}
 							}
 							else
 							{
-								enemies.get(i).x = oRX1;
-								if(enemies.get(i).rotation>0&&enemies.get(i).rotation<90)
+								enemies.get(i).getPushedX(oRX1);
+								if(enemies.get(i).getRotation()>0&&enemies.get(i).getRotation()<90)
 								{
-									enemies.get(i).rotation +=2;
+									enemies.get(i).getPushedRot(2);
 								} else
 								{
-									enemies.get(i).rotation -=2;
+									enemies.get(i).getPushedRot(-2);
 								}
 							}
 						} else
 						{
-							if(enemies.get(i).y > y)
+							if(enemies.get(i).getY() > y)
 							{
-								enemies.get(i).y = oRY2;
-								if(enemies.get(i).rotation>180&&enemies.get(i).rotation<270)
+								enemies.get(i).getPushedY(oRY2);
+								if(enemies.get(i).getRotation()>180&&enemies.get(i).getRotation()<270)
 								{
-									enemies.get(i).rotation -=2;
+									enemies.get(i).getPushedRot(-2);
 								} else
 								{
-									enemies.get(i).rotation +=2;
+									enemies.get(i).getPushedRot(2);
 								}
 							}
 							else
 							{
-								enemies.get(i).y = oRY1;
-								if(enemies.get(i).rotation>0&&enemies.get(i).rotation<90)
+								enemies.get(i).getPushedY(oRY1);
+								if(enemies.get(i).getRotation()>0&&enemies.get(i).getRotation()<90)
 								{
-									enemies.get(i).rotation -=2;
+									enemies.get(i).getPushedRot(-2);
 								} else
 								{
-									enemies.get(i).rotation +=2;
+									enemies.get(i).getPushedRot(2);
 								}
 							}
 						}

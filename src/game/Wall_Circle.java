@@ -44,13 +44,12 @@ public class Wall_Circle extends Wall
 		{
 			if(enemies.get(i) != null)
 			{
-				xdif = oCX - enemies.get(i).x;
-				ydif = oCY - enemies.get(i).y;
+				xdif = oCX - enemies.get(i).getX();
+				ydif = oCY - enemies.get(i).getY();
 				rads = Math.atan2(ydif, xdif);
 				if(Math.pow(xdif, 2) + Math.pow(ydif, 2) < oCRS)
 				{
-						enemies.get(i).x = oCX - (Math.cos(rads) * oCR);
-						enemies.get(i).y = oCY - (Math.sin(rads) * oCR);
+					enemies.get(i).getPushed(oCX - (Math.cos(rads) * oCR), oCY - (Math.sin(rads) * oCR));
 				}
 			}
 		}
