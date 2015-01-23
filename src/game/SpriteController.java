@@ -75,18 +75,9 @@ public final class SpriteController
 	{
 		shots.add(new Shot(control, x, y, rotation, Team));
 	}
-	private void drawRotated(Sprite s, Graphics g)
-	{
-		double rotationRequired = Math.toRadians(45);
-		double locationX = s.image.getWidth() / 2;
-		double locationY = s.image.getHeight() / 2;
-		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		g.drawImage(op.filter(s.image, null), (int)s.x, (int)s.y, null);
-	}
 	protected void frameCall()
 	{
-		for(int i = 0; i < enemies.size(); i++) enemies.get(i).frameCall();
+		for(int i = 0; i < enemies.size(); i++) enemies.get(i).enemyFrame();
 		for(int i = 0; i < aoes.size(); i++) aoes.get(i).frameCall();
 		for(int i = 0; i < shots.size(); i++) shots.get(i).frameCall();
 	}

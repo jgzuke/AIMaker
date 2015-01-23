@@ -60,12 +60,12 @@ public final class View extends JPanel implements ActionListener
 	}
 	private void drawRotated(Sprite s, Graphics g)
 	{
-		double rot = Math.toRadians(s.rotation);
-		double x = s.image.getWidth() / 2;
-		double y = s.image.getHeight() / 2;
-		AffineTransform tx = AffineTransform.getRotateInstance(rot, x, y);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		g.drawImage(op.filter(s.image, null), (int)s.x, (int)s.y, null);
+		AffineTransform at = new AffineTransform();
+        at.translate(s.x, s.y);
+        at.rotate(Math.toRadians(s.rotation));
+        at.translate(-s.image.getWidth()/2, -s.image.getHeight()/2);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(s.image, at, null);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)

@@ -7,14 +7,13 @@ public abstract class Enemy extends Sprite
 {
 	protected int hp;
 	protected int hpMax;
-	protected double speed;
 	protected View control;
 	protected int inDanger = 0;
 	protected double[] closestDanger = new double[2];
 	protected int radius = 20;
 	protected double xMove = 0;
 	protected double yMove = 0;
-	protected double speedCur = 0;
+	protected double speedCur = 3;
 	protected int runTimer;
 	protected String action = "Nothing"; //"Nothing", "Move", "Alert", "Shoot", "Melee", "Roll", "Hide", "Sheild", "Stun"
 
@@ -36,6 +35,10 @@ public abstract class Enemy extends Sprite
 			frameCall();
 		}
 		if(hp > hpMax) hp = hpMax;
+		if(x<10) x=10;
+		if(y<10) y=10;
+		if(x>control.levelWidth-10) x=control.levelWidth-10;
+		if(y>control.levelHeight-10) y=control.levelHeight-10;
 	}
 	/**
 	 * checks who else this guy is getting in the way of and pushes em

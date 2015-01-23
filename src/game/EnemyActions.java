@@ -41,14 +41,14 @@ public abstract class EnemyActions extends Enemy
 				}
 			}
 		}
-		run();
+		run(4);
 	}
 	/**
 	 * Runs in direction object is rotated for 10 frames
 	 */
-	protected void run()
+	protected void run(int i)
 	{
-		runTimer = 4;
+		runTimer = i;
 		action = "Run";
 		xMove = Math.cos(rads) * speedCur;
 		yMove = Math.sin(rads) * speedCur;
@@ -106,11 +106,11 @@ public abstract class EnemyActions extends Enemy
 				if(distance>radius+10) rotation += maxTurn; // turn away
 			}
 			rads = rotation / r2d;
-			run();
+			run(4);
 		} else
 		{
 			turnAround();
-			run();
+			run(4);
 		}
 	}
 	/**
@@ -155,7 +155,7 @@ public abstract class EnemyActions extends Enemy
 			}
 			rads = rotation / r2d;
 		}
-		run();
+		run(4);
 	}
 	protected void turnAround()
 	{
@@ -245,7 +245,7 @@ public abstract class EnemyActions extends Enemy
 			rads = Math.atan2(fy - y, fx - x);
 		}
 		rotation = rads * r2d;
-		run();
+		run(4);
 	}
 	private int iterateSearch(ArrayList<int[]> points, boolean[][] checked, int eX, int eY)
 	{
@@ -356,7 +356,7 @@ public abstract class EnemyActions extends Enemy
 				}
 			}
 		}
-		run();
+		run(4);
 	}
 	private boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{
