@@ -20,9 +20,9 @@ public final class SpriteController
 	/**
 	 * Initializes all undecided variables, loads level, creates player and enemy objects, and starts frameCaller
 	 */
-	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	ArrayList<AOE> aoes = new ArrayList<AOE>();
-	ArrayList<Shot> shots = new ArrayList<Shot>();
+	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	protected ArrayList<AOE> aoes = new ArrayList<AOE>();
+	protected ArrayList<Shot> shots = new ArrayList<Shot>();
 	private View control;
 	public SpriteController(View Control)
 	{
@@ -85,7 +85,7 @@ public final class SpriteController
 	 */
 	protected void createShot(double rotation, double x, double y, byte Team)
 	{
-		shots.add(new Shot(x, y, rotation, Team, control));
+		shots.add(new Shot(x, y, rotation, Team, control, enemies));
 	}
 	protected void frameCall()
 	{

@@ -48,6 +48,6 @@ public final class ControlAccess
 	}
 	protected void createShot(double rotation, double x, double y, byte Team)
 	{
-		//spriteController.createShot(rotation, x, y, Team);
+		spriteController.createShot(rotation, x, y, Team);
 	}
 }

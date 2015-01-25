@@ -15,7 +15,8 @@ public final class Shot
 	private Enemy target;
 	private double rotChange = 3;
 	private View control;
-	public Shot(double X, double Y, double Rotation, byte Team, View c)
+	private ArrayList<Enemy> enemies;
+	public Shot(double X, double Y, double Rotation, byte Team, View c, ArrayList<Enemy> Enemies)
 	{
 		x=X;
 		y=Y;
@@ -23,6 +24,7 @@ public final class Shot
 		rads=rads(Rotation);
 		team = Team;
 		control = c;
+		enemies = Enemies;
 	}
 	private double rads(double rotation)
 	{
@@ -41,21 +43,23 @@ public final class Shot
 		double yForward = Math.sin(rads)*10;
 		double xDif;
 		double yDif;
+		Enemy e;
 		for(int i = 0; i < 3; i++)
 		{
 			x += xForward/3;
 			y += yForward/3;
-			for(int j = 0; j < control.spriteController.enemies.size(); j++)
+			for(int j = 0; j < enemies.size(); j++)
 			{
-				if(control.spriteController.enemies.get(j) != null)
+				e=enemies.get(j);
+				if(e != null && e.getTeam() != team)
 				{
-					xDif = x - control.spriteController.enemies.get(i).getX();
-					yDif = y - control.spriteController.enemies.get(i).getY();
-					if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < 600)
-					{
-						control.spriteController.createAOE(x, y, team);
-						deleted = true;
-					}
+						xDif = x - e.getX();
+						yDif = y - e.getY();
+						if(Math.pow(xDif, 2) + Math.pow(yDif, 2) < 600)
+						{
+							control.spriteController.createAOE(x, y, team);
+							deleted = true;
+						}
 				}
 			}
 			if(control.wallController.checkHitBack(x, y, false) && !deleted)
@@ -87,11 +91,11 @@ public final class Shot
 			if(needToTurn>20||target.getDeleted()) target = null;
 		} else
 		{
-			for(int i = 0; i < control.spriteController.enemies.size(); i++)
+			for(int i = 0; i < enemies.size(); i++)
 			{
-				if(control.spriteController.enemies.get(i) != null && !deleted)
+				if(enemies.get(i) != null && !deleted && enemies.get(i).getTeam() != team)
 				{
-					if(goodTarget(control.spriteController.enemies.get(i), 200)) target = control.spriteController.enemies.get(i);
+					if(goodTarget(enemies.get(i), 200)) target = enemies.get(i);
 				}
 			}
 		}

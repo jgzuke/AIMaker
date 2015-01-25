@@ -35,7 +35,7 @@ public final class AOE
 		if(timer==11) deleted = true;
 		for(int i = 0; i < enemies.size(); i++)
 		{
-			if(enemies.get(i) != null)
+			if(enemies.get(i) != null && enemies.get(i).getTeam() != team)
 			{
 				xDif = getX() - enemies.get(i).getX();
 				yDif = getY() - enemies.get(i).getY();
