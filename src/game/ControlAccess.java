@@ -38,13 +38,9 @@ public final class ControlAccess
 	{
 		return wallController.checkHitBack(X, Y, objectOnGround);
 	}
-	public boolean checkObstructionsPoint(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
+	public boolean checkObstructions(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
-		return wallController.checkObstructionsPoint(x1, y1, x2, y2, objectOnGround, expand);
-	}
-	public boolean checkObstructions(double x1, double y1, double rads, int distance, boolean objectOnGround, int offset)
-	{
-		return wallController.checkObstructions(x1, y1, rads, distance, objectOnGround, offset);
+		return wallController.checkObstructions(x1, y1, x2, y2, objectOnGround, expand);
 	}
 	protected void createShot(double rotation, double x, double y, byte Team)
 	{

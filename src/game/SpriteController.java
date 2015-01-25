@@ -3,11 +3,9 @@ package game;
 import java.util.ArrayList;
 
 import team1.Archer1;
-import team1.Cleric1;
 import team1.Mage1;
 import team1.Swordsman1;
 import team2.Archer2;
-import team2.Cleric2;
 import team2.Mage2;
 import team2.Swordsman2;
 
@@ -17,7 +15,6 @@ public final class SpriteController
 	 * Initializes all undecided variables, loads level, creates player and enemy objects, and starts frameCaller
 	 */
 	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	private ArrayList<Enemy> dead = new ArrayList<Enemy>();
 	protected ArrayList<AOE> aoes = new ArrayList<AOE>();
 	protected ArrayList<Shot> shots = new ArrayList<Shot>();
 	private View control;
@@ -29,16 +26,14 @@ public final class SpriteController
 	{
 		makeEnemy(0, 50, 270, 0, 0);
 		makeEnemy(0, 50, 330, 0, 0);
-		makeEnemy(3, 100, 290, 0, 0);
-		makeEnemy(3, 100, 310, 0, 0);
-		makeEnemy(1, 40, 292, 0, 0);
-		makeEnemy(2, 40, 308, 0, 0);
+		makeEnemy(2, 100, 290, 0, 0);
+		makeEnemy(2, 100, 310, 0, 0);
+		makeEnemy(1, 40, 300, 0, 0);
 		makeEnemy(0, control.levelWidth-50, 290, 180, 1);
 		makeEnemy(0, control.levelWidth-50, 310, 180, 1);
-		makeEnemy(3, control.levelWidth-100, 270, 180, 1);
-		makeEnemy(3, control.levelWidth-100, 330, 180, 1);
-		makeEnemy(1, control.levelWidth-40, 292, 180, 1);
-		makeEnemy(2, control.levelWidth-40, 308, 180, 1);
+		makeEnemy(2, control.levelWidth-100, 270, 180, 1);
+		makeEnemy(2, control.levelWidth-100, 330, 180, 1);
+		makeEnemy(1, control.levelWidth-40, 300, 180, 1);
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
@@ -52,12 +47,9 @@ public final class SpriteController
 				enemies.add(new Archer1(p)); //x, y, hp, sick, type is ImageIndex
 				break;
 			case 1:
-				enemies.add(new Cleric1(p));
-				break;
-			case 2:
 				enemies.add(new Mage1(p));
 				break;
-			case 3:
+			case 2:
 				enemies.add(new Swordsman1(p));
 				break;
 			}
@@ -69,12 +61,9 @@ public final class SpriteController
 				enemies.add(new Archer2(p)); //x, y, hp, sick, type is ImageIndex
 				break;
 			case 1:
-				enemies.add(new Cleric2(p));
-				break;
-			case 2:
 				enemies.add(new Mage2(p));
 				break;
-			case 3:
+			case 2:
 				enemies.add(new Swordsman2(p));
 				break;
 			}

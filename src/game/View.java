@@ -2,6 +2,7 @@ package game;
 import java.awt.*;
 
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -32,6 +33,7 @@ public final class View extends JPanel implements ActionListener
 		soundController = new SoundController(this);
 		controlAccess = new ControlAccess(this);
 		spriteController.startRound();
+		wallController.loadLevel(0);
 		timer = new Timer(50, this);
 		timer.start();
 	}
@@ -61,6 +63,24 @@ public final class View extends JPanel implements ActionListener
 			drawAOE(spriteController.aoes.get(i), g2d);
 		}
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+		
+		int minX;
+		int minY;
+		Enemy e;
+		for(int i = 0; i < spriteController.enemies.size(); i++)
+		{
+			e=spriteController.enemies.get(i);
+			if(e != null)
+			{
+					minX = (int) e.getX() - 20;
+					minY = (int) e.getY() - 30;
+					g.setColor(Color.RED);
+					g.fillRect(minX, minY, (int)(40*e.getHealthFraction()), 10);
+					g.setColor(Color.BLACK);
+					g.drawRect(minX, minY, 40, 10);
+			}
+		}
+		
 		g.drawImage(imageLibrary.backTop, 0, 0, null);
 	}
 	
@@ -73,12 +93,9 @@ public final class View extends JPanel implements ActionListener
 			image = imageLibrary.archer[s.frame];
 			break;
 		case 1:
-			image = imageLibrary.cleric[s.frame];
-			break;
-		case 2:
 			image = imageLibrary.mage[s.frame];
 			break;
-		case 3:
+		case 2:
 			image = imageLibrary.swordsman[s.frame];
 			break;
 		}

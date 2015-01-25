@@ -56,6 +56,16 @@ public final class WallController
 	{
 		control = controlSet;
 	}
+	protected void loadLevel(int i)
+	{
+		clearWallArrays();
+		switch(i)
+		{
+			case 0:
+				makeWall_Rectangle(300, 0, 10, 600, true);
+				break;
+		}
+	}
 	protected void frameCall()
 	{
 		for(int i = 0; i < wallRects.size(); i++) wallRects.get(i).frameCall();
@@ -71,7 +81,6 @@ public final class WallController
 		wallRects.clear();
 		wallRings.clear();
 		wallCircles.clear();
-		//TODO
 	}
 	/**
 	 * creates a rectangle wall object
@@ -138,7 +147,7 @@ public final class WallController
 	 * @param y2 second y
 	 * @return whether it could travel between points
 	 */
-	protected boolean checkObstructionsPoint(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
+	protected boolean checkObstructions(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
 		expand /= 2;
 		if(x1 < 0 || x1 > control.levelWidth || y1 < 0 || y1 > control.levelHeight)
@@ -320,20 +329,6 @@ public final class WallController
 			}
 		}
 		return false;
-	}
-	/**
-	 * checks whether a projectile could travel along a given line
-	 * @param x1 start x
-	 * @param y1 start y
-	 * @param rads direction to travel
-	 * @param distance distance to travel
-	 * @return whether it could travel along the given line
-	 */
-	protected boolean checkObstructions(double x1, double y1, double rads, int distance, boolean objectOnGround, int offset)
-	{
-		double x2 = x1 + (Math.cos(rads) * distance);
-		double y2 = y1 + (Math.sin(rads) * distance);
-		return checkObstructionsPoint((float) x1, (float) y1, (float) x2, (float) y2, objectOnGround, offset);
 	}
 	/**x
 	 * checks whether a given point hits any obstacles

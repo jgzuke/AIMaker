@@ -18,10 +18,10 @@ public abstract class Enemy
 	protected final ControlAccess control;
 	
 	
-	protected int numEnemies;
-	protected int numAllies;
-	protected int numShots;
-	protected int numExplosions;
+	protected int numEnemiesInSight;
+	protected int numAlliesInSight;
+	protected int numShotsInSight;
+	protected int numExplosionsInSight;
 	protected List<Integer> enemyX = new ArrayList<>();
 	protected List<Integer> enemyY = new ArrayList<>();
 	protected List<Byte> enemyTeam = new ArrayList<>();
@@ -31,7 +31,8 @@ public abstract class Enemy
 	protected List<Byte> allyType = new ArrayList<>();
 	protected List<Integer> shotX = new ArrayList<>();
 	protected List<Integer> shotY = new ArrayList<>();
-	protected List<Integer> shotRotations = new ArrayList<>();
+	protected List<Double> shotXVelocity = new ArrayList<>();
+	protected List<Double> shotYVelocity = new ArrayList<>();
 	protected List<Integer> explosionX = new ArrayList<>();
 	protected List<Integer> explosionY = new ArrayList<>();
 	protected List<Integer> explosionSize = new ArrayList<>();
@@ -68,6 +69,7 @@ public abstract class Enemy
 	}
 	protected double getRads() { return rads; }
 	public int getX() { return (int)x; }
+	protected double getHealthFraction() { return (double)hp/hpMax; }
 	public int getY() { return (int)y; }
 	public int getRotation() { return (int)rotation; }
 	public byte getTeam() { return team; }
@@ -102,8 +104,8 @@ public abstract class Enemy
 	}
 	private void setEnemyInfo()
 	{
-		numEnemies = 0;
-		numAllies = 0;
+		numEnemiesInSight = 0;
+		numAlliesInSight = 0;
 		Enemy e;
 		enemyX.clear();
 		enemyY.clear();
@@ -115,38 +117,46 @@ public abstract class Enemy
 		for(int i = 0; i < control.enemies.size(); i++)
 		{
 			e=control.enemies.get(i);
-			if(e.getTeam() != team)
+			if(!checkObstructions(e.getX(), e.getY(), (int)x, (int)y, false, 10))
 			{
-				enemyX.add(e.getX());
-				enemyY.add(e.getY());
-				enemyTeam.add(e.getTeam());
-				enemyType.add(e.getType());
-				numEnemies++;
-			} else
-			{
-				allyX.add(e.getX());
-				allyY.add(e.getY());
-				allyType.add(e.getType());
-				numAllies++;
+				if(e.getTeam() != team)
+				{
+					enemyX.add(e.getX());
+					enemyY.add(e.getY());
+					enemyTeam.add(e.getTeam());
+					enemyType.add(e.getType());
+					numEnemiesInSight++;
+				} else
+				{
+					allyX.add(e.getX());
+					allyY.add(e.getY());
+					allyType.add(e.getType());
+					numAlliesInSight++;
+				}
 			}
 		}
-		numShots = 0;
+		numShotsInSight = 0;
 		Shot s;
 		shotX.clear();
 		shotY.clear();
-		shotRotations.clear();
+		shotXVelocity.clear();
+		shotYVelocity.clear();
 		for(int i = 0; i < control.shots.size(); i++)
 		{
 			s=control.shots.get(i);
 			if(s.getTeam() != team)
 			{
-				shotX.add(s.getX());
-				shotY.add(s.getY());
-				shotRotations.add(s.getRotation());
-				numShots++;
+				if(!checkObstructions(s.getX(), s.getY(), (int)x, (int)y, false, 10))
+				{
+					shotX.add(s.getX());
+					shotY.add(s.getY());
+					shotXVelocity.add(s.getXVelocity());
+					shotYVelocity.add(s.getYVelocity());
+					numShotsInSight++;
+				}
 			}
 		}
-		numExplosions = 0;
+		numExplosionsInSight = 0;
 		AOE ex;
 		explosionX.clear();
 		explosionY.clear();
@@ -156,10 +166,13 @@ public abstract class Enemy
 			ex=control.aoes.get(i);
 			if(ex.getTeam() != team)
 			{
-				explosionX.add(ex.getX());
-				explosionY.add(ex.getY());
-				explosionSize.add(ex.getRadius());
-				numExplosions++;
+				if(!checkObstructions(ex.getX(), ex.getY(), (int)x, (int)y, false, 10))
+				{
+					explosionX.add(ex.getX());
+					explosionY.add(ex.getY());
+					explosionSize.add(ex.getRadius());
+					numExplosionsInSight++;
+				}
 			}
 		}
 	}
@@ -294,13 +307,9 @@ public abstract class Enemy
 	{
 		return control.checkHitBack(X, Y, objectOnGround);
 	}
-	protected boolean checkObstructionsPoint(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
+	protected boolean checkObstructions(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
-		return control.checkObstructionsPoint(x1, y1, x2, y2, objectOnGround, expand);
-	}
-	protected boolean checkObstructions(double x1, double y1, double rads, int distance, boolean objectOnGround, int offset)
-	{
-		return control.checkObstructions(x1, y1, rads, distance, objectOnGround, offset);
+		return control.checkObstructions(x1, y1, x2, y2, objectOnGround, expand);
 	}
 	/**
 	 * Checks distance between two points

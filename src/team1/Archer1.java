@@ -11,21 +11,23 @@ public final class Archer1 extends Archer {
 	 * AVALIABLE ACTIONS
 	 * run(i);	runs forward for i frames
 	 * roll(); rolls forward
-	 * 
-	 * 
+	 * turnToward(x, y); turns towards those coordinates
+	 * shoot(); shoots a bullet
+	 * shootAgain(); if called in justShot(), shoots again
 	 * 
 	 * AVALIABLE VARIABLES
 	 * 
 	 * 
+	 * 
 	 * UTILITY FUNCTIONS
 	 * checkHitBack(x, y, grounded)
-	 * checkObstructionsPoint(x, y, x2, y2, grounded, expand)
+	 * checkObstructions(x, y, x2, y2, grounded, expand)
 	 * checkDistance(x, y, x2, y2)
 	 */
 	
 	@Override
 	protected void chooseAction() {
-		for(int i = 0; i < numEnemies; i++)
+		for(int i = 0; i < numEnemiesInSight; i++)
 		{
 			if(checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY())<400)
 			{
