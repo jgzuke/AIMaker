@@ -10,4 +10,8 @@ public abstract class Cleric extends Enemy {
 	{
 		chooseAction();
 	}
+	protected boolean canHeal(Enemy s)
+	{
+		return checkDistance(getX(), getY(), s.getX(), s.getY())<100;
+	}
 }

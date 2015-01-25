@@ -23,7 +23,11 @@ public abstract class Archer extends Enemy {
 	abstract protected void shooting();
 	abstract protected void endShot();
 	abstract protected void justShot();
-	
+	protected void shoot()
+	{
+		action = "Shoot";
+		frame = 20;
+	}
 	protected void baseShooting()
 	{
 		frame++;

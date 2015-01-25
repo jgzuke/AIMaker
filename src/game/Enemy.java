@@ -219,11 +219,14 @@ public abstract class Enemy
 	 */
 	protected void roll()
 	{
-		frame = 20;
-		action = "Roll";
-		rotation = rads * r2d;
-		xMove = Math.cos(rads) * 8;
-		yMove = Math.sin(rads) * 8;
+		if(type==2)
+		{
+			frame = 20;
+			action = "Roll";
+			rotation = rads * r2d;
+			xMove = Math.cos(rads) * 8;
+			yMove = Math.sin(rads) * 8;
+		}
 	}
 	protected void turnToward(double X, double Y)
 	{

@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.image.BufferedImage;
-
 public final class Archer1 extends Archer {
 
 	public Archer1(Packet p){super(p);}
@@ -23,7 +21,7 @@ public final class Archer1 extends Archer {
 	
 	@Override
 	protected void chooseAction() {
-		
+		run(4);
 	}
 	
 	@Override

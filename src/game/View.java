@@ -25,10 +25,12 @@ public final class View extends JPanel implements ActionListener
 		setMinimumSize(new Dimension(levelWidth, levelHeight));
 		setPreferredSize(new Dimension(levelWidth, levelHeight));
 		imageLibrary = new ImageLibrary();
+		
 		wallController = new WallController(this);
 		spriteController = new SpriteController(this);
 		soundController = new SoundController(this);
 		controlAccess = new ControlAccess(this);
+		spriteController.startRound();
 		timer = new Timer(50, this);
 		timer.start();
 	}

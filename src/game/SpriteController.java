@@ -17,9 +17,12 @@ public final class SpriteController
 	private View control;
 	public SpriteController(View Control)
 	{
+		control = Control;
+	}
+	protected void startRound()
+	{
 		makeEnemy(0, 100, 300, 0, 0);
 		makeEnemy(0, 500, 300, 180, 1);
-		control = Control;
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
