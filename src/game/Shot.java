@@ -84,8 +84,7 @@ public final class Shot
 			{
 				rotation += fix;
 			}
-			xForward = Math.cos(rotation/r2d) * 10;
-			yForward = Math.sin(rotation/r2d) * 10;
+			rads = rotation/r2d;
 			double needToTurn = Math.abs(rotation-newRotation);
 			if(needToTurn>180) needToTurn = Math.abs(needToTurn-360);
 			if(needToTurn>20||target.getDeleted()) target = null;

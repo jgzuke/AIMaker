@@ -2,7 +2,7 @@ package game;
 
 public final class Packet {
 	protected double x, y, r;
-	protected int h;
+	protected int h = 700;
 	protected byte t;
 	protected byte ty;
 	protected ControlAccess c;

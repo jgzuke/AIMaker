@@ -1,9 +1,5 @@
 package game;
 
-import java.awt.Graphics;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 import team1.Archer1;
@@ -21,6 +17,7 @@ public final class SpriteController
 	 * Initializes all undecided variables, loads level, creates player and enemy objects, and starts frameCaller
 	 */
 	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<Enemy> dead = new ArrayList<Enemy>();
 	protected ArrayList<AOE> aoes = new ArrayList<AOE>();
 	protected ArrayList<Shot> shots = new ArrayList<Shot>();
 	private View control;
@@ -30,8 +27,18 @@ public final class SpriteController
 	}
 	protected void startRound()
 	{
-		makeEnemy(0, 100, 300, 0, 0);
-		makeEnemy(0, 500, 300, 180, 1);
+		makeEnemy(0, 50, 270, 0, 0);
+		makeEnemy(0, 50, 330, 0, 0);
+		makeEnemy(3, 100, 290, 0, 0);
+		makeEnemy(3, 100, 310, 0, 0);
+		makeEnemy(1, 40, 292, 0, 0);
+		makeEnemy(2, 40, 308, 0, 0);
+		makeEnemy(0, control.levelWidth-50, 290, 180, 1);
+		makeEnemy(0, control.levelWidth-50, 310, 180, 1);
+		makeEnemy(3, control.levelWidth-100, 270, 180, 1);
+		makeEnemy(3, control.levelWidth-100, 330, 180, 1);
+		makeEnemy(1, control.levelWidth-40, 292, 180, 1);
+		makeEnemy(2, control.levelWidth-40, 308, 180, 1);
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
@@ -89,11 +96,6 @@ public final class SpriteController
 	}
 	protected void frameCall()
 	{
-		for(int i = 0; i < enemies.size(); i++)
-		{
-			if(enemies.get(i).getDeleted()) enemies.remove(i);
-			else enemies.get(i).enemyFrame();
-		}
 		for(int i = 0; i < aoes.size(); i++)
 		{
 			if(aoes.get(i).getDeleted()) aoes.remove(i);
@@ -104,6 +106,34 @@ public final class SpriteController
 			if(shots.get(i).getDeleted()) shots.remove(i);
 			else shots.get(i).frameCall();
 		}
+		int [] count = new int [4];
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			if(enemies.get(i).getDeleted())
+			{
+				enemies.remove(i);
+			} else
+			{
+				enemies.get(i).enemyFrame();
+				count[enemies.get(i).getTeam()]++;
+			}
+		}
+		int teamsAlive = 0;
+		for(int i = 0; i < 4; i++)
+		{
+			if(count[i] != 0) teamsAlive++;
+		}
+		if(teamsAlive<2)
+		{
+			restartGame();
+		}
+	}
+	private void restartGame()
+	{
+		enemies.clear();
+		shots.clear();
+		aoes.clear();
+		startRound();
 	}
 	/**
 	 * creates an emeny AOE explosion

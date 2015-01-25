@@ -52,6 +52,8 @@ public abstract class Enemy
 	{
 		x=p.x;
 		y=p.y;
+		hp = p.h;
+		hpMax = p.h;
 		rotation = p.r;
 		rads=rads(p.r);
 		team = p.t;

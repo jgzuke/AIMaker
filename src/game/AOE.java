@@ -9,7 +9,7 @@ public final class AOE
 	private boolean deleted = false;
 	private byte team;
 	private int radius = 10;
-	private byte alpha = 120;
+	private float alpha = 0.8f;
 	private int timer = 0;
 	private ArrayList<Enemy> enemies;
 	public AOE(double X, double Y, byte Team, ArrayList<Enemy> Enemies)
@@ -29,19 +29,24 @@ public final class AOE
 	protected void frameCall()
 	{
 		radius += 10;
-		alpha = (byte)(255 - (timer*20));
+		alpha -= 0.087;
 		double xDif;
 		double yDif;
-		if(timer==11) deleted = true;
-		for(int i = 0; i < enemies.size(); i++)
+		if(timer>7)
 		{
-			if(enemies.get(i) != null && enemies.get(i).getTeam() != team)
+			deleted = true;
+		} else
+		{
+			for(int i = 0; i < enemies.size(); i++)
 			{
-				xDif = getX() - enemies.get(i).getX();
-				yDif = getY() - enemies.get(i).getY();
-				if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < radius)
+				if(enemies.get(i) != null && enemies.get(i).getTeam() != team)
 				{
-					enemies.get(i).getHit(60);
+					xDif = getX() - enemies.get(i).getX();
+					yDif = getY() - enemies.get(i).getY();
+					if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < radius)
+					{
+						enemies.get(i).getHit(60);
+					}
 				}
 			}
 		}
@@ -51,6 +56,6 @@ public final class AOE
 	protected int getX() { return x; }
 	protected int getY() { return y; }
 	protected int getRadius() { return radius; }
-	protected byte getAlpha() { return alpha; }
+	protected float getAlpha() { return alpha; }
 	protected boolean getDeleted() { return deleted; }
 }
