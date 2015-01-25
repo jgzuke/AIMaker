@@ -1,7 +1,7 @@
 package game;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Enemy
 {
@@ -14,16 +14,33 @@ public abstract class Enemy
 	private double rotation;
 	private boolean deleted = false;
 	private byte team;
-	protected byte type;
-	protected ControlAccess control;
+	private byte type;
+	protected final ControlAccess control;
+	
+	
+	protected int numEnemies;
+	protected int numAllies;
+	protected int numShots;
+	protected int numExplosions;
+	protected List<Integer> enemyX = new ArrayList<>();
+	protected List<Integer> enemyY = new ArrayList<>();
+	protected List<Byte> enemyTeam = new ArrayList<>();
+	protected List<Byte> enemyType = new ArrayList<>();
+	protected List<Integer> allyX = new ArrayList<>();
+	protected List<Integer> allyY = new ArrayList<>();
+	protected List<Byte> allyType = new ArrayList<>();
+	protected List<Integer> shotX = new ArrayList<>();
+	protected List<Integer> shotY = new ArrayList<>();
+	protected List<Integer> shotRotations = new ArrayList<>();
+	protected List<Integer> explosionX = new ArrayList<>();
+	protected List<Integer> explosionY = new ArrayList<>();
+	protected List<Integer> explosionSize = new ArrayList<>();
 	
 	
 	//ENEMY STUFF
 	
 	private int hp;
 	private int hpMax;
-	protected int inDanger = 0;
-	protected double[] closestDanger = new double[2];
 	private int radius = 20;
 	private double xMove = 0;
 	private double yMove = 0;
@@ -48,12 +65,12 @@ public abstract class Enemy
 		return rotation/r2d;
 	}
 	protected double getRads() { return rads; }
-	protected int getX() { return (int)x; }
-	protected int getY() { return (int)y; }
-	protected int getRotation() { return (int)rotation; }
-	protected byte getTeam() { return team; }
-	protected byte getType() { return type; }
-	protected boolean getDeleted() { return deleted; }
+	public int getX() { return (int)x; }
+	public int getY() { return (int)y; }
+	public int getRotation() { return (int)rotation; }
+	public byte getTeam() { return team; }
+	public byte getType() { return type; }
+	public boolean getDeleted() { return deleted; }
 	
 	
 	
@@ -72,13 +89,77 @@ public abstract class Enemy
 			baseRolling();
 		} else 
 		{
+			setEnemyInfo();
 			frameCall();
 		}
 		if(hp > hpMax) hp = hpMax;
 		if(x<10) x=10;
 		if(y<10) y=10;
-		if(x>790) x=790;
-		if(y>790) y=790;
+		if(x>control.getLevelWidth()-10) x=control.getLevelWidth()-10;
+		if(y>control.getLevelHeight()-10) y=control.getLevelHeight()-10;
+	}
+	private void setEnemyInfo()
+	{
+		numEnemies = 0;
+		numAllies = 0;
+		Enemy e;
+		enemyX.clear();
+		enemyY.clear();
+		enemyTeam.clear();
+		enemyType.clear();
+		allyX.clear();
+		allyY.clear();
+		allyType.clear();
+		for(int i = 0; i < control.enemies.size(); i++)
+		{
+			e=control.enemies.get(i);
+			if(e.getTeam() != team)
+			{
+				enemyX.add(e.getX());
+				enemyY.add(e.getY());
+				enemyTeam.add(e.getTeam());
+				enemyType.add(e.getType());
+				numEnemies++;
+			} else
+			{
+				allyX.add(e.getX());
+				allyY.add(e.getY());
+				allyType.add(e.getType());
+				numAllies++;
+			}
+		}
+		numShots = 0;
+		Shot s;
+		shotX.clear();
+		shotY.clear();
+		shotRotations.clear();
+		for(int i = 0; i < control.shots.size(); i++)
+		{
+			s=control.shots.get(i);
+			if(s.getTeam() != team)
+			{
+				shotX.add(s.getX());
+				shotY.add(s.getY());
+				shotRotations.add(s.getRotation());
+				numShots++;
+			}
+		}
+		numExplosions = 0;
+		AOE ex;
+		explosionX.clear();
+		explosionY.clear();
+		explosionSize.clear();
+		for(int i = 0; i < control.aoes.size(); i++)
+		{
+			ex=control.aoes.get(i);
+			if(ex.getTeam() != team)
+			{
+				explosionX.add(ex.getX());
+				explosionY.add(ex.getY());
+				explosionSize.add(ex.getRadius());
+				numExplosions++;
+			}
+		}
 	}
 	/**
 	 * checks who else this guy is getting in the way of and pushes em
@@ -139,37 +220,6 @@ public abstract class Enemy
 			hp -= damage;
 			if(hp < 1) deleted = true;
 		}
-	}
-	/**
-	 * Checks whether any Proj_Trackers are headed for object
-	 */
-	private void checkDanger()
-	{   
-		inDanger = 0;
-		closestDanger[0] = 0;
-		closestDanger[1] = 0;
-		for(int i = 0; i < control.aoes.size(); i++)
-		{
-			AOE aoe = control.aoes.get(i);
-			if(Math.pow(x-aoe.getX(), 2)+Math.pow(y-aoe.getY(), 2)<Math.pow(aoe.getRadius()+20, 2))
-			{
-				closestDanger[0]+=aoe.getX();
-				closestDanger[1]+=aoe.getY();
-				inDanger++;
-			}
-		}
-		for(int i = 0; i < control.shots.size(); i++)
-		{
-			Shot shot = control.shots.get(i);
-			if(shot.goodTarget(this, 110))
-			{
-				closestDanger[0]+=shot.getX()*2;
-				closestDanger[1]+=shot.getY()*2;
-				inDanger+=2;
-			}
-		}
-		closestDanger[0]/=inDanger;
-		closestDanger[1]/=inDanger;
 	}
 	private void baseRunning()
 	{

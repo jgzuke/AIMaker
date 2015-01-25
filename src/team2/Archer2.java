@@ -1,26 +1,28 @@
-package game;
-public final class Swordsman2 extends Swordsman {
-	public Swordsman2(Packet p){super(p);}
+package team2;
+
+import game.Packet;
+import game.Archer;
+
+
+
+public final class Archer2 extends Archer {
+
+	public Archer2(Packet p){super(p);}
+
 	@Override
-	protected void endAttack() {
+	protected void shooting() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void endBlock() {
+	protected void endShot() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void attacking() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void blocking() {
+	protected void justShot() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -42,4 +44,5 @@ public final class Swordsman2 extends Swordsman {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

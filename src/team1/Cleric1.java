@@ -1,6 +1,12 @@
-package game;
-public final class Mage2 extends Mage {
-	public Mage2(Packet p){super(p);}
+package team1;
+
+import game.Cleric;
+import game.Packet;
+
+
+public final class Cleric1 extends Cleric {
+
+	public Cleric1(Packet p){super(p);}
 	@Override
 	protected void chooseAction() {
 		// TODO Auto-generated method stub

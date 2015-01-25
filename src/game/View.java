@@ -38,9 +38,9 @@ public final class View extends JPanel implements ActionListener
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		for(int i = 0; i<8; i++)
+		for(int i = 0; i<=levelWidth/100; i++)
 		{
-			for(int j = 0; j<8; j++)
+			for(int j = 0; j<=levelWidth/100; j++)
 			{
 				g.drawImage(imageLibrary.backTile, i*100, j*100, null);
 			}
@@ -60,6 +60,7 @@ public final class View extends JPanel implements ActionListener
 		}
 		g.drawImage(imageLibrary.backTop, 0, 0, null);
 	}
+	
 	private void drawEnemy(Enemy s, Graphics g)
 	{
 		BufferedImage image = null;

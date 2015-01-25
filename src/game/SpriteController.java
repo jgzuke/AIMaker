@@ -6,6 +6,15 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
+import team1.Archer1;
+import team1.Cleric1;
+import team1.Mage1;
+import team1.Swordsman1;
+import team2.Archer2;
+import team2.Cleric2;
+import team2.Mage2;
+import team2.Swordsman2;
+
 public final class SpriteController
 {
 	/**

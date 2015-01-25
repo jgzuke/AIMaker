@@ -21,24 +21,33 @@ public final class ControlAccess
 		aoes = spriteController.aoes;
 		shots = spriteController.shots;
 	}
-	public void playEffect(String effect)
+	
+	public int getLevelWidth()
+	{
+		return control.levelWidth;
+	}
+	public int getLevelHeight()
+	{
+		return control.levelHeight;
+	}
+	protected void playEffect(String effect)
 	{
 		soundController.playEffect(effect);
 	}
-	protected boolean checkHitBack(double X, double Y, boolean objectOnGround)
+	public boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{
 		return wallController.checkHitBack(X, Y, objectOnGround);
 	}
-	protected boolean checkObstructionsPoint(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
+	public boolean checkObstructionsPoint(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
 		return wallController.checkObstructionsPoint(x1, y1, x2, y2, objectOnGround, expand);
 	}
-	protected boolean checkObstructions(double x1, double y1, double rads, int distance, boolean objectOnGround, int offset)
+	public boolean checkObstructions(double x1, double y1, double rads, int distance, boolean objectOnGround, int offset)
 	{
 		return wallController.checkObstructions(x1, y1, rads, distance, objectOnGround, offset);
 	}
 	protected void createShot(double rotation, double x, double y, byte Team)
 	{
-		spriteController.createShot(rotation, x, y, Team);
+		//spriteController.createShot(rotation, x, y, Team);
 	}
 }

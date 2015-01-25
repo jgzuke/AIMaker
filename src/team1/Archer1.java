@@ -1,4 +1,8 @@
-package game;
+package team1;
+
+import game.Archer;
+import game.Enemy;
+import game.Packet;
 
 public final class Archer1 extends Archer {
 
@@ -21,7 +25,20 @@ public final class Archer1 extends Archer {
 	
 	@Override
 	protected void chooseAction() {
-		run(4);
+		for(int i = 0; i < numEnemies; i++)
+		{
+			if(checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY())<400)
+			{
+				turnToward(enemyX.get(i), enemyY.get(i));
+				shoot();
+				break;
+			} else
+			{
+				turnToward(enemyX.get(i), enemyY.get(i));
+				run(4);
+				break;
+			}
+		}
 	}
 	
 	@Override

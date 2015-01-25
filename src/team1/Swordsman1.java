@@ -1,4 +1,8 @@
-package game;
+package team1;
+
+import game.Packet;
+import game.Swordsman;
+
 public final class Swordsman1 extends Swordsman {
 	public Swordsman1(Packet p){super(p);}
 	@Override
