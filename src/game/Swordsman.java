@@ -42,7 +42,7 @@ public abstract class Swordsman extends Enemy {
 	private void baseAttacking()
 	{
 		frame++;
-		if(frame==27 || frame==37) meleeAttack(200, 20, 10);
+		if(frame==27 || frame==37) meleeAttack(50, 20, 10);
 		if(frame==45)
 		{
 			action = "Nothing";	//attack over
@@ -76,7 +76,7 @@ public abstract class Swordsman extends Enemy {
 		for(int i = 0; i < control.enemies.size(); i++)
 		{
 			Enemy enemy = control.enemies.get(i);
-			double distanceFound = checkDistance(getX() + Math.cos(getRads()) * ahead, getY() + Math.sin(getRads()) * ahead, enemy.getX(), enemy.getY());
+			double distanceFound = distance(getX() + Math.cos(getRads()) * ahead, getY() + Math.sin(getRads()) * ahead, enemy.getX(), enemy.getY());
 			if(distanceFound < range)
 			{
 				enemy.getHit((int)(damage));

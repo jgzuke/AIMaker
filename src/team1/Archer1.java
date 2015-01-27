@@ -7,30 +7,13 @@ import game.Packet;
 public final class Archer1 extends Archer {
 
 	public Archer1(Packet p){super(p);}
-	/*
-	 * AVALIABLE ACTIONS
-	 * run(i);	runs forward for i frames
-	 * roll(); rolls forward
-	 * turnToward(x, y); turns towards those coordinates
-	 * shoot(); shoots a bullet
-	 * shootAgain(); if called in justShot(), shoots again
-	 * 
-	 * AVALIABLE VARIABLES
-	 * 
-	 * 
-	 * 
-	 * UTILITY FUNCTIONS
-	 * checkHitBack(x, y, grounded)
-	 * checkObstructions(x, y, x2, y2, grounded, expand)
-	 * checkDistance(x, y, x2, y2)
-	 */
 	@Override
 	protected void chooseAction()
 	{
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<400)
+			if(distanceToEnemy(closestEnemy)<400)
 			{
 				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				shoot();
@@ -47,7 +30,7 @@ public final class Archer1 extends Archer {
 		int enemy = -1;
 		for(int i = 0; i < numEnemiesInSight; i++)
 		{
-			int dist = (int) checkDistance(enemyX(i), enemyY(i), getX(), getY());
+			int dist = distanceToEnemy(i);
 			if(dist<closestDist)
 			{
 				closestDist = dist;
@@ -67,7 +50,7 @@ public final class Archer1 extends Archer {
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<400)
+			if(distanceToEnemy(closestEnemy)<400)
 			{
 				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				shootAgain();

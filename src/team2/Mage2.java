@@ -9,7 +9,7 @@ public final class Mage2 extends Mage {
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			int dist = (int) checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY());
+			int dist = distanceToEnemy(closestEnemy);
 			if(dist<400) shoot(enemyX(closestEnemy), enemyY(closestEnemy));
 			
 			turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
@@ -20,10 +20,10 @@ public final class Mage2 extends Mage {
 			{
 				if(Math.random()>0.5)
 				{
-					turn(90);
+					turn(85);
 				} else
 				{
-					turn(-90);
+					turn(-85);
 				}
 			}
 			run(9);
@@ -35,7 +35,7 @@ public final class Mage2 extends Mage {
 		int enemy = -1;
 		for(int i = 0; i < numEnemiesInSight; i++)
 		{
-			int dist = (int) checkDistance(enemyX(i), enemyY(i), getX(), getY());
+			int dist = (int) distance(enemyX(i), enemyY(i), getX(), getY());
 			if(dist<closestDist)
 			{
 				closestDist = dist;

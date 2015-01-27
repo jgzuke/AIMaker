@@ -14,16 +14,14 @@ public abstract class Mage extends Enemy {
 	}
 	protected boolean canShoot()
 	{
-		return energy>25 && shootTimer>3;
+		return energy>9 && shootTimer>3;
 	}
 	protected void shoot(int x, int y)
 	{
 		if(canShoot())
 		{
-			double rads = Math.atan2((y - getY()), (x-getX()));
-			int rotation = (int)(rads * r2d);
-			control.createShot(rotation, getX(), getY(), getTeam());
-			energy -= 25;
+			control.createShot(Math.atan2((y - getY()), (x-getX()))*r2d, getX(), getY(), getTeam());
+			energy -= 10;
 			shootTimer = 0;
 		}
 	}

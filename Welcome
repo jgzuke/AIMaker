@@ -13,7 +13,9 @@ All Units:
 	Utility
 		-checkHitBack(double x, double y, boolean grounded)
 		-checkObstructions(double x1, double x2, double y1, double y2, boolean grounded, int expand)
+		-checkObstructionsTo(double y1, double y2, boolean grounded, int expand)
 		-checkDistance(double x1, double y1, double x2, double y2)
+		-checkDistanceTo(double x2, double y2)
 	Variables
 		-int numEnemiesInSight;
 		-int numAlliesInSight;
@@ -24,10 +26,12 @@ All Units:
 		-enemyTeam(int i);
 		-enemyType(int i);
 		-enemyFrame(int i);
+		-distanceToEnemy(int i);
 		-allyX(int i);
 		-allyY(int i);
 		-allyType(int i);
 		-allyFrame(int i);
+		-distanceToAlly(int i);
 		-shotX(int i);
 		-shotY(int i);
 		-shotXVelocity(int i);

@@ -8,14 +8,13 @@ import game.Archer;
 public final class Archer2 extends Archer {
 
 	public Archer2(Packet p){super(p);}
-
 	@Override
 	protected void chooseAction()
 	{
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<400)
+			if(distanceToEnemy(closestEnemy)<400)
 			{
 				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				shoot();
@@ -32,7 +31,7 @@ public final class Archer2 extends Archer {
 		int enemy = -1;
 		for(int i = 0; i < numEnemiesInSight; i++)
 		{
-			int dist = (int) checkDistance(enemyX(i), enemyY(i), getX(), getY());
+			int dist = distanceToEnemy(i);
 			if(dist<closestDist)
 			{
 				closestDist = dist;
@@ -52,7 +51,7 @@ public final class Archer2 extends Archer {
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<400)
+			if(distanceToEnemy(closestEnemy)<400)
 			{
 				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				shootAgain();

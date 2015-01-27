@@ -101,6 +101,14 @@ public abstract class Enemy
 	{
 		return control.enemies.get(enemyIndex.get(i)).getY();
 	}
+	protected int distanceToEnemy(int i)
+	{
+		return (int)checkDistanceTo(enemyX(i), enemyY(i));
+	}
+	protected int distanceToAlly(int i)
+	{
+		return (int)checkDistanceTo(allyX(i), allyY(i));
+	}
 	protected byte enemyTeam(int i)
 	{
 		return control.enemies.get(enemyIndex.get(i)).getTeam();
@@ -170,7 +178,7 @@ public abstract class Enemy
 		for(int i = 0; i < control.enemies.size(); i++)
 		{
 			e=control.enemies.get(i);
-			if(!checkObstructions(e.getX(), e.getY(), (int)x, (int)y, false, 10))
+			if(!obstructions(e.getX(), e.getY(), (int)x, (int)y, false, 10))
 			{
 				if(e.getTeam() != team)
 				{
@@ -190,7 +198,7 @@ public abstract class Enemy
 			s=control.shots.get(i);
 			if(s.getTeam() != team)
 			{
-				if(!checkObstructions(s.getX(), s.getY(), (int)x, (int)y, false, 10))
+				if(!obstructions(s.getX(), s.getY(), (int)x, (int)y, false, 10))
 				{
 					shotIndex.add(i);
 					numShotsInSight++;
@@ -204,7 +212,7 @@ public abstract class Enemy
 			ex=control.aoes.get(i);
 			if(ex.getTeam() != team)
 			{
-				if(!checkObstructions(ex.getX(), ex.getY(), (int)x, (int)y, false, 10))
+				if(!obstructions(ex.getX(), ex.getY(), (int)x, (int)y, false, 10))
 				{
 					aoeIndex.add(i);
 					numExplosionsInSight++;
@@ -340,13 +348,13 @@ public abstract class Enemy
 	protected void turn(int degrees)
 	{
 		rotation += degrees;
-		rads = rotation/r2d;
+		rads = (double)rotation/r2d;
 	}
-	protected boolean checkHitBack(double X, double Y, boolean objectOnGround)
+	protected boolean hitBack(double X, double Y, boolean objectOnGround)
 	{
 		return control.checkHitBack(X, Y, objectOnGround);
 	}
-	protected boolean checkObstructions(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
+	protected boolean obstructions(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
 		return control.checkObstructions(x1, y1, x2, y2, objectOnGround, expand);
 	}
@@ -354,8 +362,20 @@ public abstract class Enemy
 	 * Checks distance between two points
 	 * @return Returns distance
 	 */
-	protected double checkDistance(double fromX, double fromY, double toX, double toY)
+	protected double distance(double fromX, double fromY, double toX, double toY)
 	{
 		return Math.sqrt((Math.pow(fromX - toX, 2)) + (Math.pow(fromY - toY, 2)));
+	}
+	protected boolean obstructionsTo(float x2, float y2, boolean objectOnGround, int expand)
+	{
+		return obstructions((int)x, (int)y, x2, y2, objectOnGround, expand);
+	}
+	/**
+	 * Checks distance between two points
+	 * @return Returns distance
+	 */
+	protected double checkDistanceTo(double X, double Y)
+	{
+		return distance(x, y, X, Y);
 	}
 }

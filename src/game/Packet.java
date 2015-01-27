@@ -17,16 +17,13 @@ public final class Packet {
 		switch(type)
 		{
 		case 0:
-			h=1700;
+			h=1200;
 			break;
 		case 1:
 			h=700;
 			break;
 		case 2:
-			h=700;
-			break;
-		case 3:
-			h=3000;
+			h=2500;
 			break;
 		}
 	}
