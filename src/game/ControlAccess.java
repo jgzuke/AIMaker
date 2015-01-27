@@ -24,11 +24,11 @@ public final class ControlAccess
 	
 	public int getLevelWidth()
 	{
-		return control.levelWidth;
+		return control.getLevelWidth();
 	}
 	public int getLevelHeight()
 	{
-		return control.levelHeight;
+		return control.getLevelHeight();
 	}
 	protected void playEffect(String effect)
 	{

@@ -150,11 +150,11 @@ public final class WallController
 	protected boolean checkObstructions(float x1, float y1, float x2, float y2, boolean objectOnGround, int expand)
 	{
 		expand /= 2;
-		if(x1 < 0 || x1 > control.levelWidth || y1 < 0 || y1 > control.levelHeight)
+		if(x1 < 0 || x1 > control.getLevelWidth() || y1 < 0 || y1 > control.getLevelHeight())
 		{
 			return true;
 		}
-		if(x2 < 0 || x2 > control.levelWidth || y2 < 0 || y2 > control.levelHeight)
+		if(x2 < 0 || x2 > control.getLevelWidth() || y2 < 0 || y2 > control.getLevelHeight())
 		{
 			return true;
 		}
@@ -338,7 +338,7 @@ public final class WallController
 	 */
 	protected boolean checkHitBack(double X, double Y, boolean objectOnGround)
 	{
-		if(X < 0 || X > control.levelWidth || Y < 0 || Y > control.levelHeight)
+		if(X < 0 || X > control.getLevelWidth() || Y < 0 || Y > control.getLevelHeight())
 		{
 			return true;
 		}
@@ -478,8 +478,8 @@ public final class WallController
 	 */
 	protected void makePaths()
 	{
-		int width = control.levelWidth/20;
-		int height = control.levelHeight/20;
+		int width = control.getLevelWidth()/20;
+		int height = control.getLevelHeight()/20;
 		pathing = new boolean[width][height][5]; //x, y, isFree, right, left, down, up
 		for(int i = 0; i < width; i++)
 		{

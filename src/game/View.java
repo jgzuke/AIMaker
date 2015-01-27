@@ -18,9 +18,12 @@ public final class View extends JPanel implements ActionListener
 	SoundController soundController;
 	ControlAccess controlAccess;
 	ImageLibrary imageLibrary;
-	int levelWidth = 600;
-	int levelHeight = 600;
+	private int levelWidth = 600;
+	private int levelHeight = 600;
+	private int[] wins = {0, 0};
 	private double sliderValue;
+	protected JLabel label1;
+	protected JLabel label2;
 	public View()
 	{
 		setFocusable(true);
@@ -37,11 +40,13 @@ public final class View extends JPanel implements ActionListener
 		controlAccess = new ControlAccess(this);
 		spriteController.startRound();
 		wallController.loadLevel(0);
-		timer = new Timer(1, this);
+		timer = new Timer(40, this);
 		timer.start();
 		
 		
-		final JSlider slider = new JSlider(JSlider.HORIZONTAL, 10, 200, 20);
+		label1 = new JLabel("0");
+		label2 = new JLabel("0");
+		final JSlider slider = new JSlider(JSlider.HORIZONTAL, 5, 200, 20);
 		slider.setMinorTickSpacing(100);
 	    slider.setMajorTickSpacing(200);
 	    slider.setPaintTicks(true);
@@ -52,8 +57,23 @@ public final class View extends JPanel implements ActionListener
 	        	timer.setDelay(1000/slider.getValue());
 	        }
 	      });
-	    
+	    add(label1, BorderLayout.SOUTH);
 	    add(slider, BorderLayout.SOUTH);
+	    add(label2, BorderLayout.SOUTH);
+	}
+	protected int getLevelWidth()
+	{
+		return levelWidth;
+	}
+	protected int getLevelHeight()
+	{
+		return levelHeight;
+	}
+	protected void restartGame(int teamsAlive)
+	{
+		wins[teamsAlive]++;
+		label1.setText(Integer.toString(wins[0]));
+		label2.setText(Integer.toString(wins[1]));
 	}
 	@Override
 	public void paintComponent(Graphics g)

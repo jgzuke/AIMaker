@@ -25,15 +25,17 @@ public final class SpriteController
 	protected void startRound()
 	{
 		makeEnemy(0, 50, 270, 0, 0);
+		makeEnemy(0, control.getLevelWidth()-50, 290, 180, 1);
 		makeEnemy(0, 50, 330, 0, 0);
+		makeEnemy(0, control.getLevelWidth()-50, 310, 180, 1);
+		
+		makeEnemy(2, control.getLevelWidth()-100, 270, 180, 1);
 		makeEnemy(2, 100, 290, 0, 0);
+		makeEnemy(2, control.getLevelWidth()-100, 330, 180, 1);
 		makeEnemy(2, 100, 310, 0, 0);
+		
 		makeEnemy(1, 40, 300, 0, 0);
-		makeEnemy(0, control.levelWidth-50, 290, 180, 1);
-		makeEnemy(0, control.levelWidth-50, 310, 180, 1);
-		makeEnemy(2, control.levelWidth-100, 270, 180, 1);
-		makeEnemy(2, control.levelWidth-100, 330, 180, 1);
-		makeEnemy(1, control.levelWidth-40, 300, 180, 1);
+		makeEnemy(1, control.getLevelWidth()-40, 300, 180, 1);
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{
@@ -108,22 +110,28 @@ public final class SpriteController
 				count[enemies.get(i).getTeam()]++;
 			}
 		}
-		int teamsAlive = 0;
+		int teamsAlive = -2;
 		for(int i = 0; i < 4; i++)
 		{
-			if(count[i] != 0) teamsAlive++;
+			if(count[i] != 0)
+			{
+				if(teamsAlive==-2) teamsAlive = i;
+				else teamsAlive = -1;
+			}
 		}
-		if(teamsAlive<2)
+		if(teamsAlive!=-1)
 		{
-			restartGame();
+			if(teamsAlive == -2) restartGame(0);
+			else restartGame(teamsAlive);
 		}
 	}
-	private void restartGame()
+	private void restartGame(int teamsAlive)
 	{
 		enemies.clear();
 		shots.clear();
 		aoes.clear();
 		startRound();
+		control.restartGame(teamsAlive);
 	}
 	/**
 	 * creates an emeny AOE explosion
