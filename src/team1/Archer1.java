@@ -24,28 +24,37 @@ public final class Archer1 extends Archer {
 	 * checkObstructions(x, y, x2, y2, grounded, expand)
 	 * checkDistance(x, y, x2, y2)
 	 */
-	
 	@Override
-	protected void chooseAction() {
-		for(int i = 0; i < numEnemiesInSight; i++)
+	protected void chooseAction()
+	{
+		int closestEnemy = findClosest();
+		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY())<400)
+			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<400)
 			{
-				turnToward(enemyX.get(i), enemyY.get(i));
+				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
 				shoot();
-				break;
 			} else
 			{
-				turnToward(enemyX.get(i), enemyY.get(i));
+				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
 				run(4);
-				break;
 			}
 		}
 	}
-	
-	@Override
-	protected void shooting() {
-		
+	private int findClosest()
+	{
+		int closestDist = 1000;
+		int enemy = -1;
+		for(int i = 0; i < numEnemiesInSight; i++)
+		{
+			int dist = (int) checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY());
+			if(dist<closestDist)
+			{
+				closestDist = dist;
+				enemy = i;
+			}
+		}
+		return enemy;
 	}
 
 	@Override
@@ -55,7 +64,15 @@ public final class Archer1 extends Archer {
 
 	@Override
 	protected void justShot() {
-		
+		int closestEnemy = findClosest();
+		if(closestEnemy>-1)
+		{
+			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<400)
+			{
+				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				shootAgain();
+			}
+		}
 	}
 
 	@Override
@@ -65,6 +82,10 @@ public final class Archer1 extends Archer {
 
 	@Override
 	protected void running() {
+		
+	}
+	@Override
+	protected void shooting() {
 		
 	}
 }

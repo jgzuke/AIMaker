@@ -19,18 +19,24 @@ public abstract class Swordsman extends Enemy {
 	}
 	protected void attack()
 	{
-		frame=20;
-		action = "Melee";
+		if(action.equals("Nothing"))
+		{
+			frame=20;
+			action = "Melee";
+		}
 	}
 	protected void block()
 	{
-		frame=45;
-		action = "Sheild";
+		if(action.equals("Nothing"))
+		{
+			frame=45;
+			action = "Sheild";
+		}
 	}
 	@Override
 	protected void getHit(double damage)
 	{
-		if(frame>47&&frame<53) damage /= 8;
+		if(frame>47&&frame<53 && action.equals("Sheild")) damage /= 8;
 		super.getHit(damage);
 	}
 	private void baseAttacking()

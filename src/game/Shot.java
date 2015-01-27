@@ -21,6 +21,8 @@ public final class Shot
 		rotation = (int)Rotation;
 		xForward = Math.cos(Rotation/57.2957795)*10;
 		yForward = Math.sin(Rotation/57.2957795)*10;
+		x += xForward*1.5;
+		y += yForward*1.5;
 		team = Team;
 		control = c;
 		enemies = Enemies;
@@ -48,13 +50,14 @@ public final class Shot
 				e=enemies.get(j);
 				if(e != null && e.getTeam() != team)
 				{
-						xDif = x - e.getX();
-						yDif = y - e.getY();
-						if(Math.pow(xDif, 2) + Math.pow(yDif, 2) < 600)
-						{
-							control.spriteController.createAOE(x, y, team);
-							deleted = true;
-						}
+					xDif = x - e.getX();
+					yDif = y - e.getY();
+					if(Math.pow(xDif, 2) + Math.pow(yDif, 2) < 600)
+					{
+						e.getHit(90);
+						control.spriteController.createAOE(x, y, team);
+						deleted = true;
+					}
 				}
 			}
 			if(control.wallController.checkHitBack(x, y, false) && !deleted)

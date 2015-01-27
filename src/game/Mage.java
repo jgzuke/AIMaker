@@ -16,11 +16,13 @@ public abstract class Mage extends Enemy {
 	{
 		return energy>25 && shootTimer>3;
 	}
-	protected void shoot()
+	protected void shoot(int x, int y)
 	{
 		if(canShoot())
 		{
-			control.createShot(getRotation(), getX(), getY(), getTeam());
+			double rads = Math.atan2((y - getY()), (x-getX()));
+			int rotation = (int)(rads * r2d);
+			control.createShot(rotation, getX(), getY(), getTeam());
 			energy -= 25;
 			shootTimer = 0;
 		}

@@ -273,18 +273,21 @@ public abstract class Enemy
 	 */
 	protected void run(int i)
 	{
-		runTimer = i;
-		action = "Run";
-		xMove = Math.cos(rads) * speedCur;
-		yMove = Math.sin(rads) * speedCur;
-        if(frame>17) frame = 0;
+		if(action.equals("Nothing"))
+		{
+			runTimer = i;
+			action = "Run";
+			xMove = Math.cos(rads) * speedCur;
+			yMove = Math.sin(rads) * speedCur;
+	        if(frame>17) frame = 0;
+		}
 	}
 	/**
 	 * rolls forward for 11 frames
 	 */
 	protected void roll()
 	{
-		if(type==2)
+		if(type==2 && action.equals("Nothing"))
 		{
 			frame = 20;
 			action = "Roll";

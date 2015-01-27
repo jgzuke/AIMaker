@@ -62,7 +62,7 @@ public final class WallController
 		switch(i)
 		{
 			case 0:
-				makeWall_Rectangle(300, 0, 10, 600, true);
+				//makeWall_Rectangle(300, 0, 10, 600, true);
 				break;
 		}
 	}

@@ -25,15 +25,18 @@ public abstract class Archer extends Enemy {
 	abstract protected void justShot();
 	protected void shootAgain()
 	{
-		if(frame==36)
+		if(frame==40 && action.equals("Shoot"))
 		{
-			frame = 31;
+			frame = 28;
 		}
 	}
 	protected void shoot()
 	{
-		action = "Shoot";
-		frame = 20;
+		if(action.equals("Nothing"))
+		{
+			action = "Shoot";
+			frame = 20;
+		}
 	}
 	protected void baseShooting()
 	{
@@ -44,7 +47,7 @@ public abstract class Archer extends Enemy {
 			frame = 0;
 			endShot();
 		}
-		if(frame==36) // shoots
+		if(frame==40) // shoots
 		{
 			control.createShot(getRotation(), getX(), getY(), getTeam());
 			control.playEffect("arrowrelease");

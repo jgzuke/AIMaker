@@ -10,39 +10,67 @@ public final class Archer2 extends Archer {
 	public Archer2(Packet p){super(p);}
 
 	@Override
-	protected void shooting() {
-		// TODO Auto-generated method stub
-		
+	protected void chooseAction()
+	{
+		int closestEnemy = findClosest();
+		if(closestEnemy>-1)
+		{
+			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<400)
+			{
+				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				shoot();
+			} else
+			{
+				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				run(4);
+			}
+		}
+	}
+	private int findClosest()
+	{
+		int closestDist = 1000;
+		int enemy = -1;
+		for(int i = 0; i < numEnemiesInSight; i++)
+		{
+			int dist = (int) checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY());
+			if(dist<closestDist)
+			{
+				closestDist = dist;
+				enemy = i;
+			}
+		}
+		return enemy;
 	}
 
 	@Override
 	protected void endShot() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void justShot() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void chooseAction() {
-		// TODO Auto-generated method stub
-		
+		int closestEnemy = findClosest();
+		if(closestEnemy>-1)
+		{
+			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<400)
+			{
+				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				shootAgain();
+			}
+		}
 	}
 
 	@Override
 	protected void endRun() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void running() {
-		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	protected void shooting() {
+		
+	}
 }
