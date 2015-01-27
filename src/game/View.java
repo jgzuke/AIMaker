@@ -23,9 +23,9 @@ public final class View extends JPanel implements ActionListener
 		setFocusable(true);
 		requestFocusInWindow();
 		setBackground(Color.blue);
-		setSize(new Dimension(levelWidth, levelHeight));
-		setMinimumSize(new Dimension(levelWidth, levelHeight));
-		setPreferredSize(new Dimension(levelWidth, levelHeight));
+		setSize(new Dimension(levelWidth+200, levelHeight));
+		setMinimumSize(new Dimension(levelWidth+200, levelHeight));
+		setPreferredSize(new Dimension(levelWidth+200, levelHeight));
 		imageLibrary = new ImageLibrary();
 		
 		wallController = new WallController(this);
@@ -34,8 +34,9 @@ public final class View extends JPanel implements ActionListener
 		controlAccess = new ControlAccess(this);
 		spriteController.startRound();
 		wallController.loadLevel(0);
-		timer = new Timer(50, this);
+		timer = new Timer(1, this);
 		timer.start();
+		timer.setDelay(50);
 	}
 	@Override
 	public void paintComponent(Graphics g)
@@ -80,8 +81,9 @@ public final class View extends JPanel implements ActionListener
 					g.drawRect(minX, minY, 40, 10);
 			}
 		}
-		
 		g.drawImage(imageLibrary.backTop, 0, 0, null);
+		g.setColor(Color.gray);
+		g.fillRect(600, 0, 200, 600);
 	}
 	
 	private void drawEnemy(Enemy s, Graphics2D g)
@@ -99,7 +101,7 @@ public final class View extends JPanel implements ActionListener
 			image = imageLibrary.swordsman[s.frame];
 			break;
 		}
-		drawRotated(s.getX(), s.getY(), s.getRotation(), image, g);
+		drawRotated(s.getX(), s.getY(), (int)s.getRotation(), image, g);
 	}
 	private void drawShot(Shot s, Graphics2D g)
 	{

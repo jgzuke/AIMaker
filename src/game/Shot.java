@@ -54,7 +54,7 @@ public final class Shot
 					yDif = y - e.getY();
 					if(Math.pow(xDif, 2) + Math.pow(yDif, 2) < 600)
 					{
-						e.getHit(30);
+						e.getHit(20);
 						control.spriteController.createAOE(x, y, team);
 						deleted = true;
 					}

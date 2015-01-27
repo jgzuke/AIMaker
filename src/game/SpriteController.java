@@ -24,13 +24,13 @@ public final class SpriteController
 	}
 	protected void startRound()
 	{
-		//makeEnemy(0, 50, 270, 0, 0);
-		//makeEnemy(0, 50, 330, 0, 0);
+		makeEnemy(0, 50, 270, 0, 0);
+		makeEnemy(0, 50, 330, 0, 0);
 		makeEnemy(2, 100, 290, 0, 0);
 		makeEnemy(2, 100, 310, 0, 0);
 		makeEnemy(1, 40, 300, 0, 0);
-		//makeEnemy(0, control.levelWidth-50, 290, 180, 1);
-		//makeEnemy(0, control.levelWidth-50, 310, 180, 1);
+		makeEnemy(0, control.levelWidth-50, 290, 180, 1);
+		makeEnemy(0, control.levelWidth-50, 310, 180, 1);
 		makeEnemy(2, control.levelWidth-100, 270, 180, 1);
 		makeEnemy(2, control.levelWidth-100, 330, 180, 1);
 		makeEnemy(1, control.levelWidth-40, 300, 180, 1);

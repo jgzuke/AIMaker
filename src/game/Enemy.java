@@ -11,7 +11,6 @@ public abstract class Enemy
 	protected int frame = 0;
 	protected final double r2d = 180 / Math.PI;
 	private double rads;
-	private double rotation;
 	private boolean deleted = false;
 	private byte team;
 	private byte type;
@@ -45,7 +44,6 @@ public abstract class Enemy
 		y=p.y;
 		hp = p.h;
 		hpMax = p.h;
-		rotation = p.r;
 		rads=rads(p.r);
 		team = p.t;
 		type = p.ty;
@@ -58,10 +56,10 @@ public abstract class Enemy
 		return rotation/r2d;
 	}
 	protected double getRads() { return rads; }
+	protected double getRotation() { return rads*r2d; }
 	public int getX() { return (int)x; }
 	protected double getHealthFraction() { return (double)hp/hpMax; }
 	public int getY() { return (int)y; }
-	public int getRotation() { return (int)rotation; }
 	public int getFrame() { return frame; }
 	public byte getTeam() { return team; }
 	public byte getType() { return type; }
@@ -263,7 +261,7 @@ public abstract class Enemy
 	}
 	protected void getPushedRot(double rot)
 	{
-		rotation += rot;
+		rads += rot/r2d;
 	}
 	/**
 	 * Takes a sent amount of damage, modifies based on shields etc.
@@ -335,7 +333,6 @@ public abstract class Enemy
 		{
 			frame = 20;
 			action = "Roll";
-			rotation = rads * r2d;
 			xMove = Math.cos(rads) * 8;
 			yMove = Math.sin(rads) * 8;
 		}
@@ -343,12 +340,10 @@ public abstract class Enemy
 	protected void turnToward(double X, double Y)
 	{
 		rads = Math.atan2((Y - y), (X - x));
-		rotation = rads * r2d;
 	}
 	protected void turn(int degrees)
 	{
-		rotation += degrees;
-		rads = (double)rotation/r2d;
+		rads += degrees/r2d;
 	}
 	protected boolean hitBack(double X, double Y, boolean objectOnGround)
 	{

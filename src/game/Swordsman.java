@@ -42,7 +42,7 @@ public abstract class Swordsman extends Enemy {
 	private void baseAttacking()
 	{
 		frame++;
-		if(frame==27 || frame==37) meleeAttack(50, 20, 10);
+		if(frame==27 || frame==37) meleeAttack(30, 20, 10);
 		if(frame==45)
 		{
 			action = "Nothing";	//attack over
