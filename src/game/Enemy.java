@@ -19,23 +19,13 @@ public abstract class Enemy
 	
 	
 	protected int numEnemiesInSight;
+	protected List<Integer> enemyIndex = new ArrayList<>();
 	protected int numAlliesInSight;
+	protected List<Integer> allyIndex = new ArrayList<>();
 	protected int numShotsInSight;
+	protected List<Integer> shotIndex = new ArrayList<>();
 	protected int numExplosionsInSight;
-	protected List<Integer> enemyX = new ArrayList<>();
-	protected List<Integer> enemyY = new ArrayList<>();
-	protected List<Byte> enemyTeam = new ArrayList<>();
-	protected List<Byte> enemyType = new ArrayList<>();
-	protected List<Integer> allyX = new ArrayList<>();
-	protected List<Integer> allyY = new ArrayList<>();
-	protected List<Byte> allyType = new ArrayList<>();
-	protected List<Integer> shotX = new ArrayList<>();
-	protected List<Integer> shotY = new ArrayList<>();
-	protected List<Double> shotXVelocity = new ArrayList<>();
-	protected List<Double> shotYVelocity = new ArrayList<>();
-	protected List<Integer> explosionX = new ArrayList<>();
-	protected List<Integer> explosionY = new ArrayList<>();
-	protected List<Integer> explosionSize = new ArrayList<>();
+	protected List<Integer> aoeIndex = new ArrayList<>();
 	
 	
 	//ENEMY STUFF
@@ -72,6 +62,7 @@ public abstract class Enemy
 	protected double getHealthFraction() { return (double)hp/hpMax; }
 	public int getY() { return (int)y; }
 	public int getRotation() { return (int)rotation; }
+	public int getFrame() { return frame; }
 	public byte getTeam() { return team; }
 	public byte getType() { return type; }
 	public boolean getDeleted() { return deleted; }
@@ -102,18 +93,80 @@ public abstract class Enemy
 		if(x>control.getLevelWidth()-10) x=control.getLevelWidth()-10;
 		if(y>control.getLevelHeight()-10) y=control.getLevelHeight()-10;
 	}
+	protected int enemyX(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getX();
+	}
+	protected int enemyY(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getY();
+	}
+	protected byte enemyTeam(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getTeam();
+	}
+	protected byte enemyType(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getType();
+	}
+	protected int enemyFrame(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getFrame();
+	}
+	protected int allyX(int i)
+	{
+		return control.enemies.get(allyIndex.get(i)).getX();
+	}
+	protected int allyY(int i)
+	{
+		return control.enemies.get(allyIndex.get(i)).getY();
+	}
+	protected byte allyType(int i)
+	{
+		return control.enemies.get(allyIndex.get(i)).getType();
+	}
+	protected int allyFrame(int i)
+	{
+		return control.enemies.get(allyIndex.get(i)).getFrame();
+	}
+	protected int shotX(int i)
+	{
+		return control.shots.get(shotIndex.get(i)).getX();
+	}
+	protected int shotY(int i)
+	{
+		return control.shots.get(shotIndex.get(i)).getY();
+	}
+	protected double shotXVel(int i)
+	{
+		return control.shots.get(shotIndex.get(i)).getXVelocity();
+	}
+	protected double shotYVel(int i)
+	{
+		return control.shots.get(shotIndex.get(i)).getYVelocity();
+	}
+	protected int explosionX(int i)
+	{
+		return control.aoes.get(aoeIndex.get(i)).getX();
+	}
+	protected int explosionY(int i)
+	{
+		return control.aoes.get(aoeIndex.get(i)).getY();
+	}
+	protected int explosionSize(int i)
+	{
+		return control.aoes.get(aoeIndex.get(i)).getRadius();
+	}
+	
 	private void setEnemyInfo()
 	{
 		numEnemiesInSight = 0;
 		numAlliesInSight = 0;
 		Enemy e;
-		enemyX.clear();
-		enemyY.clear();
-		enemyTeam.clear();
-		enemyType.clear();
-		allyX.clear();
-		allyY.clear();
-		allyType.clear();
+		enemyIndex.clear();
+		allyIndex.clear();
+		shotIndex.clear();
+		aoeIndex.clear();
 		for(int i = 0; i < control.enemies.size(); i++)
 		{
 			e=control.enemies.get(i);
@@ -121,26 +174,17 @@ public abstract class Enemy
 			{
 				if(e.getTeam() != team)
 				{
-					enemyX.add(e.getX());
-					enemyY.add(e.getY());
-					enemyTeam.add(e.getTeam());
-					enemyType.add(e.getType());
+					enemyIndex.add(i);
 					numEnemiesInSight++;
 				} else
 				{
-					allyX.add(e.getX());
-					allyY.add(e.getY());
-					allyType.add(e.getType());
+					allyIndex.add(i);
 					numAlliesInSight++;
 				}
 			}
 		}
 		numShotsInSight = 0;
 		Shot s;
-		shotX.clear();
-		shotY.clear();
-		shotXVelocity.clear();
-		shotYVelocity.clear();
 		for(int i = 0; i < control.shots.size(); i++)
 		{
 			s=control.shots.get(i);
@@ -148,19 +192,13 @@ public abstract class Enemy
 			{
 				if(!checkObstructions(s.getX(), s.getY(), (int)x, (int)y, false, 10))
 				{
-					shotX.add(s.getX());
-					shotY.add(s.getY());
-					shotXVelocity.add(s.getXVelocity());
-					shotYVelocity.add(s.getYVelocity());
+					shotIndex.add(i);
 					numShotsInSight++;
 				}
 			}
 		}
 		numExplosionsInSight = 0;
 		AOE ex;
-		explosionX.clear();
-		explosionY.clear();
-		explosionSize.clear();
 		for(int i = 0; i < control.aoes.size(); i++)
 		{
 			ex=control.aoes.get(i);
@@ -168,9 +206,7 @@ public abstract class Enemy
 			{
 				if(!checkObstructions(ex.getX(), ex.getY(), (int)x, (int)y, false, 10))
 				{
-					explosionX.add(ex.getX());
-					explosionY.add(ex.getY());
-					explosionSize.add(ex.getRadius());
+					aoeIndex.add(i);
 					numExplosionsInSight++;
 				}
 			}

@@ -15,13 +15,13 @@ public final class Archer2 extends Archer {
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<400)
+			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<400)
 			{
-				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				shoot();
 			} else
 			{
-				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				run(4);
 			}
 		}
@@ -32,7 +32,7 @@ public final class Archer2 extends Archer {
 		int enemy = -1;
 		for(int i = 0; i < numEnemiesInSight; i++)
 		{
-			int dist = (int) checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY());
+			int dist = (int) checkDistance(enemyX(i), enemyY(i), getX(), getY());
 			if(dist<closestDist)
 			{
 				closestDist = dist;
@@ -52,9 +52,9 @@ public final class Archer2 extends Archer {
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<400)
+			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<400)
 			{
-				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				shootAgain();
 			}
 		}

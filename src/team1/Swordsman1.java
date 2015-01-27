@@ -34,7 +34,7 @@ public final class Swordsman1 extends Swordsman {
 		int enemy = -1;
 		for(int i = 0; i < numEnemiesInSight; i++)
 		{
-			int dist = (int) checkDistance(enemyX.get(i), enemyY.get(i), getX(), getY());
+			int dist = (int) checkDistance(enemyX(i), enemyY(i), getX(), getY());
 			if(dist<closestDist)
 			{
 				closestDist = dist;
@@ -48,13 +48,13 @@ public final class Swordsman1 extends Swordsman {
 		int closestEnemy = findClosest();
 		if(closestEnemy>-1)
 		{
-			if(checkDistance(enemyX.get(closestEnemy), enemyY.get(closestEnemy), getX(), getY())<30)
+			if(checkDistance(enemyX(closestEnemy), enemyY(closestEnemy), getX(), getY())<30)
 			{
-				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				attack();
 			} else
 			{
-				turnToward(enemyX.get(closestEnemy), enemyY.get(closestEnemy));
+				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				run(4);
 			}
 		}

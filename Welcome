@@ -1,0 +1,69 @@
+Welcome to AIMaker
+
+You control five enemies, 2 Archers, 2 warriors, and 1 mage. Write programs for each type and battle your AI against opponents.
+
+
+All Units:
+	Actions
+		-Run(int i)
+	Calls
+		-chooseAction()
+		-endRun()
+		-running()
+	Utility
+		-checkHitBack(double x, double y, boolean grounded)
+		-checkObstructions(double x1, double x2, double y1, double y2, boolean grounded, int expand)
+		-checkDistance(double x1, double y1, double x2, double y2)
+	Variables
+		-int numEnemiesInSight;
+		-int numAlliesInSight;
+		-int numShotsInSight;
+		-int numExplosionsInSight;
+		-enemyX(int i);
+		-enemyY(int i);
+		-enemyTeam(int i);
+		-enemyType(int i);
+		-enemyFrame(int i);
+		-allyX(int i);
+		-allyY(int i);
+		-allyType(int i);
+		-allyFrame(int i);
+		-shotX(int i);
+		-shotY(int i);
+		-shotXVelocity(int i);
+		-shotYVelocity(int i);
+		-explosionX(int i);
+		-explosionY(int i);
+		-explosionSize(int i);
+
+		-getX();
+		-getY();
+		-getRads();
+		-getTeam();
+		-getType();
+		-getFrame();
+
+
+Warriors:
+	Actions
+		-Block
+		-Attack
+	Calls
+		-endAttack()
+		-endBlock()
+		-attacking()
+		-blocking()
+
+Archers:
+	Actions
+		-Shoot
+	Calls
+		-endShot();
+		-justShot();
+		-shooting();
+
+Mages:
+	Actions
+		-Shoot
+		-Roll
+	Calls: none

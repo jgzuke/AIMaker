@@ -45,7 +45,7 @@ public final class AOE
 					yDif = getY() - enemies.get(i).getY();
 					if(Math.sqrt(Math.pow(xDif, 2) + Math.pow(yDif, 2)) < radius)
 					{
-						enemies.get(i).getHit(7);
+						enemies.get(i).getHit(5);
 					}
 				}
 			}
