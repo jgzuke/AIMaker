@@ -2,6 +2,8 @@ package game;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -18,14 +20,15 @@ public final class View extends JPanel implements ActionListener
 	ImageLibrary imageLibrary;
 	int levelWidth = 600;
 	int levelHeight = 600;
+	private double sliderValue;
 	public View()
 	{
 		setFocusable(true);
 		requestFocusInWindow();
 		setBackground(Color.blue);
-		setSize(new Dimension(levelWidth+200, levelHeight));
-		setMinimumSize(new Dimension(levelWidth+200, levelHeight));
-		setPreferredSize(new Dimension(levelWidth+200, levelHeight));
+		setSize(new Dimension(levelWidth, levelHeight));
+		setMinimumSize(new Dimension(levelWidth, levelHeight));
+		setPreferredSize(new Dimension(levelWidth, levelHeight));
 		imageLibrary = new ImageLibrary();
 		
 		wallController = new WallController(this);
@@ -36,7 +39,21 @@ public final class View extends JPanel implements ActionListener
 		wallController.loadLevel(0);
 		timer = new Timer(1, this);
 		timer.start();
-		timer.setDelay(50);
+		
+		
+		final JSlider slider = new JSlider(JSlider.HORIZONTAL, 10, 200, 20);
+		slider.setMinorTickSpacing(100);
+	    slider.setMajorTickSpacing(200);
+	    slider.setPaintTicks(true);
+	    slider.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e)
+	        {
+	        	sliderValue = slider.getValue();
+	        	timer.setDelay(1000/slider.getValue());
+	        }
+	      });
+	    
+	    add(slider, BorderLayout.SOUTH);
 	}
 	@Override
 	public void paintComponent(Graphics g)
@@ -82,8 +99,6 @@ public final class View extends JPanel implements ActionListener
 			}
 		}
 		g.drawImage(imageLibrary.backTop, 0, 0, null);
-		g.setColor(Color.gray);
-		g.fillRect(600, 0, 200, 600);
 	}
 	
 	private void drawEnemy(Enemy s, Graphics2D g)
@@ -122,11 +137,19 @@ public final class View extends JPanel implements ActionListener
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, s.getAlpha()));
 		g.drawImage(imageLibrary.aoe[s.getTeam()], s.getX()-(r/2), s.getY()-(r/2), r, r, null);
 	}
+	double timeAccurate = 0;
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		timeAccurate += Math.pow(2, (sliderValue/10)-9);
 		spriteController.frameCall();
 		wallController.frameCall();
+		while(timeAccurate>1)
+		{
+			spriteController.frameCall();
+			wallController.frameCall();
+			timeAccurate--;
+		}
 		repaint();
 	}
 	protected double getRandomDouble()
