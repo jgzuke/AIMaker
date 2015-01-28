@@ -20,7 +20,7 @@ public final class View extends JPanel implements ActionListener
 	ImageLibrary imageLibrary;
 	private int levelWidth = 600;
 	private int levelHeight = 600;
-	private int[] wins = {0, 0};
+	protected int[] wins = {0, 0};
 	private double sliderValue;
 	protected JLabel label1;
 	protected JLabel label2;
@@ -68,12 +68,6 @@ public final class View extends JPanel implements ActionListener
 	protected int getLevelHeight()
 	{
 		return levelHeight;
-	}
-	protected void restartGame(int teamsAlive)
-	{
-		wins[teamsAlive]++;
-		label1.setText(Integer.toString(wins[0]));
-		label2.setText(Integer.toString(wins[1]));
 	}
 	@Override
 	public void paintComponent(Graphics g)

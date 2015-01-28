@@ -72,4 +72,9 @@ public final class Archer2 extends Archer {
 	protected void shooting() {
 		
 	}
+	@Override
+	protected void aboutToShoot() {
+		// TODO Auto-generated method stub
+		
+	}
 }

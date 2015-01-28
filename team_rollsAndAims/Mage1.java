@@ -19,8 +19,7 @@ public final class Mage1 extends Mage {
 			{
 				turn(-85);
 			}
-			if(canRoll()) roll();
-			else run(6);
+			roll();
 		} else
 		{
 			int closestEnemy = findClosest();
@@ -109,8 +108,7 @@ public final class Mage1 extends Mage {
 			{
 				turn(-85);
 			}
-			if(canRoll()) roll();
-			else run(6);
+			roll();
 		}
 	}
 }

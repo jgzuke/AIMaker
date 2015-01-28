@@ -121,7 +121,7 @@ public final class SpriteController
 		}
 		if(teamsAlive!=-1)
 		{
-			if(teamsAlive == -2) restartGame(0);
+			if(teamsAlive == -2) restartGame(-2);
 			else restartGame(teamsAlive);
 		}
 	}
@@ -131,7 +131,9 @@ public final class SpriteController
 		shots.clear();
 		aoes.clear();
 		startRound();
-		control.restartGame(teamsAlive);
+		if(teamsAlive != -2) control.wins[teamsAlive]++;
+		control.label1.setText(Integer.toString(control.wins[0]));
+		control.label2.setText(Integer.toString(control.wins[1]));
 	}
 	/**
 	 * creates an emeny AOE explosion

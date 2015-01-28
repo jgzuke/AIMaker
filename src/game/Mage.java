@@ -2,19 +2,38 @@ package game;
 
 public abstract class Mage extends Enemy {
 	public Mage(Packet p){super(p);}
-	protected int shootTimer = 5;
-	protected int energy = 90;
+	private int shootTimer = 5;
+	private int energy = 90;
+	private int tillRollTimer = 0;
 	@Override
 	protected void frameCall()
+	{
+		chooseAction();
+	}
+	@Override
+	protected void everyFrame()
 	{
 		energy ++;
 		if(energy>90) energy=90;
 		shootTimer++;
-		chooseAction();
+		tillRollTimer++;
+	}
+	protected boolean canRoll()
+	{
+		return tillRollTimer>30;
 	}
 	protected boolean canShoot()
 	{
 		return energy>9 && shootTimer>3;
+	}
+	@Override
+	protected void roll()
+	{
+		if(canRoll())
+		{
+			tillRollTimer = 0;
+			super.roll();
+		}
 	}
 	protected void shoot(int x, int y)
 	{

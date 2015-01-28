@@ -17,6 +17,10 @@ public abstract class Swordsman extends Enemy {
 			chooseAction();
 		}
 	}
+	@Override
+	protected void everyFrame()
+	{
+	}
 	protected void attack()
 	{
 		if(action.equals("Nothing"))

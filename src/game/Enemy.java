@@ -8,6 +8,8 @@ public abstract class Enemy
 	//SPRITE STUFF
 	private double x;
 	private double y;
+	private double lastX;
+	private double lastY;
 	protected int frame = 0;
 	protected final double r2d = 180 / Math.PI;
 	private double rads;
@@ -57,9 +59,11 @@ public abstract class Enemy
 	}
 	protected double getRads() { return rads; }
 	protected double getRotation() { return rads*r2d; }
+	public double getXVelocity() { return x-lastX; }
+	public double getYVelocity() { return y-lastY; }
+	public int getY() { return (int)y; }
 	public int getX() { return (int)x; }
 	protected double getHealthFraction() { return (double)hp/hpMax; }
-	public int getY() { return (int)y; }
 	public int getFrame() { return frame; }
 	public byte getTeam() { return team; }
 	public byte getType() { return type; }
@@ -72,6 +76,9 @@ public abstract class Enemy
 	//ENEMY STUFF
 	protected void enemyFrame()
 	{
+		setEnemyInfo();
+		lastX=x;
+		lastY=y;
 		pushOtherPeople();
 		if(action.equals("Run"))
 		{
@@ -82,9 +89,9 @@ public abstract class Enemy
 			baseRolling();
 		} else 
 		{
-			setEnemyInfo();
 			frameCall();
 		}
+		everyFrame();
 		if(hp > hpMax) hp = hpMax;
 		if(x<10) x=10;
 		if(y<10) y=10;
@@ -99,13 +106,29 @@ public abstract class Enemy
 	{
 		return control.enemies.get(enemyIndex.get(i)).getY();
 	}
+	protected double enemyXVelocity(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getXVelocity();
+	}
+	protected double enemyYVelocity(int i)
+	{
+		return control.enemies.get(enemyIndex.get(i)).getYVelocity();
+	}
 	protected int distanceToEnemy(int i)
 	{
-		return (int)checkDistanceTo(enemyX(i), enemyY(i));
+		return (int)distanceTo(enemyX(i), enemyY(i));
 	}
 	protected int distanceToAlly(int i)
 	{
-		return (int)checkDistanceTo(allyX(i), allyY(i));
+		return (int)distanceTo(allyX(i), allyY(i));
+	}
+	protected int distanceToShot(int i)
+	{
+		return (int)distanceTo(shotX(i), shotY(i));
+	}
+	protected int distanceToExplosion(int i)
+	{
+		return (int)distanceTo(explosionX(i), explosionY(i));
 	}
 	protected byte enemyTeam(int i)
 	{
@@ -143,11 +166,11 @@ public abstract class Enemy
 	{
 		return control.shots.get(shotIndex.get(i)).getY();
 	}
-	protected double shotXVel(int i)
+	protected double shotXVelocity(int i)
 	{
 		return control.shots.get(shotIndex.get(i)).getXVelocity();
 	}
-	protected double shotYVel(int i)
+	protected double shotYVelocity(int i)
 	{
 		return control.shots.get(shotIndex.get(i)).getYVelocity();
 	}
@@ -304,6 +327,7 @@ public abstract class Enemy
 		}
 	}
 	abstract protected void frameCall();
+	abstract protected void everyFrame();
 	abstract protected void chooseAction();
 	abstract protected void endRun();
 	abstract protected void running();
@@ -329,7 +353,7 @@ public abstract class Enemy
 	 */
 	protected void roll()
 	{
-		if(type==2 && action.equals("Nothing"))
+		if(type==1 && action.equals("Nothing") || action.equals("Run"))
 		{
 			frame = 20;
 			action = "Roll";
@@ -369,7 +393,7 @@ public abstract class Enemy
 	 * Checks distance between two points
 	 * @return Returns distance
 	 */
-	protected double checkDistanceTo(double X, double Y)
+	protected double distanceTo(double X, double Y)
 	{
 		return distance(x, y, X, Y);
 	}

@@ -20,9 +20,14 @@ public abstract class Archer extends Enemy {
 			chooseAction();
 		}
 	}
+	@Override
+	protected void everyFrame()
+	{
+	}
 	abstract protected void shooting();
 	abstract protected void endShot();
 	abstract protected void justShot();
+	abstract protected void aboutToShoot();
 	protected void shootAgain()
 	{
 		if(frame==40 && action.equals("Shoot"))
@@ -49,6 +54,7 @@ public abstract class Archer extends Enemy {
 		}
 		if(frame==40) // shoots
 		{
+			aboutToShoot();
 			control.createShot(getRotation(), getX(), getY(), getTeam());
 			control.playEffect("arrowrelease");
 			justShot();
