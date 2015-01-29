@@ -1,13 +1,12 @@
-package team2;
+package team1;
 
-import game.Packet;
 import game.Archer;
+import game.Enemy;
+import game.Packet;
 
+public final class Archer1 extends Archer {
 
-
-public final class Archer2 extends Archer {
-
-	public Archer2(Packet p){super(p);}
+	public Archer1(Packet p){super(p);}
 	@Override
 	protected void chooseAction()
 	{
@@ -85,4 +84,3 @@ public final class Archer2 extends Archer {
 		}
 	}
 }
-

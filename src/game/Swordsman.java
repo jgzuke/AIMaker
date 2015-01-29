@@ -64,6 +64,13 @@ public abstract class Swordsman extends Enemy {
 			endBlock();
 		}
 	}
+	protected void holdBlock()
+	{
+		if(frame>47 && frame<55)
+		{
+			frame = 51;
+		}
+	}
 	abstract protected void endAttack();
 	abstract protected void endBlock();
 	abstract protected void attacking();

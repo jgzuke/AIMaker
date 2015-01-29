@@ -24,18 +24,19 @@ public final class SpriteController
 	}
 	protected void startRound()
 	{
-		makeEnemy(0, 50, 270, 0, 0);
-		makeEnemy(0, control.getLevelWidth()-50, 290, 180, 1);
-		makeEnemy(0, 50, 330, 0, 0);
-		makeEnemy(0, control.getLevelWidth()-50, 310, 180, 1);
+		makeEnemy(0, 50, 260, 0, 0);
+		makeEnemy(0, control.getLevelWidth()-50, 260, 180, 1);
+		makeEnemy(0, control.getLevelWidth()-50, 340, 180, 1);
+		makeEnemy(0, 50, 340, 0, 0);
 		
-		makeEnemy(2, control.getLevelWidth()-100, 270, 180, 1);
-		makeEnemy(2, 100, 290, 0, 0);
-		makeEnemy(2, control.getLevelWidth()-100, 330, 180, 1);
-		makeEnemy(2, 100, 310, 0, 0);
+		makeEnemy(2, control.getLevelWidth()-100, 280, 180, 1);
+		makeEnemy(2, 100, 280, 0, 0);
+		makeEnemy(2, 100, 320, 0, 0);
+		makeEnemy(2, control.getLevelWidth()-100, 320, 180, 1);
 		
-		makeEnemy(1, 40, 300, 0, 0);
 		makeEnemy(1, control.getLevelWidth()-40, 300, 180, 1);
+		makeEnemy(1, 40, 300, 0, 0);
+		
 	}
 	protected void makeEnemy(int type, int x, int y, int r, int t)
 	{

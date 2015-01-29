@@ -1,9 +1,10 @@
-package team2;
+package team1;
 
 import game.Mage;
 import game.Packet;
-public final class Mage2 extends Mage {
-	public Mage2(Packet p){super(p);}
+
+public final class Mage1 extends Mage {
+	public Mage1(Packet p){super(p);}
 	protected int dangerX = 0;
 	protected int dangerY = 0;
 	@Override
