@@ -61,8 +61,20 @@ public final class WallController
 		clearWallArrays();
 		switch(i)
 		{
-			case 0:
-				//makeWall_Rectangle(300, 0, 10, 600, true);
+			case 1:
+				makeWall_Circle(380, 27, 12, true);
+				makeWall_Circle(236, 181, 12, true);
+				makeWall_Circle(201, 535, 12, true);
+				makeWall_Circle(433, 218, 12, true);
+				makeWall_Circle(490, 530, 12, true);
+				makeWall_Circle(392, 423, 12, true);
+				makeWall_Circle(118, 356, 12, true);
+				break;
+			case 2:
+				makeWall_Rectangle(256, -456, 69, 528, true);
+				makeWall_Rectangle(236, 39, 108, 105, true);
+				makeWall_Rectangle(256, 518, 69, 528, true);
+				makeWall_Rectangle(236, 457, 108, 105, true);
 				break;
 		}
 	}

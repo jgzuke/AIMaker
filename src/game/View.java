@@ -22,8 +22,7 @@ public final class View extends JPanel implements ActionListener
 	private int levelHeight = 600;
 	protected int[] wins = {0, 0};
 	private double sliderValue;
-	protected JLabel label1;
-	protected JLabel label2;
+	protected JLabel score, level, label1;
 	public View()
 	{
 		setFocusable(true);
@@ -39,16 +38,44 @@ public final class View extends JPanel implements ActionListener
 		soundController = new SoundController(this);
 		controlAccess = new ControlAccess(this);
 		spriteController.startRound();
-		wallController.loadLevel(0);
+		wallController.loadLevel(1);
+		imageLibrary.loadLevel(1);
 		timer = new Timer(40, this);
 		timer.start();
 		
-		
-		label1 = new JLabel("0");
-		label2 = new JLabel("0");
-		final JSlider slider = new JSlider(JSlider.HORIZONTAL, 5, 200, 20);
-		slider.setMinorTickSpacing(100);
-	    slider.setMajorTickSpacing(200);
+		final JRadioButton level1 = new JRadioButton("");
+		final JRadioButton level2 = new JRadioButton("");
+		ButtonGroup group = new ButtonGroup();
+		group.add(level1);
+		group.add(level2);
+		level1.addItemListener(new ItemListener() {
+	        public void itemStateChanged(ItemEvent e)
+	        {
+	        	if(e.getStateChange()==1)
+	        	{
+	        		wallController.loadLevel(1);
+		    		imageLibrary.loadLevel(1);
+		    		spriteController.restartGame(-2);
+	        	}
+	        }
+	      });
+		level2.addItemListener(new ItemListener() {
+	        public void itemStateChanged(ItemEvent e)
+	        {
+	        	if(e.getStateChange()==1)
+	        	{
+	        		wallController.loadLevel(2);
+		    		imageLibrary.loadLevel(2);
+		    		spriteController.restartGame(-2);
+	        	}
+	        }
+	      });
+		label1 = new JLabel("0:0");
+		level = new JLabel("Level");
+		score = new JLabel("Score");
+		final JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 201, 20);
+		slider.setMinorTickSpacing(25);
+	    slider.setMajorTickSpacing(100);
 	    slider.setPaintTicks(true);
 	    slider.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e)
@@ -57,9 +84,12 @@ public final class View extends JPanel implements ActionListener
 	        	timer.setDelay(1000/slider.getValue());
 	        }
 	      });
+	    add(score, BorderLayout.SOUTH);
 	    add(label1, BorderLayout.SOUTH);
 	    add(slider, BorderLayout.SOUTH);
-	    add(label2, BorderLayout.SOUTH);
+	    add(level, BorderLayout.SOUTH);
+	    add(level1, BorderLayout.SOUTH);
+		add(level2, BorderLayout.SOUTH);
 	}
 	protected int getLevelWidth()
 	{
@@ -113,22 +143,42 @@ public final class View extends JPanel implements ActionListener
 			}
 		}
 		g.drawImage(imageLibrary.backTop, 0, 0, null);
+		g2d.setColor(Color.white);
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
+		g2d.fillRect(0, 0, 600, 47);
 	}
 	
 	private void drawEnemy(Enemy s, Graphics2D g)
 	{
 		BufferedImage image = null;
-		switch(s.getType())
+		if(s.getTeam() == 0)
 		{
-		case 0:
-			image = imageLibrary.archer[s.frame];
-			break;
-		case 1:
-			image = imageLibrary.mage[s.frame];
-			break;
-		case 2:
-			image = imageLibrary.swordsman[s.frame];
-			break;
+			switch(s.getType())
+			{
+			case 0:
+				image = imageLibrary.archer[s.frame];
+				break;
+			case 1:
+				image = imageLibrary.mage[s.frame];
+				break;
+			case 2:
+				image = imageLibrary.swordsman[s.frame];
+				break;
+			}
+		} else
+		{
+			switch(s.getType())
+			{
+			case 0:
+				image = imageLibrary.archer2[s.frame];
+				break;
+			case 1:
+				image = imageLibrary.mage2[s.frame];
+				break;
+			case 2:
+				image = imageLibrary.swordsman2[s.frame];
+				break;
+			}
 		}
 		drawRotated(s.getX(), s.getY(), (int)s.getRotation(), image, g);
 	}

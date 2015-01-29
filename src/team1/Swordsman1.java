@@ -33,19 +33,22 @@ public final class Swordsman1 extends Swordsman {
 		}
 		for(int i = 0; i < numShotsInSight; i++)
 		{
-			if(distanceToShot(i)<180 && shotHeadedForMe(i))
+			if(distanceToShot(i)<200 && shotHeadedForMe(i))
 			{
 				dangerX += shotX(i);
 				dangerY += shotY(i);
 				posCount++;
-				if(distanceToShot(i)<120 && shotHeadedForMe(i))
+				if(distanceToShot(i)<130)
 				{
 					dangerCount++;
 				}
 			}
 		}
-		dangerX /= posCount;
-		dangerY /= posCount;
+		if(posCount>0)
+		{
+			dangerX /= posCount;
+			dangerY /= posCount;
+		}
 		if(dangerCount > 0) return true;
 		return false;
 	}

@@ -8,9 +8,11 @@ public final class ImageLibrary
 	BufferedImage [] aoe;
 	BufferedImage [][] shot;
 	BufferedImage [] archer;
-	BufferedImage [] cleric;
 	BufferedImage [] mage;
 	BufferedImage [] swordsman;
+	BufferedImage [] archer2;
+	BufferedImage [] mage2;
+	BufferedImage [] swordsman2;
 	BufferedImage backBot;
 	BufferedImage backTop;
 	BufferedImage backTile;
@@ -21,12 +23,17 @@ public final class ImageLibrary
 		BufferedImage [][] Shot = {loadSet("shootplayer", 5), loadSet("shootenemy", 5)};
 		shot = Shot;
 		archer = loadSet("goblin_archer", 49);
-		cleric = loadSet("goblin_cleric", 32);
 		mage = loadSet("goblin_mage", 31);
 		swordsman = loadSet("goblin_swordsman", 55);
-		backBot = loadImage("level1");
-		backTop = loadImage("leveltop1");
-		backTile = loadImage("leveltile1");
+		archer2 = loadSet("human_archer", 49);
+		mage2 = loadSet("human_mage", 31);
+		swordsman2 = loadSet("human_swordsman", 55);
+	}
+	protected void loadLevel(int i)
+	{
+		backBot = loadImage("level"+Integer.toString(i));
+		backTop = loadImage("leveltop"+Integer.toString(i));
+		backTile = loadImage("leveltile"+Integer.toString(i));
 	}
 	public BufferedImage [] loadSet(String s, int length)
 	{

@@ -64,24 +64,36 @@ public final class Mage1 extends Mage {
 	}
 	protected boolean inDanger()
 	{
+		int dangerCount = 0;
+		int posCount = 0;
+		dangerX = 0;
+		dangerY = 0;
 		for(int i = 0; i < numExplosionsInSight; i++)
 		{
-			if(distanceToExplosion(i)<60 && explosionSize(i)<60)
+			if(distanceToExplosion(i)<70 && explosionSize(i)<70)
 			{
-				dangerX = explosionX(i);
-				dangerY = explosionY(i);
-				return true;
+				dangerCount++;
 			}
 		}
 		for(int i = 0; i < numShotsInSight; i++)
 		{
-			if(distanceToShot(i)<100 && shotHeadedForMe(i))
+			if(distanceToShot(i)<200 && shotHeadedForMe(i))
 			{
-				dangerX = shotX(i);
-				dangerY = shotY(i);
-				return true;
+				dangerX += shotX(i);
+				dangerY += shotY(i);
+				posCount++;
+				if(distanceToShot(i)<130)
+				{
+					dangerCount++;
+				}
 			}
 		}
+		if(posCount>0)
+		{
+			dangerX /= posCount;
+			dangerY /= posCount;
+		}
+		if(dangerCount > 0) return true;
 		return false;
 	}
 	protected boolean shotHeadedForMe(int i)
