@@ -8,6 +8,8 @@ import game.Archer;
 public final class Archer2 extends Archer {
 
 	public Archer2(Packet p){super(p);}
+	protected int lastX = 0;
+	protected int lastY = 0;
 	@Override
 	protected void chooseAction()
 	{
@@ -23,6 +25,12 @@ public final class Archer2 extends Archer {
 				turnToward(enemyX(closestEnemy), enemyY(closestEnemy));
 				run(4);
 			}
+			lastX = enemyX(closestEnemy);
+			lastY = enemyY(closestEnemy);
+		} else
+		{
+			turnToward(lastX, lastY);
+			run(4);
 		}
 	}
 	private int findClosest()

@@ -7,6 +7,8 @@ public final class Swordsman1 extends Swordsman {
 	public Swordsman1(Packet p){super(p);}
 	protected double dangerX = 0;
 	protected double dangerY = 0;
+	protected int lastX = 0;
+	protected int lastY = 0;
 	@Override
 	protected void endAttack() {
 		// TODO Auto-generated method stub
@@ -24,33 +26,23 @@ public final class Swordsman1 extends Swordsman {
 		int posCount = 0;
 		dangerX = 0;
 		dangerY = 0;
-		for(int i = 0; i < numExplosionsInSight; i++)
-		{
-			if(distanceToExplosion(i)<70 && explosionSize(i)<70)
-			{
-				dangerCount++;
-			}
-		}
 		for(int i = 0; i < numShotsInSight; i++)
 		{
-			if(distanceToShot(i)<200 && shotHeadedForMe(i))
+			if(distanceToShot(i)<250 && shotHeadedForMe(i))
 			{
 				dangerX += shotX(i);
 				dangerY += shotY(i);
 				posCount++;
-				if(distanceToShot(i)<130)
+				if(distanceToShot(i)<180)
 				{
 					dangerCount++;
 				}
 			}
 		}
-		if(posCount>0)
-		{
-			dangerX /= posCount;
-			dangerY /= posCount;
-		}
-		if(dangerCount > 0) return true;
-		return false;
+		if(dangerCount < 1) return false;
+		dangerX /= posCount;
+		dangerY /= posCount;
+		return true;
 	}
 	protected boolean shotHeadedForMe(int i)
 	{
@@ -110,6 +102,12 @@ public final class Swordsman1 extends Swordsman {
 					run(4);
 				}
 			}
+			lastX = enemyX(closestEnemy);
+			lastY = enemyY(closestEnemy);
+		} else
+		{
+			turnToward(lastX, lastY);
+			run(4);
 		}
 	}
 

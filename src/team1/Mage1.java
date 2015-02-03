@@ -7,6 +7,8 @@ public final class Mage1 extends Mage {
 	public Mage1(Packet p){super(p);}
 	protected int dangerX = 0;
 	protected int dangerY = 0;
+	protected int lastX = 0;
+	protected int lastY = 0;
 	@Override
 	protected void chooseAction() {
 		if(inDanger())
@@ -44,6 +46,12 @@ public final class Mage1 extends Mage {
 					}
 				}
 				run(9);
+				lastX = enemyX(closestEnemy);
+				lastY = enemyY(closestEnemy);
+			} else
+			{
+				turnToward(lastX, lastY);
+				run(4);
 			}
 		}
 	}
