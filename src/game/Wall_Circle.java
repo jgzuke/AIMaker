@@ -50,6 +50,8 @@ public class Wall_Circle extends Wall
 				if(Math.pow(xdif, 2) + Math.pow(ydif, 2) < oCRS)
 				{
 					enemies.get(i).getPushed(oCX - (Math.cos(rads) * oCR), oCY - (Math.sin(rads) * oCR));
+					enemies.get(i).getPushed(enemies.get(i).getX()+3, enemies.get(i).getY()+3);
+					if(Math.random()>0.5) enemies.get(i).getPushed(enemies.get(i).getX()-2, enemies.get(i).getY()-2);
 				}
 			}
 		}

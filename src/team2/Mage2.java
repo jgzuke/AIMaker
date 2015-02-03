@@ -48,12 +48,35 @@ public final class Mage2 extends Mage {
 				run(9);
 				lastX = enemyX(closestEnemy);
 				lastY = enemyY(closestEnemy);
+				checkedLastX = false;
 			} else
 			{
-				turnToward(lastX, lastY);
-				run(4);
+				if(!checkedLastX)
+				{
+					turnToward(lastX, lastY);
+					if(distanceTo(lastX, lastY) < 40)
+					{
+						checkedLastX = true;
+					}
+					run(2);
+				} else
+				{
+					runRandom();
+				}
 			}
 		}
+	}
+	private void runRandom()
+	{
+		int x = (int)Math.random()*control.getLevelWidth();
+		int y = (int)Math.random()*control.getLevelHeight();
+		while(distanceTo(x, y) <150 || control.checkObstructions(getX(), getY(), x, y, true, 10))
+		{
+			x = (int)Math.random()*control.getLevelWidth();
+			y = (int)Math.random()*control.getLevelHeight();
+		}
+		turnToward(x, y);
+		run(9);
 	}
 	private int findClosest()
 	{

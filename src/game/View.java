@@ -205,7 +205,7 @@ public final class View extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		timeAccurate += Math.pow(2, (sliderValue/10)-9);
+		timeAccurate += Math.pow(1.8, (sliderValue/10)-9);
 		spriteController.frameCall();
 		wallController.frameCall();
 		while(timeAccurate>1)

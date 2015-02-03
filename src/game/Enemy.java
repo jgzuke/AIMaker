@@ -199,7 +199,7 @@ public abstract class Enemy
 		for(int i = 0; i < control.enemies.size(); i++)
 		{
 			e=control.enemies.get(i);
-			if(!obstructions(e.getX(), e.getY(), (int)x, (int)y, false, 10))
+			if(!obstructions(e.getX(), e.getY(), (int)x, (int)y, false, 30))
 			{
 				if(e.getTeam() != team)
 				{
