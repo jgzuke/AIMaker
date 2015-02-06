@@ -1,8 +1,8 @@
 package game;
 import java.awt.GridLayout;
-
 import javax.swing.*;
-class Main {
+class Main
+{
 	public static void main(String [] args){
 		JFrame jf=new JFrame("Graphics Panel");
 		jf.setLayout(new GridLayout(2, 1));
