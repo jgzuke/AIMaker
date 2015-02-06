@@ -12,23 +12,23 @@ import javax.swing.Timer;
 public final class Controller implements ActionListener
 {
 	Timer timer;
-	protected Graphics graphics;
+	protected Drawer graphics;
 	protected Player player;
 	protected Objects objects;
 	/** 
 	 * Initializes all undecided variables, loads level, creates player and enemy objects, and starts frameCaller
 	 */
-	public Controller(double[] dimensions)
+	public Controller()
 	{
 		player = new Player(this);
 		objects = new Objects(this);
-		graphics = new Graphics(this, dimensions);
+		graphics = new Drawer(this);
 		timer = new Timer(40, this);
 		timer.start();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		repaint();
+		graphics.frameCall();
 	}
 }

@@ -41,10 +41,10 @@ public final class Objects
 		makeArrow(-500, -1500, 0);
 		makeArrow(500, -2500, 0);
 		makeArrow(-500, -2500, 0);
-		makeCube(425, 200, 50, 50, Color.);
-		makeCube(825, 200, 50, 50, Color.rgb(200, 100, 100));
-		makeCube(425, -200, 50, 50, Color.rgb(100, 200, 100));
-		makeCube(825, -200, 50, 50, Color.rgb(100, 100, 200));
+		makeCube(425, 200, 50, 50, 0);
+		makeCube(825, 200, 50, 50, 0);
+		makeCube(425, -200, 50, 50, 0);
+		makeCube(825, -200, 50, 50, 0);
 	}
 	private int returnPatternIndex(String s)
 	{
@@ -78,7 +78,7 @@ public final class Objects
 				{x-150, y, z+161}, 
 				{x+37, y, z+161}
 			};
-		makePanel(addMid(arrow), Color.rgb(255, 255, 0));
+		makePanel(addMid(arrow), 1);
 	}
 	private void makeJZ()
 	{
@@ -156,17 +156,17 @@ public final class Objects
 			{{500, -10, 296}, 	{500, -137, 296}, 	{550, -137, 296}, 	{550, -10, 296}},
 			{{500, -137, 296}, 	{500, 6, 119}, 		{550, 6, 119}, 		{550, -137, 296}},
 			{{500, 6, 119}, 	{500, 6, 69}, 		{550, 6, 69}, 		{550, 6, 119}}};
-		makePanel(addMid(jFront), Color.rgb(0, 0, 255));
-		makePanel(addMid(zFront), Color.rgb(0, 0, 255));
-		makePanel(addMid(jBack), Color.rgb(0, 0, 255));
-		makePanel(addMid(zBack), Color.rgb(0, 0, 255));
+		makePanel(addMid(jFront), 2);
+		makePanel(addMid(zFront), 2);
+		makePanel(addMid(jBack), 2);
+		makePanel(addMid(zBack), 2);
 		for(int i = 0; i < 11; i++)
 		{
-			makePanel(addMid(jS1[i]), Color.rgb(255, 0, 0));
+			makePanel(addMid(jS1[i]), 3);
 		}
 		for(int i = 0; i < 10; i++)
 		{
-			makePanel(addMid(zS1[i]), Color.rgb(0, 255, 0));
+			makePanel(addMid(zS1[i]), 3);
 		}
 	}
 	private int [][] addMid(int [][] panel)

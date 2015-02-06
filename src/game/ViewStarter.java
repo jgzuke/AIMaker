@@ -7,7 +7,8 @@ class Main
 		JFrame jf=new JFrame("Graphics Panel");
 		jf.setLayout(new GridLayout(2, 1));
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setContentPane(new View());
+		Controller control = new Controller();
+		jf.setContentPane(control.graphics);
 		jf.pack();
 		jf.setVisible(true);
 	}
